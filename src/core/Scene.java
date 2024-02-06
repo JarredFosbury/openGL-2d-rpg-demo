@@ -1,6 +1,7 @@
 package core;
 
 import org.joml.Vector4f;
+import rendering.Texture;
 import shaders.ScreenSpace2dShader;
 
 import static org.lwjgl.opengl.GL15.*;
@@ -9,10 +10,11 @@ import static org.lwjgl.opengl.GL30.*;
 public class Scene
 {
     private static final float[] vertices = {
-            0.5f,  0.5f, 0.0f,  // top right
-            0.5f, -0.5f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f,  // bottom left
-            -0.5f,  0.5f, 0.0f   // top left
+            // positions            // texture coordinates
+            0.5f,  0.5f, 0.0f,      1.0f, 1.0f,     // top right
+            0.5f, -0.5f, 0.0f,      1.0f, 0.0f,     // bottom right
+            -0.5f, -0.5f, 0.0f,     0.0f, 0.0f,     // bottom left
+            -0.5f,  0.5f, 0.0f,     0.0f, 1.0f      // top left
     };
 
     private static final int[] indices = {
@@ -22,6 +24,7 @@ public class Scene
 
     private static int vboID, vaoID, eboID;
     private static ScreenSpace2dShader screenSpace2d_shader;
+    private static Texture bricks;
 
     public static void initialize()
     {
@@ -37,12 +40,16 @@ public class Scene
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboID);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * Float.BYTES, 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 5 * Float.BYTES, 0);
         glEnableVertexAttribArray(0);
 
-        screenSpace2d_shader = new ScreenSpace2dShader("./res/shaders/ScreenSpace2D.glsl");
+        glVertexAttribPointer(1, 2, GL_FLOAT, false, 5 * Float.BYTES, 3 * Float.BYTES);
+        glEnableVertexAttribArray(1);
 
         glPolygonMode(GL_FRONT_FACE, GL_FILL);
+
+        screenSpace2d_shader = new ScreenSpace2dShader("./res/shaders/ScreenSpace2D.glsl");
+        bricks = new Texture("./res/textures/bricks_01.jpg", true);
     }
 
     public static void pollInput()
@@ -57,6 +64,7 @@ public class Scene
     public static void render()
     {
         screenSpace2d_shader.bind();
+        bricks.bind(0);
         screenSpace2d_shader.updateUniforms(new Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
