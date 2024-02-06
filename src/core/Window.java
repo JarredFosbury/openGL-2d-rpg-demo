@@ -97,14 +97,11 @@ public class Window
         // show the window
         glfwShowWindow(glfwWindowPtr);
 
-        // critical for using OpenGL bindings set up by
-        // GLFW with LWJGL
+        // critical for using OpenGL bindings set up by GLFW with LWJGL
         GL.createCapabilities();
 
-        // initialize ImGui
         imGuiInit();
-
-        // TODO: call active scene initialization
+        Scene.initialize();
     }
 
     private void imGuiInit()
@@ -120,28 +117,35 @@ public class Window
     public void loop()
     {
         double lastTime = System.nanoTime();
+        float physicsStepTime = 0.0f;
 
         while (!glfwWindowShouldClose(glfwWindowPtr))
         {
             // basic performance statistics
             Time.deltaTime = (float) ((System.nanoTime() - lastTime) / Time.SECOND);
+            physicsStepTime += Time.deltaTime;
             lastTime = System.nanoTime();
 
-            // TODO: grab input from active scene
-
-            // poll events
+            // poll input events
+            Scene.pollInput();
             glfwPollEvents();
 
             MouseListener.update();
             KeyListener.update();
+            Scene.update();
 
-            // TODO: update active scene
+            if (physicsStepTime >= GlobalSettings.fixedPhysicsTimeStep)
+            {
+                physicsStepTime -= GlobalSettings.fixedPhysicsTimeStep;
+                Scene.fixedPhysicsUpdate();
+            }
 
             // clear window to color and swap buffers
             glClearColor(0.05f, 0.18f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            // TODO: render active scene
+            // render out to the scene
+            Scene.render();
 
             // render ImGui
             imGuiGlfw.newFrame();
