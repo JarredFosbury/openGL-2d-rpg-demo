@@ -42,32 +42,32 @@ public class Shader
     {}
 
     //TODO: cache these glGetUniformLocation calls somehow, pulling information from the GPU is expensive!!!
-    private void setIntegerUniform(String name, int value)
+    protected void setIntegerUniform(String name, int value)
     {
         glUniform1i(glGetUniformLocation(shaderProgramID, name), value);
     }
 
-    private void setFloatUniform(String name, float value)
+    protected void setFloatUniform(String name, float value)
     {
         glUniform1f(glGetUniformLocation(shaderProgramID, name), value);
     }
 
-    private void setFloat2Uniform(String name, Vector2f value)
+    protected void setFloat2Uniform(String name, Vector2f value)
     {
         glUniform2f(glGetUniformLocation(shaderProgramID, name), value.x, value.y);
     }
 
-    private void setFloat3Uniform(String name, Vector3f value)
+    protected void setFloat3Uniform(String name, Vector3f value)
     {
         glUniform3f(glGetUniformLocation(shaderProgramID, name), value.x, value.y, value.z);
     }
 
-    private void setFloat4Uniform(String name, Vector4f value)
+    protected void setFloat4Uniform(String name, Vector4f value)
     {
         glUniform4f(glGetUniformLocation(shaderProgramID, name), value.x, value.y, value.z, value.w);
     }
 
-    private void setMatrix4Uniform(String name, Matrix4f value)
+    protected void setMatrix4Uniform(String name, Matrix4f value)
     {
         // TODO: Verify that the matrix orientation is indeed transpose!
 

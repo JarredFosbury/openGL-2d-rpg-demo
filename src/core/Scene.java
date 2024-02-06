@@ -1,6 +1,7 @@
 package core;
 
-import shaders.Shader;
+import org.joml.Vector4f;
+import shaders.ScreenSpace2dShader;
 
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;
@@ -20,7 +21,7 @@ public class Scene
     };
 
     private static int vboID, vaoID, eboID;
-    private static Shader screenSpace2d_shader;
+    private static ScreenSpace2dShader screenSpace2d_shader;
 
     public static void initialize()
     {
@@ -39,9 +40,9 @@ public class Scene
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * Float.BYTES, 0);
         glEnableVertexAttribArray(0);
 
-        screenSpace2d_shader = new Shader("./res/shaders/ScreenSpace2D.glsl");
+        screenSpace2d_shader = new ScreenSpace2dShader("./res/shaders/ScreenSpace2D.glsl");
 
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glPolygonMode(GL_FRONT_FACE, GL_FILL);
     }
 
     public static void pollInput()
@@ -56,6 +57,7 @@ public class Scene
     public static void render()
     {
         screenSpace2d_shader.bind();
+        screenSpace2d_shader.updateUniforms(new Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
