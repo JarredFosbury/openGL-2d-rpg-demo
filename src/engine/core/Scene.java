@@ -1,9 +1,8 @@
-package core;
+package engine.core;
 
-import rendering.Color;
-import rendering.Sprite;
+import engine.rendering.Color;
+import engine.rendering.Sprite;
 
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL15.*;
 
 public class Scene

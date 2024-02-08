@@ -1,4 +1,4 @@
-package shaders;
+package engine.shaders;
 
 import org.joml.*;
 import org.lwjgl.BufferUtils;

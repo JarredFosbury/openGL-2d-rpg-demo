@@ -1,4 +1,4 @@
-package core;
+package engine.core;
 
 import imgui.ImGui;
 import imgui.ImGuiIO;

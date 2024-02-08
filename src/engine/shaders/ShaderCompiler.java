@@ -1,4 +1,4 @@
-package shaders;
+package engine.shaders;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -64,7 +64,7 @@ public class ShaderCompiler
             if (success == 0)
             {
                 String shaderLog = glGetShaderInfoLog(vertShaderID);
-                System.err.println("GLSL ERROR: rendering.Vertex shader compilation failed!\n" + shaderLog);
+                System.err.println("GLSL ERROR: engine.rendering.Vertex shader compilation failed!\n" + shaderLog);
             }
 
             fragShaderID = glCreateShader(GL_FRAGMENT_SHADER);
@@ -91,7 +91,7 @@ public class ShaderCompiler
             if (success == 0)
             {
                 String programLog = glGetProgramInfoLog(shaderProgramID);
-                System.err.println("GLSL ERROR: rendering.Shader linking failed!\n" + programLog);
+                System.err.println("GLSL ERROR: engine.rendering.Shader linking failed!\n" + programLog);
             }
 
             glDeleteShader(vertShaderID);

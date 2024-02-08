@@ -1,9 +1,9 @@
-package rendering;
+package engine.rendering;
 
-import core.GlobalSettings;
-import core.Scene;
+import engine.core.GlobalSettings;
+import engine.core.Scene;
 import org.joml.*;
-import shaders.ScreenSpace2dShader;
+import engine.shaders.ScreenSpace2dShader;
 
 import java.lang.Math;
 

@@ -1,4 +1,4 @@
-package rendering;
+package engine.rendering;
 
 import org.joml.Vector4f;
 
