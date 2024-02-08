@@ -11,8 +11,8 @@ public class Texture
 {
     private final int[] TEXTURE_SLOTS;
 
-    private int textureID;
-    private String filepath;
+    private final int textureID;
+    private final String filepath;
 
     public Texture(String filepath, boolean flipVertically)
     {
