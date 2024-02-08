@@ -5,9 +5,12 @@ layout (location = 1) in vec2 aTexPos;
 
 out vec2 TexPos;
 
+uniform mat4 transform;
+uniform mat4 projection;
+
 void main()
 {
-    gl_Position = vec4(aPos.xyz, 1.0);
+    gl_Position = projection * transform * vec4(aPos.xyz, 1.0);
     TexPos = aTexPos;
 }
 
