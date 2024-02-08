@@ -1,8 +1,11 @@
 package rendering;
 
 import core.GlobalSettings;
+import core.Scene;
 import org.joml.*;
 import shaders.ScreenSpace2dShader;
+
+import java.lang.Math;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.*;
@@ -26,18 +29,19 @@ public class ScreenSpaceSprite
 
     private final int vboID, vaoID, eboID;
     private final ScreenSpace2dShader screenSpace2d_shader;
-    private Texture mainTexture;
-    private Matrix4f screenSpaceProjection;
 
     public Vector3f position;
     public Vector3f rotation;
     public Vector3f scale;
     public Vector2i locationAnchor;
     public boolean isLocationAnchored;
+    public Texture mainTexture;
+    public Vector4f mainTextureTint;
 
-    public ScreenSpaceSprite(String mainTexture)
+    public ScreenSpaceSprite(String mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
     {
         this.mainTexture = new Texture(mainTexture, true);
+        this.mainTextureTint = mainTextureTint;
         screenSpace2d_shader = new ScreenSpace2dShader("./res/shaders/ScreenSpace2D.glsl");
         vboID = glGenBuffers();
         vaoID = glGenVertexArrays();
@@ -57,12 +61,7 @@ public class ScreenSpaceSprite
         rotation = new Vector3f(0.0f, 0.0f, 0.0f);
         scale = new Vector3f(100.0f, 100.0f, 100.0f);
         locationAnchor = new Vector2i(0, 0);
-        isLocationAnchored = false;
-
-        // TODO: transfer this to the active scene camera
-        float halfWidth = (float)GlobalSettings.WINDOW_WIDTH / 2.0f;
-        float halfHeight = (float)GlobalSettings.WINDOW_HEIGHT / 2.0f;
-        screenSpaceProjection = new Matrix4f().ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, -1.0f, 1.0f);
+        this.isLocationAnchored = isLocationAnchored;
     }
 
     public void render()
@@ -88,7 +87,7 @@ public class ScreenSpaceSprite
 
         screenSpace2d_shader.bind();
         mainTexture.bind(0);
-        screenSpace2d_shader.updateUniforms(new Vector4f(0.812f, 0.176f, 0.22f, 1.0f), transform, screenSpaceProjection);
+        screenSpace2d_shader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.screenSpaceProjection);
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
@@ -102,7 +101,7 @@ public class ScreenSpaceSprite
 
     public void rotate(float x, float y, float z)
     {
-        rotation.add(x, y, z);
+        rotation.add((float) Math.toRadians(x), (float)Math.toRadians(y), (float)Math.toRadians(z));
     }
 
     public void scale(float x, float y, float z)
