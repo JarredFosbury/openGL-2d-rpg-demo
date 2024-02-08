@@ -134,9 +134,9 @@ public class Window
             KeyListener.update();
             Scene.update();
 
-            if (physicsStepTime >= GlobalSettings.fixedPhysicsTimeStep)
+            if (physicsStepTime >= Time.fixedPhysicsTimeStep)
             {
-                physicsStepTime -= GlobalSettings.fixedPhysicsTimeStep;
+                physicsStepTime -= Time.fixedPhysicsTimeStep;
                 Scene.fixedPhysicsUpdate();
             }
 
