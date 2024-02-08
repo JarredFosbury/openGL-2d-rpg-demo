@@ -32,6 +32,8 @@ public class ScreenSpaceSprite
     public Vector3f position;
     public Vector3f rotation;
     public Vector3f scale;
+    public Vector2i locationAnchor;
+    public boolean isLocationAnchored;
 
     public ScreenSpaceSprite(String mainTexture)
     {
@@ -54,6 +56,8 @@ public class ScreenSpaceSprite
         position = new Vector3f(0.0f, 0.0f, 0.0f);
         rotation = new Vector3f(0.0f, 0.0f, 0.0f);
         scale = new Vector3f(100.0f, 100.0f, 100.0f);
+        locationAnchor = new Vector2i(0, 0);
+        isLocationAnchored = false;
 
         // TODO: transfer this to the active scene camera
         float halfWidth = (float)GlobalSettings.WINDOW_WIDTH / 2.0f;
@@ -63,8 +67,22 @@ public class ScreenSpaceSprite
 
     public void render()
     {
+        Vector3f finalPosition;
+        if (isLocationAnchored)
+        {
+            float halfWidth = (float)GlobalSettings.WINDOW_WIDTH / 2.0f;
+            float halfHeight = (float)GlobalSettings.WINDOW_HEIGHT / 2.0f;
+            float x = halfWidth * (float)locationAnchor.x;
+            float y = halfHeight * (float)locationAnchor.y;
+            finalPosition = new Vector3f(x + position.x, y + position.y, position.z);
+        }
+        else
+        {
+            finalPosition = position;
+        }
+
         Matrix4f transform = new Matrix4f().identity();
-        transform.translate(position);
+        transform.translate(finalPosition);
         transform.rotateXYZ(rotation);
         transform.scale(scale);
 
@@ -75,5 +93,20 @@ public class ScreenSpaceSprite
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
         screenSpace2d_shader.unbind();
+    }
+
+    public void translate(float x, float y, float z)
+    {
+        position.add(x, y, z);
+    }
+
+    public void rotate(float x, float y, float z)
+    {
+        rotation.add(x, y, z);
+    }
+
+    public void scale(float x, float y, float z)
+    {
+        scale.mul(x, y, z);
     }
 }
