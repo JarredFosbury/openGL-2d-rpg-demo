@@ -3,7 +3,6 @@ package engine.rendering;
 import engine.core.GlobalSettings;
 import engine.core.Scene;
 import org.joml.*;
-import engine.shaders.ScreenSpace2dShader;
 
 import java.lang.Math;
 

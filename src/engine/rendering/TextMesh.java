@@ -209,7 +209,6 @@ public class TextMesh
         }
 
         boundSize = new Vector2f((maxX - minX) * BASE_SCALE * fontSize_PIXELS, (maxY - minY) * BASE_SCALE * fontSize_PIXELS);
-        System.out.println(boundSize.x + ", " + boundSize.y);
     }
 
     private void bindMaterial()
