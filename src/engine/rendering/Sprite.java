@@ -27,7 +27,6 @@ public class Sprite
     };
 
     private final int vboID, vaoID, eboID;
-    private final Standard2dShader standard2dShader;
 
     public Vector3f position;
     public Vector3f rotation;
@@ -39,7 +38,6 @@ public class Sprite
     {
         this.mainTexture = new Texture(mainTexture, true);
         this.mainTextureTint = mainTextureTint;
-        standard2dShader = new Standard2dShader("./res/shaders/Standard2D.glsl");
         vboID = glGenBuffers();
         vaoID = glGenVertexArrays();
         eboID = glGenBuffers();
@@ -66,13 +64,13 @@ public class Sprite
         transform.rotateXYZ(rotation);
         transform.scale(scale);
 
-        standard2dShader.bind();
+        Scene.standard2dShader.bind();
         mainTexture.bind(0);
-        standard2dShader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.projection, Scene.mainCamera.getTransformation());
+        Scene.standard2dShader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.projection, Scene.mainCamera.getTransformation());
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
-        standard2dShader.unbind();
+        Scene.standard2dShader.unbind();
     }
 
     public void translate(float x, float y, float z)

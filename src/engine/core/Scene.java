@@ -1,12 +1,9 @@
 package engine.core;
 
-import engine.fontRendering.FontLoader;
 import engine.rendering.Color;
-import engine.rendering.ScreenSpaceSprite;
 import engine.rendering.Sprite;
-import engine.rendering.TextMesh;
-import org.joml.Vector2i;
-import org.joml.Vector3f;
+import engine.shaders.ScreenSpace2dShader;
+import engine.shaders.Standard2dShader;
 
 import static org.lwjgl.opengl.GL15.*;
 
@@ -14,9 +11,10 @@ public class Scene
 {
     public static Camera mainCamera;
 
+    public static Standard2dShader standard2dShader;
+    public static ScreenSpace2dShader screenSpace2dShader;
+
     private static Sprite brickSprite;
-    private static TextMesh exampleText;
-    private static ScreenSpaceSprite heartSprite;
 
     public static void initialize()
     {
@@ -25,16 +23,11 @@ public class Scene
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         mainCamera = new Camera();
+
+        standard2dShader = new Standard2dShader("./res/shaders/Standard2D.glsl");
+        screenSpace2dShader = new ScreenSpace2dShader("./res/shaders/ScreenSpace2D.glsl");
+
         brickSprite = new Sprite("./res/textures/bricks_01.jpg", Color.WHITE);
-        exampleText = new TextMesh(FontLoader.loadFont("./res/fonts/liberation mono/LiberationMono_512x512_glyphMap.png",
-                "./res/fonts/liberation mono/LiberationMono_512x512_glyphMap.fnt"), true);
-        exampleText.locationAnchor = new Vector2i(0, 1);
-        exampleText.position = new Vector3f(0.0f, -50.0f, 0.0f);
-        exampleText.fontSize_PIXELS = 72;
-        heartSprite = new ScreenSpaceSprite("./res/textures/UI/heart.png", Color.WHITE, true);
-        heartSprite.locationAnchor = new Vector2i(0, 1);
-        heartSprite.position = new Vector3f(0.0f, -50.0f, 0.0f);
-        heartSprite.scale = new Vector3f(15.0f);
     }
 
     public static void pollInput()
@@ -49,7 +42,5 @@ public class Scene
     public static void render()
     {
         brickSprite.render();
-        exampleText.drawString("Hello world!", Color.GREEN);
-        heartSprite.render();
     }
 }

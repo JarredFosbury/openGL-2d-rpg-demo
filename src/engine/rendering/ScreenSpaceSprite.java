@@ -28,7 +28,6 @@ public class ScreenSpaceSprite
     };
 
     private final int vboID, vaoID, eboID;
-    private final ScreenSpace2dShader screenSpace2d_shader;
 
     public Vector3f position;
     public Vector3f rotation;
@@ -42,7 +41,6 @@ public class ScreenSpaceSprite
     {
         this.mainTexture = new Texture(mainTexture, true);
         this.mainTextureTint = mainTextureTint;
-        screenSpace2d_shader = new ScreenSpace2dShader("./res/shaders/ScreenSpace2D.glsl");
         vboID = glGenBuffers();
         vaoID = glGenVertexArrays();
         eboID = glGenBuffers();
@@ -85,13 +83,13 @@ public class ScreenSpaceSprite
         transform.rotateXYZ(rotation);
         transform.scale(scale);
 
-        screenSpace2d_shader.bind();
+        Scene.screenSpace2dShader.bind();
         mainTexture.bind(0);
-        screenSpace2d_shader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.screenSpaceProjection);
+        Scene.screenSpace2dShader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.screenSpaceProjection);
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
-        screenSpace2d_shader.unbind();
+        Scene.screenSpace2dShader.unbind();
     }
 
     public void translate(float x, float y, float z)
