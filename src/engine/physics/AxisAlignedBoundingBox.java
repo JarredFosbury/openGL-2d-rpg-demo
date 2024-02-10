@@ -27,19 +27,15 @@ public class AxisAlignedBoundingBox
         Vector3f aabbHalfSize = new Vector3f(aabb.dimensions).mul(0.5f);
         Vector2f aabb_xMinMax = new Vector2f(aabb.position.x - aabbHalfSize.x, aabb.position.x + aabbHalfSize.x);
         Vector2f aabb_yMinMax = new Vector2f(aabb.position.y - aabbHalfSize.y, aabb.position.y + aabbHalfSize.y);
-        Vector2f aabb_zMinMax = new Vector2f(aabb.position.z - aabbHalfSize.z, aabb.position.z + aabbHalfSize.z);
 
         Vector3f thisHalfSize = new Vector3f(dimensions).mul(0.5f);
         Vector2f this_xMinMax = new Vector2f(position.x - thisHalfSize.x, position.x + thisHalfSize.x);
         Vector2f this_yMinMax = new Vector2f(position.y - thisHalfSize.y, position.y + thisHalfSize.y);
-        Vector2f this_zMinMax = new Vector2f(position.z - thisHalfSize.z, position.z + thisHalfSize.z);
 
         if (this_xMinMax.x <= aabb_xMinMax.y &&
                 this_xMinMax.y >= aabb_xMinMax.x &&
                 this_yMinMax.x <= aabb_yMinMax.y &&
-                this_yMinMax.y >= aabb_yMinMax.x &&
-                this_zMinMax.x <= aabb_zMinMax.y &&
-                this_zMinMax.y >= aabb_zMinMax.x)
+                this_yMinMax.y >= aabb_yMinMax.x)
         {
             Vector3f colliderToThis = new Vector3f(position).sub(aabb.position);
             Vector2i axisSign = new Vector2i(0);
@@ -53,11 +49,10 @@ public class AxisAlignedBoundingBox
             else if (colliderToThis.y < 0)
                 axisSign.y = -1;
 
-            Vector3f dimensionSums = new Vector3f(aabbHalfSize.x + thisHalfSize.x, aabbHalfSize.y + thisHalfSize.y, aabbHalfSize.z + thisHalfSize.z);
-            Vector3f percentagesPerAxis = new Vector3f(
+            Vector2f dimensionSums = new Vector2f(aabbHalfSize.x + thisHalfSize.x, aabbHalfSize.y + thisHalfSize.y);
+            Vector2f percentagesPerAxis = new Vector2f(
                     Math.abs(colliderToThis.x) / dimensionSums.x,
-                    Math.abs(colliderToThis.y) / dimensionSums.y,
-                    Math.abs(colliderToThis.z) / dimensionSums.z);
+                    Math.abs(colliderToThis.y) / dimensionSums.y);
 
             float xDifferential = (1.0f - percentagesPerAxis.x) * dimensionSums.x;
             float yDifferential = (1.0f - percentagesPerAxis.y) * dimensionSums.y;
