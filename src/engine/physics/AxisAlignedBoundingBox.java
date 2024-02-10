@@ -6,8 +6,6 @@ import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 
-import java.text.NumberFormat;
-
 import static org.lwjgl.opengl.GL11.*;
 
 public class AxisAlignedBoundingBox
@@ -21,7 +19,7 @@ public class AxisAlignedBoundingBox
     {
         position = new Vector3f(0.0f);
         dimensions = new Vector3f(1.0f);
-        sprite = new Sprite("./res/textures/square.png", Color.GREEN);
+        sprite = new Sprite("res/textures/square.png", Color.GREEN);
     }
 
     public Vector3f collide(AxisAlignedBoundingBox aabb)
@@ -63,7 +61,7 @@ public class AxisAlignedBoundingBox
 
             float xDifferential = (1.0f - percentagesPerAxis.x) * dimensionSums.x;
             float yDifferential = (1.0f - percentagesPerAxis.y) * dimensionSums.y;
-            if (xDifferential < yDifferential) //TODO: assign correct sign to differential based on colliderToThis axis
+            if (xDifferential < yDifferential)
                 colliderToThis = new Vector3f(xDifferential * (float) axisSign.x, 0.0f, 0.0f);
             else
                 colliderToThis = new Vector3f(0.0f, yDifferential * (float) axisSign.y, 0.0f);

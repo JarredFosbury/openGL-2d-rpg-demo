@@ -37,7 +37,7 @@ public class TextMesh
     public TextMesh(Font font, boolean isLocationAnchored)
     {
         this.font = font;
-        screenSpace2dShader = new ScreenSpace2dShader("./res/shaders/ScreenSpace2D.glsl");
+        screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
         lastDrawCall = "";
         position = new Vector3f(0.0f);
         rotation = new Vector3f(0.0f);

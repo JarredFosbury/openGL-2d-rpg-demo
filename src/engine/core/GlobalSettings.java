@@ -2,7 +2,7 @@ package engine.core;
 
 public class GlobalSettings
 {
-    public final static String APPLICATION_NAME = "OpenGL 2D RPG Demo";
+    public final static String APPLICATION_NAME = "OpenGL 2d RPG Demo";
     public final static String GLSL_VERSION     = "#version 330";
     public final static int WINDOW_WIDTH        = 1920;
     public final static int WINDOW_HEIGHT       = 1080;
