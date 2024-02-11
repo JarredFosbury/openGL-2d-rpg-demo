@@ -19,7 +19,7 @@ public class AxisAlignedBoundingBox
     {
         position = new Vector3f(0.0f);
         dimensions = new Vector3f(1.0f);
-        sprite = new Sprite("res/textures/square.png", Color.GREEN);
+        sprite = new Sprite("res/textures/square.png", Color.GREEN, new Vector2f(0.0f), new Vector2f(1.0f));
     }
 
     public Vector3f collide(AxisAlignedBoundingBox aabb)

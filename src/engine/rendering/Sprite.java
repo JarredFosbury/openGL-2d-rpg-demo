@@ -1,9 +1,10 @@
 package engine.rendering;
 
 import engine.core.Scene;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import engine.core.Time;
+import org.joml.*;
+
+import java.lang.Math;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.*;
@@ -32,11 +33,20 @@ public class Sprite
     public Vector3f scale;
     public Texture mainTexture;
     public Vector4f mainTextureTint;
+    public Vector2f mainTextureOffset;
+    public Vector2f mainTextureScale;
+    public int spriteSheetFrame;
+    public int animationFrameRate;
 
-    public Sprite(String mainTexture, Vector4f mainTextureTint)
+    private float timeSinceLastFrame;
+    private Vector2f[] spriteSheetFrameOffsets;
+
+    public Sprite(String mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
         this.mainTexture = new Texture(mainTexture, true);
         this.mainTextureTint = mainTextureTint;
+        this.mainTextureOffset = mainTextureOffset;
+        this.mainTextureScale = mainTextureScale;
         vboID = glGenBuffers();
         vaoID = glGenVertexArrays();
         eboID = glGenBuffers();
@@ -54,6 +64,14 @@ public class Sprite
         position = new Vector3f(0.0f, 0.0f, 0.0f);
         rotation = new Vector3f(0.0f, 0.0f, 0.0f);
         scale = new Vector3f(1.0f, 1.0f, 1.0f);
+        spriteSheetFrame = 0;
+        animationFrameRate = 24;
+        timeSinceLastFrame = 0.0f;
+    }
+
+    public void initSpriteSheet(String frameOffsetDataFilepath)
+    {
+        this.spriteSheetFrameOffsets = SpriteSheetDataLoader.loadSheetDataFromPath(frameOffsetDataFilepath);
     }
 
     public void render()
@@ -65,7 +83,8 @@ public class Sprite
 
         Scene.standard2dShader.bind();
         mainTexture.bind(0);
-        Scene.standard2dShader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.projection, Scene.mainCamera.getTransformation());
+        Scene.standard2dShader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.projection, Scene.mainCamera.getTransformation(),
+                mainTextureOffset, mainTextureScale);
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
@@ -85,5 +104,24 @@ public class Sprite
     public void scale(float x, float y, float z)
     {
         scale.mul(x, y, z);
+    }
+
+    public void animateSprite()
+    {
+        timeSinceLastFrame += Time.deltaTime;
+        if (timeSinceLastFrame >= 1.0f / (float) animationFrameRate)
+        {
+            timeSinceLastFrame -= 1.0f / (float) animationFrameRate;
+            nextSpriteSheetFrame();
+        }
+    }
+
+    public void nextSpriteSheetFrame()
+    {
+        spriteSheetFrame ++;
+        if (spriteSheetFrame >= spriteSheetFrameOffsets.length)
+            spriteSheetFrame = 0;
+
+        mainTextureOffset = spriteSheetFrameOffsets[spriteSheetFrame];
     }
 }

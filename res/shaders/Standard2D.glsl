@@ -23,8 +23,10 @@ in vec2 TexPos;
 
 uniform vec4 tint;
 uniform sampler2D textureMain;
+uniform vec2 texPosOffset;
+uniform vec2 texPosScale;
 
 void main()
 {
-    FragColor = texture(textureMain, TexPos) * tint;
+    FragColor = texture(textureMain, (TexPos * texPosScale) + texPosOffset) * tint;
 }
