@@ -10,5 +10,6 @@ public class GlobalSettings
 
     public static boolean windowMaximized       = false;
     public static boolean windowBorderless      = false;
+    public static boolean canBeResized          = false;
     public static int msaaSamples               = 4;
 }

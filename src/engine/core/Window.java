@@ -73,6 +73,7 @@ public class Window
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_SAMPLES, GlobalSettings.msaaSamples);
+        glfwWindowHint(GLFW_RESIZABLE, GlobalSettings.canBeResized ? GL_TRUE : GLFW_FALSE);
 
         // create window
         glfwWindowPtr = glfwCreateWindow(GlobalSettings.WINDOW_WIDTH, GlobalSettings.WINDOW_HEIGHT,
