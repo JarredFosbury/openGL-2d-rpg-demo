@@ -1,7 +1,7 @@
 package engine.core;
 
 import engine.fontRendering.FontLoader;
-import engine.*;
+import engine.rendering.*;
 import engine.shaders.ScreenSpace2dShader;
 import engine.shaders.Standard2dShader;
 import org.joml.*;
