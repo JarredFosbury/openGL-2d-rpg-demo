@@ -26,7 +26,7 @@ public class ScreenSpaceSprite
             1, 2, 3    // second triangle
     };
 
-    private final int vboID, vaoID, eboID;
+    private int vboID, vaoID, eboID;
 
     public Vector3f position;
     public Vector3f rotation;
@@ -40,6 +40,22 @@ public class ScreenSpaceSprite
     {
         this.mainTexture = new Texture(mainTexture, true);
         this.mainTextureTint = mainTextureTint;
+        this.isLocationAnchored = isLocationAnchored;
+        initMeshData();
+        initValues();
+    }
+
+    public ScreenSpaceSprite(Texture mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
+    {
+        this.mainTexture = mainTexture;
+        this.mainTextureTint = mainTextureTint;
+        this.isLocationAnchored = isLocationAnchored;
+        initMeshData();
+        initValues();
+    }
+
+    private void initMeshData()
+    {
         vboID = glGenBuffers();
         vaoID = glGenVertexArrays();
         eboID = glGenBuffers();
@@ -53,12 +69,14 @@ public class ScreenSpaceSprite
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(1, 2, GL_FLOAT, false, 5 * Float.BYTES, 3 * Float.BYTES);
         glEnableVertexAttribArray(1);
+    }
 
+    private void initValues()
+    {
         position = new Vector3f(0.0f, 0.0f, 0.0f);
         rotation = new Vector3f(0.0f, 0.0f, 0.0f);
         scale = new Vector3f(100.0f, 100.0f, 100.0f);
         locationAnchor = new Vector2i(0, 0);
-        this.isLocationAnchored = isLocationAnchored;
     }
 
     public void render()

@@ -26,7 +26,7 @@ public class Sprite
             1, 2, 3    // second triangle
     };
 
-    private final int vboID, vaoID, eboID;
+    private int vboID, vaoID, eboID;
 
     public Vector3f position;
     public Vector3f rotation;
@@ -41,12 +41,28 @@ public class Sprite
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
 
+    public Sprite(Texture mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
+    {
+        this.mainTexture = mainTexture;
+        this.mainTextureTint = mainTextureTint;
+        this.mainTextureOffset = mainTextureOffset;
+        this.mainTextureScale = mainTextureScale;
+        initMeshData();
+        initVariables();
+    }
+
     public Sprite(String mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
         this.mainTexture = new Texture(mainTexture, true);
         this.mainTextureTint = mainTextureTint;
         this.mainTextureOffset = mainTextureOffset;
         this.mainTextureScale = mainTextureScale;
+        initMeshData();
+        initVariables();
+    }
+
+    private void initMeshData()
+    {
         vboID = glGenBuffers();
         vaoID = glGenVertexArrays();
         eboID = glGenBuffers();
@@ -60,7 +76,10 @@ public class Sprite
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(1, 2, GL_FLOAT, false, 5 * Float.BYTES, 3 * Float.BYTES);
         glEnableVertexAttribArray(1);
+    }
 
+    private void initVariables()
+    {
         position = new Vector3f(0.0f, 0.0f, 0.0f);
         rotation = new Vector3f(0.0f, 0.0f, 0.0f);
         scale = new Vector3f(1.0f, 1.0f, 1.0f);
