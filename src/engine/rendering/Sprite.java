@@ -37,6 +37,7 @@ public class Sprite
     public Vector2f mainTextureScale;
     public int spriteSheetFrame;
     public int animationFrameRate;
+    public boolean visible;
 
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
@@ -86,6 +87,7 @@ public class Sprite
         spriteSheetFrame = 0;
         animationFrameRate = 24;
         timeSinceLastFrame = 0.0f;
+        visible = true;
     }
 
     public void initSpriteSheet(String frameOffsetDataFilepath)
@@ -95,6 +97,9 @@ public class Sprite
 
     public void render()
     {
+        if (!visible)
+            return;
+
         Matrix4f transform = new Matrix4f().identity();
         transform.translate(position);
         transform.rotateXYZ(rotation);
