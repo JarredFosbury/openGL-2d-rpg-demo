@@ -63,7 +63,7 @@ public class LauncherFrame extends JFrame
         this.add(maximized_CHECKBOX);
 
         maximized_LABEL = new JLabel();
-        maximized_LABEL.setText("Maximized");
+        maximized_LABEL.setText("Fullscreen");
         maximized_LABEL.setBounds(10, 85, WIDTH, 30);
         maximized_LABEL.setHorizontalAlignment(JLabel.LEFT);
         this.add(maximized_LABEL);

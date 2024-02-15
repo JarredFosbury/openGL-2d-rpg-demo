@@ -53,7 +53,7 @@ public class Sprite
 
     public Sprite(String mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
-        this.mainTexture = new Texture(mainTexture, true);
+        this.mainTexture = new Texture(mainTexture, true, false, false);
         this.mainTextureTint = mainTextureTint;
         this.mainTextureOffset = mainTextureOffset;
         this.mainTextureScale = mainTextureScale;

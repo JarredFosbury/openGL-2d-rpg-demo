@@ -38,7 +38,7 @@ public class ScreenSpaceSprite
 
     public ScreenSpaceSprite(String mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
     {
-        this.mainTexture = new Texture(mainTexture, true);
+        this.mainTexture = new Texture(mainTexture, true, false, false);
         this.mainTextureTint = mainTextureTint;
         this.isLocationAnchored = isLocationAnchored;
         initMeshData();

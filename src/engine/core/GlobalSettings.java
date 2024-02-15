@@ -8,7 +8,7 @@ public class GlobalSettings
     public static int WINDOW_WIDTH              = 1920;
     public static int WINDOW_HEIGHT             = 1080;
     public static boolean USE_VSYNC             = true;
-    public static boolean USE_LAUNCHER          = true;
+    public static boolean USE_LAUNCHER          = false;
     public static boolean windowMaximized       = false;
     public static boolean windowBorderless      = false;
     public static boolean canBeResized          = false;

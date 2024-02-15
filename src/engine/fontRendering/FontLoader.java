@@ -14,7 +14,7 @@ public class FontLoader
     {
         try
         {
-            Texture bitmap = new Texture(bitmapSrc, false);
+            Texture bitmap = new Texture(bitmapSrc, false, false, false);
             File sourceFile = new File(fontFileSrc);
             BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
             String currentLine;
