@@ -14,18 +14,18 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 
 public class PlayerSprite
 {
-    public static Texture linkSpriteSheet;
-    public static Sprite playerIdle;
-    public static Sprite playerMoveUp;
-    public static Sprite playerMoveDown;
-    public static Sprite playerMoveLeft;
-    public static Sprite playerMoveRight;
+    public Texture linkSpriteSheet;
+    public Sprite playerIdle;
+    public Sprite playerMoveUp;
+    public Sprite playerMoveDown;
+    public Sprite playerMoveLeft;
+    public Sprite playerMoveRight;
 
-    public static Vector3f playerPosition;
-    public static int inputDirection;
-    public static int lastInputDirection;
-    public static float playerMovementSpeed;
-    public static AxisAlignedBoundingBox playerCollider;
+    public Vector3f playerPosition;
+    public int inputDirection;
+    public int lastInputDirection;
+    public float playerMovementSpeed;
+    public AxisAlignedBoundingBox playerCollider;
 
     public PlayerSprite()
     {
