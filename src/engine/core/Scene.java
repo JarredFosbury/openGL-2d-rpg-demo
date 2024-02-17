@@ -5,6 +5,7 @@ import engine.physics.AxisAlignedBoundingBox;
 import engine.rendering.*;
 import engine.shaders.ScreenSpace2dShader;
 import engine.shaders.Standard2dShader;
+import game.DayNightCycle;
 import game.PlayerSprite;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -21,10 +22,7 @@ public class Scene
     public static Standard2dShader standard2dShader;
     public static ScreenSpace2dShader screenSpace2dShader;
 
-    public static Vector4f lightColor;
-    public static Vector4f dayColor;
-    public static Vector4f nightColor;
-
+    public static DayNightCycle dayNightCycle;
     public static PlayerSprite player;
     public static Sprite groundPlane;
     public static TextMesh xp_UI;
@@ -41,13 +39,12 @@ public class Scene
         standard2dShader = new Standard2dShader("res/shaders/Standard2D.glsl");
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
 
-        dayColor = new Vector4f(0.96f, 0.9f, 0.86f, 1.0f);
-        nightColor = new Vector4f(0.46f, 0.58f, 0.7f, 1.0f);
-        lightColor = dayColor;
+        dayNightCycle = new DayNightCycle();
+        dayNightCycle.totalCycleLength_MINS = 20.0f;
 
         player = new PlayerSprite();
         groundPlane = new Sprite(new Texture("res/textures/SizeBasedGrids/c2m.png", true, true, false),
-                lightColor, new Vector2f(0.0f), new Vector2f(10.0f));
+                dayNightCycle.mainLightColor, new Vector2f(0.0f), new Vector2f(10.0f));
         groundPlane.scale = new Vector3f(20.0f);
 
         xp_UI = new TextMesh(FontLoader.loadFont("res/fonts/liberation mono/LiberationMono_512x512_glyphMap.png",
@@ -64,8 +61,10 @@ public class Scene
 
     public static void update()
     {
+        dayNightCycle.update();
         player.update();
-        player.updateColor(lightColor);
+        player.updateColor(dayNightCycle.mainLightColor);
+        groundPlane.mainTextureTint = dayNightCycle.mainLightColor;
     }
 
     public static void fixedPhysicsUpdate()
@@ -79,6 +78,6 @@ public class Scene
         groundPlane.render();
         player.render();
 
-        xp_UI.drawString("XP 0/50", new Vector4f(0.46f, 0.12f, 0.61f, 1.0f));
+        xp_UI.drawString((int) dayNightCycle.timeInGame_HOURS + " HRS, " + (int) dayNightCycle.timeInGame_MINS + " MINS", Color.BLUE);
     }
 }

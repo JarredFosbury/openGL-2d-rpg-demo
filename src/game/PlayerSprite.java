@@ -4,6 +4,7 @@ import engine.core.KeyListener;
 import engine.core.Scene;
 import engine.core.Time;
 import engine.physics.AxisAlignedBoundingBox;
+import engine.rendering.Color;
 import engine.rendering.Sprite;
 import engine.rendering.Texture;
 import org.joml.Vector2f;
@@ -27,25 +28,26 @@ public class PlayerSprite
     public int lastInputDirection;
     public float playerMovementSpeed;
     public AxisAlignedBoundingBox playerCollider;
+    public Vector4f colorTint;
 
     public PlayerSprite()
     {
         linkSpriteSheet = new Texture("res/textures/linkSheet.png", true, false, true);
-        playerIdle = new Sprite(linkSpriteSheet, Scene.lightColor, new Vector2f(0.0f, 0.875f), new Vector2f(0.1f, 0.125f));
+        playerIdle = new Sprite(linkSpriteSheet, Color.WHITE, new Vector2f(0.0f, 0.875f), new Vector2f(0.1f, 0.125f));
 
-        playerMoveUp = new Sprite(linkSpriteSheet, Scene.lightColor, new Vector2f(0.0f, 0.125f), new Vector2f(0.1f, 0.125f));
+        playerMoveUp = new Sprite(linkSpriteSheet, Color.WHITE, new Vector2f(0.0f, 0.125f), new Vector2f(0.1f, 0.125f));
         playerMoveUp.initSpriteSheet("res/spriteSheetData/linkSheetWalkUpData.ssd");
         playerMoveUp.animationFrameRate = 16;
 
-        playerMoveDown = new Sprite(linkSpriteSheet, Scene.lightColor, new Vector2f(0.0f, 0.125f), new Vector2f(0.1f, 0.125f));
+        playerMoveDown = new Sprite(linkSpriteSheet, Color.WHITE, new Vector2f(0.0f, 0.125f), new Vector2f(0.1f, 0.125f));
         playerMoveDown.initSpriteSheet("res/spriteSheetData/linkSheetWalkDownData.ssd");
         playerMoveDown.animationFrameRate = 16;
 
-        playerMoveLeft = new Sprite(linkSpriteSheet, Scene.lightColor, new Vector2f(0.0f, 0.125f), new Vector2f(0.1f, 0.125f));
+        playerMoveLeft = new Sprite(linkSpriteSheet, Color.WHITE, new Vector2f(0.0f, 0.125f), new Vector2f(0.1f, 0.125f));
         playerMoveLeft.initSpriteSheet("res/spriteSheetData/linkSheetWalkLeftData.ssd");
         playerMoveLeft.animationFrameRate = 16;
 
-        playerMoveRight = new Sprite(linkSpriteSheet, Scene.lightColor, new Vector2f(0.0f, 0.125f), new Vector2f(0.1f, 0.125f));
+        playerMoveRight = new Sprite(linkSpriteSheet, Color.WHITE, new Vector2f(0.0f, 0.125f), new Vector2f(0.1f, 0.125f));
         playerMoveRight.initSpriteSheet("res/spriteSheetData/linkSheetWalkRightData.ssd");
         playerMoveRight.animationFrameRate = 16;
 
@@ -58,6 +60,7 @@ public class PlayerSprite
 
     public void updateColor(Vector4f color)
     {
+        colorTint = color;
         playerIdle.mainTextureTint = color;
         playerMoveUp.mainTextureTint = color;
         playerMoveDown.mainTextureTint = color;
