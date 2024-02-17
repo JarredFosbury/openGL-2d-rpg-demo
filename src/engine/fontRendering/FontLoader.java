@@ -23,7 +23,7 @@ public class FontLoader
             int fontSize = 0;
             ArrayList<FontGlyph> glyphs = new ArrayList<>();
 
-            while ((currentLine = reader.readLine()) != null)
+            while ((currentLine = reader.readLine()) != null) // TODO: fix bug relating to number of spaces in font map header
             {
                 String[] chunks = currentLine.split(" ");
 
