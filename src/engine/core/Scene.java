@@ -1,14 +1,13 @@
 package engine.core;
 
 import engine.fontRendering.*;
-import engine.physics.AxisAlignedBoundingBox;
+import engine.imGui.ColorPickerWindow;
 import engine.physics.PhysicsContext;
 import engine.rendering.*;
 import engine.shaders.*;
 import game.*;
 import org.joml.*;
 
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL15.*;
 
 public class Scene
@@ -27,6 +26,8 @@ public class Scene
     public static Sprite fire;
 
     public static TextMesh time_UI;
+
+    public static ColorPickerWindow colorPickerWindow;
 
     public static void initialize()
     {
@@ -69,6 +70,8 @@ public class Scene
         time_UI.locationAnchor = new Vector2i(1, 1);
         time_UI.position = new Vector3f(-25, -25, 0.0f);
         time_UI.textAlignment = new Vector2i(-1, 0);
+
+        colorPickerWindow = new ColorPickerWindow();
     }
 
     public static void pollInput()
@@ -100,5 +103,10 @@ public class Scene
         player.render();
 
         time_UI.drawString("Time: " + (int) dayNightCycle.timeInGame_HOURS + " hrs, " + (int) dayNightCycle.timeInGame_MINS + " mins", Color.BLACK);
+    }
+
+    public static void renderImGui()
+    {
+        colorPickerWindow.render();
     }
 }

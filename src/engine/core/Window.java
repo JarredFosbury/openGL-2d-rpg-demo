@@ -152,7 +152,7 @@ public class Window
             imGuiGlfw.newFrame();
             ImGui.newFrame();
 
-            // TODO: imGui render call
+            Scene.renderImGui();
 
             ImGui.render();
             imGuiGl3.renderDrawData(ImGui.getDrawData());
