@@ -56,6 +56,7 @@ public class PlayerSprite
         lastInputDirection = 0;
         playerMovementSpeed = 3.5f;
         playerCollider = new AxisAlignedBoundingBox();
+        Scene.physics.dynamicLayer.add(playerCollider);
     }
 
     public void updateColor(Vector4f color)
