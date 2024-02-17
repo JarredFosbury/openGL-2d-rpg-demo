@@ -8,7 +8,7 @@ public class DayNightCycle
 {
     public Vector4f mainLightColor;
     public float totalCycleLength_MINS;
-    public float cycleTimeElapsed;
+    public float cycleTimeElapsed_SECONDS;
     public float timeInGame_HOURS;
     public float timeInGame_MINS;
 
@@ -28,7 +28,7 @@ public class DayNightCycle
         nightLightColor = new Vector4f(0.46f, 0.58f, 0.7f, 1.0f);
         mainLightColor = nightLightColor;
         totalCycleLength_MINS = 5.0f;
-        cycleTimeElapsed = 0.0f;
+        cycleTimeElapsed_SECONDS = 0.0f;
 
         dawnStartInGame_HOUR = 4;
         dawnEndInGame_HOUR = 7;
@@ -36,16 +36,21 @@ public class DayNightCycle
         duskEndInGame_HOUR = 22;
     }
 
+    public void setTime(int hour, int minute)
+    {
+        cycleTimeElapsed_SECONDS = ((totalCycleLength_MINS * ONE_MINUTE) / 24.0f) * hour + minute;
+    }
+
     public void update()
     {
-        cycleTimeElapsed += Time.deltaTime;
+        cycleTimeElapsed_SECONDS += Time.deltaTime;
         float cycleLength = totalCycleLength_MINS * ONE_MINUTE;
 
-        if (cycleTimeElapsed >= cycleLength)
-            cycleTimeElapsed -= cycleLength;
+        if (cycleTimeElapsed_SECONDS >= cycleLength)
+            cycleTimeElapsed_SECONDS -= cycleLength;
 
-        timeInGame_HOURS = (float) Math.floor(cycleTimeElapsed / (cycleLength / 24.0f));
-        timeInGame_MINS = (int) Math.floor(cycleTimeElapsed / (cycleLength / 1440.0f)) % 60;
+        timeInGame_HOURS = (float) Math.floor(cycleTimeElapsed_SECONDS / (cycleLength / 24.0f));
+        timeInGame_MINS = (int) Math.floor(cycleTimeElapsed_SECONDS / (cycleLength / 1440.0f)) % 60;
 
         float currentTime_MINS = timeInGame_MINS + timeInGame_HOURS * ONE_MINUTE;
         if (currentTime_MINS < dawnEndInGame_HOUR * ONE_MINUTE && currentTime_MINS > dawnStartInGame_HOUR * ONE_MINUTE)

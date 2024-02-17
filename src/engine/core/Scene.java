@@ -1,7 +1,6 @@
 package engine.core;
 
 import engine.fontRendering.FontLoader;
-import engine.physics.AxisAlignedBoundingBox;
 import engine.rendering.*;
 import engine.shaders.ScreenSpace2dShader;
 import engine.shaders.Standard2dShader;
@@ -10,9 +9,7 @@ import game.PlayerSprite;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL15.*;
 
 public class Scene
@@ -41,6 +38,8 @@ public class Scene
 
         dayNightCycle = new DayNightCycle();
         dayNightCycle.totalCycleLength_MINS = 20.0f;
+        dayNightCycle.setTime(9, 0);
+        dayNightCycle.mainLightColor = dayNightCycle.dayLightColor;
 
         player = new PlayerSprite();
         groundPlane = new Sprite(new Texture("res/textures/SizeBasedGrids/c2m.png", true, true, false),
