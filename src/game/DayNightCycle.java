@@ -43,8 +43,8 @@ public class DayNightCycle
 
     public String getTimeFormatted()
     {
-        String hours = (timeInGame_HOURS < 9 ? "0" : "") + (int) timeInGame_HOURS + ": ";
-        String mins = (timeInGame_MINS < 9 ? "0" : "") + (int) timeInGame_MINS;
+        String hours = (timeInGame_HOURS <= 9 ? "0" : "") + (int) timeInGame_HOURS + ": ";
+        String mins = (timeInGame_MINS <= 9 ? "0" : "") + (int) timeInGame_MINS;
         return hours + mins;
     }
 
