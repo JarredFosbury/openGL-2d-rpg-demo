@@ -63,9 +63,9 @@ public class Scene
         fire.initSpriteSheet("res/spriteSheetData/fireSheetData.ssd");
         fire.animationFrameRate = 30;
 
-        time_UI = new TextMesh(FontLoader.loadFont("res/fonts/liberation mono/LiberationMono_512x512_glyphMap.png",
-                "res/fonts/liberation mono/LiberationMono_512x512_glyphMap.fnt"), true);
-        time_UI.fontSize_PIXELS = 24;
+        time_UI = new TextMesh(FontLoader.loadFont("res/fonts/press start/press-start_512x512_glyphMap.png",
+                "res/fonts/press start/press-start_512x512_glyphMap.fnt"), true);
+        time_UI.fontSize_PIXELS = 32;
         time_UI.locationAnchor = new Vector2i(1, 1);
         time_UI.position = new Vector3f(-25, -25, 0.0f);
         time_UI.textAlignment = new Vector2i(-1, 0);
@@ -99,6 +99,6 @@ public class Scene
         fire.render();
         player.render();
 
-        time_UI.drawString("Time: " + (int) dayNightCycle.timeInGame_HOURS + " hrs, " + (int) dayNightCycle.timeInGame_MINS + " mins", Color.WHITE);
+        time_UI.drawString("Time: " + (int) dayNightCycle.timeInGame_HOURS + " hrs, " + (int) dayNightCycle.timeInGame_MINS + " mins", Color.BLACK);
     }
 }
