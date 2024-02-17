@@ -1,6 +1,8 @@
 package engine.core;
 
 import engine.fontRendering.*;
+import engine.physics.AxisAlignedBoundingBox;
+import engine.physics.PhysicsContext;
 import engine.rendering.*;
 import engine.shaders.*;
 import game.*;
@@ -15,6 +17,8 @@ public class Scene
 
     public static Standard2dShader standard2dShader;
     public static ScreenSpace2dShader screenSpace2dShader;
+
+    public static PhysicsContext physics;
 
     public static DayNightCycle dayNightCycle;
     public static PlayerSprite player;
@@ -36,8 +40,10 @@ public class Scene
         standard2dShader = new Standard2dShader("res/shaders/Standard2D.glsl");
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
 
+        physics = new PhysicsContext();
+
         dayNightCycle = new DayNightCycle();
-        dayNightCycle.totalCycleLength_MINS = 25.0f;
+        dayNightCycle.totalCycleLength_MINS = 20.0f;
         dayNightCycle.setTime(19, 25);
         dayNightCycle.mainLightColor = dayNightCycle.dayLightColor;
 
