@@ -20,8 +20,8 @@ public class ColorPickerWindow
         {
             System.out.println("new Vector4f(" +
                     Utils.round(colorChannels[0], 3) +
-                    ", " + Utils.round(colorChannels[1], 3) +
-                    ", " + Utils.round(colorChannels[2], 3) + ", 1.0f)");
+                    "f, " + Utils.round(colorChannels[1], 3) +
+                    "f, " + Utils.round(colorChannels[2], 3) + "f, 1.0f)");
         }
         ImGui.end();
     }
