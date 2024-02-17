@@ -41,6 +41,13 @@ public class DayNightCycle
         cycleTimeElapsed_SECONDS = ((totalCycleLength_MINS * ONE_MINUTE) / 24.0f) * hour + ((totalCycleLength_MINS * ONE_MINUTE) / 1440.0f) * minute;
     }
 
+    public String getTimeFormatted()
+    {
+        String hours = (timeInGame_HOURS < 9 ? "0" : "") + (int) timeInGame_HOURS + ": ";
+        String mins = (timeInGame_MINS < 9 ? "0" : "") + (int) timeInGame_MINS;
+        return hours + mins;
+    }
+
     public void update()
     {
         cycleTimeElapsed_SECONDS += Time.deltaTime;

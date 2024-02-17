@@ -102,7 +102,7 @@ public class Scene
         fire.render();
         player.render();
 
-        time_UI.drawString("Time: " + (int) dayNightCycle.timeInGame_HOURS + " hrs, " + (int) dayNightCycle.timeInGame_MINS + " mins", Color.BLACK);
+        time_UI.drawString("Time " + dayNightCycle.getTimeFormatted(), Color.BLACK);
     }
 
     public static void renderImGui()
