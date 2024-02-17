@@ -38,7 +38,7 @@ public class DayNightCycle
 
     public void setTime(int hour, int minute)
     {
-        cycleTimeElapsed_SECONDS = ((totalCycleLength_MINS * ONE_MINUTE) / 24.0f) * hour + minute;
+        cycleTimeElapsed_SECONDS = ((totalCycleLength_MINS * ONE_MINUTE) / 24.0f) * hour + ((totalCycleLength_MINS * ONE_MINUTE) / 1440.0f) * minute;
     }
 
     public void update()
