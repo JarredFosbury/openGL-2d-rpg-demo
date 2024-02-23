@@ -25,7 +25,7 @@ public class DayNightCycle
     public DayNightCycle()
     {
         dayLightColor = new Vector4f(0.96f, 0.9f, 0.86f, 1.0f);
-        nightLightColor = new Vector4f(0.46f, 0.58f, 0.7f, 1.0f);
+        nightLightColor = new Vector4f(0.31f, 0.396f, 0.592f, 1.0f);
         mainLightColor = nightLightColor;
         totalCycleLength_MINS = 5.0f;
         cycleTimeElapsed_SECONDS = 0.0f;

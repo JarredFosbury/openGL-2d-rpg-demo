@@ -48,11 +48,12 @@ public class Scene
         physics = new PhysicsContext();
 
         dayNightCycle = new DayNightCycle();
-        dayNightCycle.totalCycleLength_MINS = 20.0f;
-        dayNightCycle.setTime(19, 25);
+        dayNightCycle.totalCycleLength_MINS = 2.0f;
+        dayNightCycle.setTime(8, 30);
         dayNightCycle.mainLightColor = dayNightCycle.dayLightColor;
 
         player = new PlayerSprite();
+        player.playerPosition = new Vector3f(-1.0f, 0.25f, 0.0f);
 
         island = new IslandEnvironmentSprites();
 
