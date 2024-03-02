@@ -1,5 +1,7 @@
 package engine.audio;
 
+import org.joml.Vector3f;
+
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
@@ -8,7 +10,7 @@ import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.libc.LibCStdlib.free;
 
-public class Sound
+public class SoundSource
 {
     public String filepath;
 
@@ -16,12 +18,16 @@ public class Sound
     private int bufferId;
     private int sourceId;
     private float volume;
+    private float pitch;
+    private Vector3f position;
 
-    public Sound(String filepath, boolean loops)
+    public SoundSource(String filepath, boolean loops)
     {
         this.filepath = filepath;
         isPlaying = false;
         volume = 0.5f;
+        pitch = 1.0f;
+        position = new Vector3f(0.0f);
 
         stackPush();
         IntBuffer channelsBuffer = stackMallocInt(1);
@@ -56,6 +62,8 @@ public class Sound
         alSourcei(sourceId, AL_LOOPING, loops ? 1 : 0);
         alSourcei(sourceId, AL_POSITION, 0);
         alSourcef(sourceId, AL_GAIN, volume);
+        alSourcef(sourceId, AL_PITCH, pitch);
+        alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z);
 
         free(rawAudioBuffer);
     }
@@ -108,5 +116,33 @@ public class Sound
     public float getVolume()
     {
         return volume;
+    }
+
+    public void setPitch(float pitch)
+    {
+        this.pitch = pitch;
+        alSourcef(sourceId, AL_PITCH, pitch);
+    }
+
+    public float getPitch()
+    {
+        return pitch;
+    }
+
+    public void translate(float x, float y, float z)
+    {
+        position.add(x, y, z);
+        alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z);
+    }
+
+    public void setPosition(float x, float y, float z)
+    {
+        position = new Vector3f(x, y, z);
+        alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z);
+    }
+
+    public Vector3f getPosition()
+    {
+        return position;
     }
 }
