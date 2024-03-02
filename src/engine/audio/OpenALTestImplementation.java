@@ -15,13 +15,16 @@ public class OpenALTestImplementation
     public static void main(String[] args)
     {
         initOpenAL();
-        Sound soundClip = new Sound("res/audio/sfx/beep.ogg", true);
-        soundClip.play();
+        Sound music = new Sound("res/audio/music/Music.ogg", false);
+        music.setVolume(0.1f);
+        music.play();
 
-        while (soundClip.isPlaying())
+        Sound beepSfx = new Sound("res/audio/sfx/beep.ogg", true);
+        beepSfx.setVolume(0.01f);
+        beepSfx.play();
+
+        while (true)
         {}
-
-        cleanUpOpenAL();
     }
 
     private static void initOpenAL()
