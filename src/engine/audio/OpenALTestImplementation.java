@@ -15,6 +15,13 @@ public class OpenALTestImplementation
     public static void main(String[] args)
     {
         initOpenAL();
+        Sound soundClip = new Sound("res/audio/sfx/beep.ogg", true);
+        soundClip.play();
+
+        while (soundClip.isPlaying())
+        {}
+
+        cleanUpOpenAL();
     }
 
     private static void initOpenAL()
@@ -23,7 +30,7 @@ public class OpenALTestImplementation
         audioDevice = alcOpenDevice(defaultDeviceName);
 
         int[] attributes = {0};
-        audioContext = alcCreateContext(audioContext, attributes);
+        audioContext = alcCreateContext(audioDevice, attributes);
         alcMakeContextCurrent(audioContext);
 
         ALCCapabilities alcCapabilities = ALC.createCapabilities(audioDevice);
