@@ -15,11 +15,13 @@ public class Sound
     private boolean isPlaying;
     private int bufferId;
     private int sourceId;
+    private float volume;
 
     public Sound(String filepath, boolean loops)
     {
         this.filepath = filepath;
         isPlaying = false;
+        volume = 0.5f;
 
         stackPush();
         IntBuffer channelsBuffer = stackMallocInt(1);
@@ -53,7 +55,7 @@ public class Sound
         alSourcei(sourceId, AL_BUFFER, bufferId);
         alSourcei(sourceId, AL_LOOPING, loops ? 1 : 0);
         alSourcei(sourceId, AL_POSITION, 0);
-        alSourcef(sourceId, AL_GAIN, 0.3f);
+        alSourcef(sourceId, AL_GAIN, volume);
 
         free(rawAudioBuffer);
     }
@@ -95,5 +97,16 @@ public class Sound
         if (state == AL_STOPPED)
             isPlaying = false;
         return isPlaying;
+    }
+
+    public void setVolume(float volume)
+    {
+        this.volume = volume;
+        alSourcef(sourceId, AL_GAIN, volume);
+    }
+
+    public float getVolume()
+    {
+        return volume;
     }
 }
