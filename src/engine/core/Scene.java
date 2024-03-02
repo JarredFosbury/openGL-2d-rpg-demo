@@ -1,5 +1,6 @@
 package engine.core;
 
+import engine.audio.SoundSource;
 import engine.fontRendering.*;
 import engine.imGui.ColorPickerWindow;
 import engine.physics.PhysicsContext;
@@ -30,6 +31,8 @@ public class Scene
     public static TextMesh time_UI;
     public static TextMesh hp_UI;
     public static TextMesh xp_UI;
+
+    public static SoundSource music;
 
     public static ColorPickerWindow colorPickerWindow;
 
@@ -95,6 +98,10 @@ public class Scene
         xp_UI.fontSize_PIXELS = 45;
         xp_UI.locationAnchor = new Vector2i(-1, 1);
         xp_UI.position = new Vector3f(25, -100, 0.0f);
+
+        music = new SoundSource("res/audio/music/Music.ogg", true);
+        music.setVolume(0.1f);
+        music.play();
 
         colorPickerWindow = new ColorPickerWindow();
     }

@@ -8,10 +8,15 @@ import imgui.glfw.ImGuiImplGlfw;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.ALC;
+import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -24,6 +29,9 @@ public class Window
 
     private final ImGuiImplGlfw imGuiGlfw   = new ImGuiImplGlfw();
     private final ImGuiImplGl3 imGuiGl3     = new ImGuiImplGl3();
+
+    private static long audioContext;
+    private static long audioDevice;
 
     private Window()
     {
@@ -48,6 +56,7 @@ public class Window
         glfwDestroyWindow(glfwWindowPtr);
 
         // terminate glfw and imGui and free error callback
+        cleanUpOpenAL();
         imGuiGlfw.dispose();
         imGuiGl3.dispose();
         ImGui.destroyContext();
@@ -101,6 +110,21 @@ public class Window
         // critical for using OpenGL bindings set up by GLFW with LWJGL
         GL.createCapabilities();
 
+        // initialize openAL for audio
+        String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+        audioDevice = alcOpenDevice(defaultDeviceName);
+
+        int[] attributes = {0};
+        audioContext = alcCreateContext(audioDevice, attributes);
+        alcMakeContextCurrent(audioContext);
+
+        ALCCapabilities alcCapabilities = ALC.createCapabilities(audioDevice);
+        ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
+
+        if (!alCapabilities.OpenAL10)
+            assert false : "Audio library not supported!";
+
+        // setup imGui and scene
         imGuiInit();
         Scene.initialize();
     }
@@ -198,5 +222,11 @@ public class Window
     public long getGlfwWindowPtr()
     {
         return glfwWindowPtr;
+    }
+
+    private void cleanUpOpenAL()
+    {
+        alcDestroyContext(audioContext);
+        alcCloseDevice(audioDevice);
     }
 }
