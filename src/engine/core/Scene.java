@@ -99,7 +99,7 @@ public class Scene
         xp_UI.locationAnchor = new Vector2i(-1, 1);
         xp_UI.position = new Vector3f(25, -100, 0.0f);
 
-        music = new SoundSource("res/audio/music/Music.ogg", true);
+        music = new SoundSource("res/audio/music/musicZelda.ogg", true);
         music.setVolume(0.1f);
         music.play();
 
