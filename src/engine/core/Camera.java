@@ -3,12 +3,10 @@ package engine.core;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-public class Camera
+public class Camera extends Entity
 {
     public Matrix4f projection;
     public Matrix4f screenSpaceProjection;
-    public Vector3f position;
-    public Vector3f rotation;
     public float viewPlaneScale;
     public float nearPlane;
     public float farPlane;
@@ -16,8 +14,6 @@ public class Camera
     public Camera()
     {
         updateViewport(1.0f, -1.0f, 1.0f);
-        position = new Vector3f(0.0f, 0.0f, 0.0f);
-        rotation = new Vector3f(0.0f, 0.0f, 0.0f);
     }
 
     public void updateViewport(float viewPlaneScale, float nearPlane, float farPlane)
@@ -39,15 +35,5 @@ public class Camera
         transformation.translate(new Vector3f(position).mul(-1.0f));
         transformation.rotateXYZ(rotation);
         return transformation;
-    }
-
-    public void translate(float x, float y, float z)
-    {
-        position.add(x, y, z);
-    }
-
-    public void rotate(float x, float y, float z)
-    {
-        rotation.add(x, y, z);
     }
 }
