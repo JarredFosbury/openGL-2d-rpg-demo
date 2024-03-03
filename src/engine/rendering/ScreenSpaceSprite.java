@@ -1,17 +1,17 @@
 package engine.rendering;
 
+import engine.core.Entity;
+import engine.core.EntityType;
 import engine.core.GlobalSettings;
 import engine.core.Scene;
 import org.joml.*;
-
-import java.lang.Math;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
-public class ScreenSpaceSprite
+public class ScreenSpaceSprite extends Entity
 {
     private final float[] vertexData = {
             // positions            // texture coordinates
@@ -28,16 +28,14 @@ public class ScreenSpaceSprite
 
     private int vboID, vaoID, eboID;
 
-    public Vector3f position;
-    public Vector3f rotation;
-    public Vector3f scale;
     public Vector2i locationAnchor;
     public boolean isLocationAnchored;
     public Texture mainTexture;
     public Vector4f mainTextureTint;
 
-    public ScreenSpaceSprite(String mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
+    public ScreenSpaceSprite(String name, String mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
     {
+        super(name, EntityType.ScreenSpaceSprite);
         this.mainTexture = new Texture(mainTexture, true, false, false);
         this.mainTextureTint = mainTextureTint;
         this.isLocationAnchored = isLocationAnchored;
@@ -45,8 +43,9 @@ public class ScreenSpaceSprite
         initValues();
     }
 
-    public ScreenSpaceSprite(Texture mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
+    public ScreenSpaceSprite(String name, Texture mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
     {
+        super(name, EntityType.ScreenSpaceSprite);
         this.mainTexture = mainTexture;
         this.mainTextureTint = mainTextureTint;
         this.isLocationAnchored = isLocationAnchored;
@@ -73,8 +72,6 @@ public class ScreenSpaceSprite
 
     private void initValues()
     {
-        position = new Vector3f(0.0f, 0.0f, 0.0f);
-        rotation = new Vector3f(0.0f, 0.0f, 0.0f);
         scale = new Vector3f(100.0f, 100.0f, 100.0f);
         locationAnchor = new Vector2i(0, 0);
     }
@@ -102,25 +99,10 @@ public class ScreenSpaceSprite
 
         Scene.screenSpace2dShader.bind();
         mainTexture.bind(0);
-        Scene.screenSpace2dShader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.screenSpaceProjection);
+        Scene.screenSpace2dShader.updateUniforms(mainTextureTint, transform);
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
         Scene.screenSpace2dShader.unbind();
-    }
-
-    public void translate(float x, float y, float z)
-    {
-        position.add(x, y, z);
-    }
-
-    public void rotate(float x, float y, float z)
-    {
-        rotation.add((float) Math.toRadians(x), (float)Math.toRadians(y), (float)Math.toRadians(z));
-    }
-
-    public void scale(float x, float y, float z)
-    {
-        scale.mul(x, y, z);
     }
 }
