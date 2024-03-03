@@ -8,6 +8,7 @@ import engine.rendering.TextMesh;
 public enum EntityType
 {
     NULL(null),
+    ScriptableBehavior(null),
     Camera(Camera.class),
     Sprite(Sprite.class),
     ScreenSpaceSprite(ScreenSpaceSprite.class),
