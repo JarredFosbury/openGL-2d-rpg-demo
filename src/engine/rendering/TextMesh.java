@@ -1,12 +1,12 @@
 package engine.rendering;
 
+import engine.core.Entity;
+import engine.core.EntityType;
 import engine.core.GlobalSettings;
-import engine.core.Scene;
 import engine.fontRendering.*;
 import engine.shaders.ScreenSpace2dShader;
 import org.joml.*;
 
-import java.lang.Math;
 import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
@@ -16,7 +16,7 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class TextMesh
+public class TextMesh extends Entity
 {
     public final Font font;
     public final ScreenSpace2dShader screenSpace2dShader;
@@ -24,18 +24,19 @@ public class TextMesh
     public float[] vertexData;
     public int[] indexData;
     public String lastDrawCall;
-    public Vector3f position;
-    public Vector3f rotation;
     public float fontSize_PIXELS;
     public Vector2i locationAnchor;
     public boolean isLocationAnchored;
     public Vector2f boundSize;
     public Vector2i textAlignment;
+    public String text;
+    public Vector4f colorRGBA;
 
     private final float BASE_SCALE = 0.01408450704225f;
 
-    public TextMesh(Font font, boolean isLocationAnchored)
+    public TextMesh(String name, Font font, boolean isLocationAnchored)
     {
+        super(name, EntityType.TextMesh);
         this.font = font;
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
         lastDrawCall = "";
@@ -46,9 +47,16 @@ public class TextMesh
         this.isLocationAnchored = isLocationAnchored;
         boundSize = new Vector2f(0.0f);
         textAlignment = new Vector2i(1, 1);
+        text = "Hello world!";
+        colorRGBA = new Vector4f(1.0f);
     }
 
-    public void drawString(String text, Vector4f colorRGBA)
+    public void render()
+    {
+        drawString();
+    }
+
+    public void drawString()
     {
         if (!text.equals(lastDrawCall) || lastDrawCall.isEmpty())
         {
@@ -219,7 +227,7 @@ public class TextMesh
 
     private void updateUniforms(Vector4f color, Matrix4f transform)
     {
-        screenSpace2dShader.updateUniforms(color, transform, Scene.mainCamera.screenSpaceProjection);
+        screenSpace2dShader.updateUniforms(color, transform);
     }
 
     private void renderMesh()
@@ -227,15 +235,5 @@ public class TextMesh
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indexData.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
-    }
-
-    public void translate(float x, float y, float z)
-    {
-        position.add(x, y, z);
-    }
-
-    public void rotate(float x, float y, float z)
-    {
-        rotation.add((float) Math.toRadians(x), (float)Math.toRadians(y), (float)Math.toRadians(z));
     }
 }
