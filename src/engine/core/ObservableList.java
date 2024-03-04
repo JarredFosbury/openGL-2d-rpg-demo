@@ -1,4 +1,7 @@
-package implementationDemos;
+package engine.core;
+
+import engine.patternInterfaces.Observable;
+import engine.patternInterfaces.Observer;
 
 import java.util.ArrayList;
 import java.util.List;

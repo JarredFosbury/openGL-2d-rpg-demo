@@ -1,4 +1,4 @@
-package implementationDemos;
+package engine.patternInterfaces;
 
 public interface Observable
 {
