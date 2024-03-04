@@ -3,9 +3,11 @@ package engine.core;
 import engine.fontRendering.FontLoader;
 import engine.rendering.Color;
 import engine.rendering.ScreenSpaceSprite;
+import engine.rendering.Sprite;
 import engine.rendering.TextMesh;
 import engine.shaders.*;
 import game.HeartIconTest;
+import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 
@@ -37,17 +39,7 @@ public class Scene
         mainCamera = new Camera("Main Camera");
         mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
-        new TextMesh("Example Text", FontLoader.loadFont("res/fonts/press start/press-start_512x512_glyphMap.png",
-                "res/fonts/press start/press-start_512x512_glyphMap.fnt"), true);
-
-        TextMesh mesh = (TextMesh) findByName("Example Text")[0];
-        mesh.text = "This is being changed from the entity list";
-        mesh.fontSize_PIXELS = 32;
-        mesh.locationAnchor = new Vector2i(0);
-        mesh.textAlignment = new Vector2i(0);
-
-        new ScreenSpaceSprite("Heart icon", "res/textures/UI/heart.png", Color.RED, true);
-        new HeartIconTest("Test Scriptable behaviour");
+        new Sprite("Example Sprite", "res/textures/bricks_01.jpg", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
     }
 
     public static void pollInput()
