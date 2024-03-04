@@ -1,25 +1,18 @@
 package engine.physics;
 
-import engine.rendering.Color;
-import engine.rendering.Sprite;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
-
-import static org.lwjgl.opengl.GL11.*;
 
 public class AxisAlignedBoundingBox
 {
     public Vector3f position;
     public Vector3f dimensions;
 
-    private final Sprite sprite;
-
     public AxisAlignedBoundingBox()
     {
         position = new Vector3f(0.0f);
         dimensions = new Vector3f(1.0f);
-        sprite = new Sprite("res/textures/square.png", Color.GREEN, new Vector2f(0.0f), new Vector2f(1.0f));
     }
 
     public Vector3f collide(AxisAlignedBoundingBox aabb)
@@ -67,14 +60,5 @@ public class AxisAlignedBoundingBox
         {
             return new Vector3f(0.0f);
         }
-    }
-
-    public void renderColliderSprite()
-    {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        sprite.position = this.position;
-        sprite.scale = this.dimensions;
-        sprite.render();
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 }
