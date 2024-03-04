@@ -1,5 +1,7 @@
 package engine.rendering;
 
+import engine.core.Entity;
+import engine.core.EntityType;
 import engine.core.Scene;
 import engine.core.Time;
 import org.joml.*;
@@ -11,7 +13,7 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
-public class Sprite
+public class Sprite extends Entity
 {
     private final float[] vertexData = {
             // positions            // texture coordinates
@@ -42,8 +44,9 @@ public class Sprite
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
 
-    public Sprite(Texture mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
+    public Sprite(String name, Texture mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
+        super(name, EntityType.Sprite);
         this.mainTexture = mainTexture;
         this.mainTextureTint = mainTextureTint;
         this.mainTextureOffset = mainTextureOffset;
@@ -52,8 +55,9 @@ public class Sprite
         initVariables();
     }
 
-    public Sprite(String mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
+    public Sprite(String name, String mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
+        super(name, EntityType.Sprite);
         this.mainTexture = new Texture(mainTexture, true, false, false);
         this.mainTextureTint = mainTextureTint;
         this.mainTextureOffset = mainTextureOffset;
@@ -113,21 +117,6 @@ public class Sprite
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
         Scene.standard2dShader.unbind();
-    }
-
-    public void translate(float x, float y, float z)
-    {
-        position.add(x, y, z);
-    }
-
-    public void rotate(float x, float y, float z)
-    {
-        rotation.add((float)Math.toRadians(x), (float)Math.toRadians(y), (float)Math.toRadians(z));
-    }
-
-    public void scale(float x, float y, float z)
-    {
-        scale.mul(x, y, z);
     }
 
     public void animateSprite()
