@@ -1,15 +1,12 @@
 package engine.core;
 
 import engine.fontRendering.FontLoader;
-import engine.rendering.Color;
-import engine.rendering.ScreenSpaceSprite;
-import engine.rendering.Sprite;
-import engine.rendering.TextMesh;
+import engine.imGui.ColorPickerWindow;
+import engine.imGui.ImGuiWindow;
+import engine.rendering.*;
 import engine.shaders.*;
-import game.HeartIconTest;
-import org.joml.Vector2f;
-import org.joml.Vector2i;
-import org.joml.Vector3f;
+import game.*;
+import org.joml.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +21,7 @@ public class Scene
     public static Camera mainCamera;
 
     public static List<Entity> entityList;
+    public static List<ImGuiWindow> imGuiWindows;
 
     public static void initialize()
     {
@@ -35,11 +33,14 @@ public class Scene
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
 
         entityList = new ArrayList<>();
+        imGuiWindows = new ArrayList<>();
 
         mainCamera = new Camera("Main Camera");
         mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
         new Sprite("Example Sprite", "res/textures/bricks_01.jpg", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
+
+        new ColorPickerWindow();
     }
 
     public static void pollInput()
@@ -67,7 +68,10 @@ public class Scene
     }
 
     public static void renderImGui()
-    {}
+    {
+        for (ImGuiWindow window : imGuiWindows)
+            window.render();
+    }
 
     public static Entity[] findByName(String name)
     {

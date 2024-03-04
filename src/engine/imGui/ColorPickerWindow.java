@@ -3,7 +3,7 @@ package engine.imGui;
 import engine.core.Utils;
 import imgui.ImGui;
 
-public class ColorPickerWindow
+public class ColorPickerWindow extends ImGuiWindow
 {
     private float[] colorChannels;
 
