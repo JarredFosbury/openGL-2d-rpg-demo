@@ -1,8 +1,7 @@
 package engine.core;
 
 import engine.fontRendering.FontLoader;
-import engine.imGui.ColorPickerWindow;
-import engine.imGui.ImGuiWindow;
+import engine.imGui.*;
 import engine.rendering.*;
 import engine.shaders.*;
 import game.*;
@@ -40,6 +39,7 @@ public class Scene
 
         new Sprite("Example Sprite", "res/textures/bricks_01.jpg", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
 
+        new MainMenuBar();
         new ColorPickerWindow();
     }
 
