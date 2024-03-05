@@ -1,5 +1,6 @@
 package engine.core;
 
+import imgui.ImFontConfig;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.flag.ImGuiConfigFlags;
@@ -133,6 +134,9 @@ public class Window
     {
         ImGui.createContext();
         ImGuiIO io = ImGui.getIO();
+        ImFontConfig config = new ImFontConfig();
+        config.setSizePixels(16.0f);
+        io.getFonts().addFontDefault(config);
         //io.addConfigFlags(ImGuiConfigFlags.ViewportsEnable);
 
         imGuiGlfw.init(glfwWindowPtr, true);
@@ -188,6 +192,8 @@ public class Window
                 ImGui.renderPlatformWindowsDefault();
                 GLFW.glfwMakeContextCurrent(backupWindowPtr);
             }
+
+            Scene.endOfFrame();
 
             // swap buffers to display to screen
             glfwSwapBuffers(glfwWindowPtr);
