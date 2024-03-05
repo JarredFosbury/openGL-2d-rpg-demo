@@ -12,7 +12,7 @@ public class Entity
 
     public Entity(String name, EntityType type)
     {
-        Scene.entityList.add(this);
+        Scene.entities.add(this);
         this.name = name;
         this.TYPE = type;
         position = new Vector3f(0.0f);
