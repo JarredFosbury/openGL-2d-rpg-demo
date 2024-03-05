@@ -50,4 +50,10 @@ public class ObservableList<E> extends ArrayList<E> implements Observable
     {
         observers.add(target);
     }
+
+    @Override
+    public void removeObserver(Observer target)
+    {
+        observers.remove(target);
+    }
 }
