@@ -1,19 +1,24 @@
 package game;
 
-import engine.core.Entity;
-import engine.core.EntityType;
-import engine.core.Scene;
-import engine.core.Time;
-import engine.rendering.ScreenSpaceSprite;
+import engine.core.*;
+import engine.rendering.Sprite;
+
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
 public class HeartIconTest extends Entity
 {
-    private ScreenSpaceSprite heart;
+    private Sprite heart;
 
     public HeartIconTest(String name)
     {
         super(name, EntityType.ScriptableBehavior);
-        heart = (ScreenSpaceSprite) Scene.findByName("Heart icon")[0];
+        heart = (Sprite) Scene.findByName("Example Sprite")[0];
+    }
+
+    public void pollInput()
+    {
+        if (KeyListener.isKeyPressed(GLFW_KEY_W))
+            Scene.entities.remove(heart);
     }
 
     public void update()
