@@ -37,6 +37,8 @@ public class Scene
         mainCamera = (Camera) findByName("Main Camera")[0];
         mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
+        new MainMenuScene();
+
         new MainMenuBar();
         new SceneEntityViewer();
 
@@ -93,5 +95,12 @@ public class Scene
             System.err.println("WARNING: Could not find entity with name " + name);
 
         return out;
+    }
+
+    @SuppressWarnings("All")
+    public static void deleteAllEntities()
+    {
+        for (int i = 0; i < entities.size(); i++)
+            entities.remove(i);
     }
 }
