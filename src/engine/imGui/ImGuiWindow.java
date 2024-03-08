@@ -1,14 +1,40 @@
 package engine.imGui;
 
-import engine.core.Scene;
+import imgui.ImGui;
 
-public class ImGuiWindow
+public class ImGuiWindow extends ImGuiRootComponent
 {
-    public ImGuiWindow()
+    private final String windowName;
+    private String title;
+
+    public ImGuiWindow(String windowName, String title)
     {
-        Scene.imGuiWindows.add(this);
+        this.windowName = windowName;
+        this.title = title;
     }
 
     public void render()
+    {
+        ImGui.begin(title + "###" + windowName);
+        renderWindowContents();
+        ImGui.end();
+    }
+
+    public void renderWindowContents()
     {}
+
+    public String getWindowName()
+    {
+        return windowName;
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
 }

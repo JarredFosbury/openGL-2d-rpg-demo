@@ -19,7 +19,7 @@ public class Scene
     public static Camera mainCamera;
 
     public static SceneEntityList entities;
-    public static List<ImGuiWindow> imGuiWindows;
+    public static List<ImGuiRootComponent> imGuiComponents;
 
     public static void initialize()
     {
@@ -31,10 +31,10 @@ public class Scene
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
 
         entities = new SceneEntityList();
-        imGuiWindows = new ArrayList<>();
+        imGuiComponents = new ArrayList<>();
 
         new Camera("Main Camera");
-        mainCamera = (Camera) entities.get(0);
+        mainCamera = (Camera) findByName("Main Camera")[0];
         mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
         new Sprite("Example Sprite", "res/textures/bricks_01.jpg", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
@@ -72,7 +72,7 @@ public class Scene
 
     public static void renderImGui()
     {
-        for (ImGuiWindow window : imGuiWindows)
+        for (ImGuiRootComponent window : imGuiComponents)
             window.render();
     }
 

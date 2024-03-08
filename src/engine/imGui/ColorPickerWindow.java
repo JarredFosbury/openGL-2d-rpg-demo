@@ -9,12 +9,12 @@ public class ColorPickerWindow extends ImGuiWindow
 
     public ColorPickerWindow()
     {
+        super("color_picker_window", "Color Picker");
         colorChannels = new float[3];
     }
 
-    public void render()
+    public void renderWindowContents()
     {
-        ImGui.begin("Color Picker");
         ImGui.colorEdit3("Picker", colorChannels);
         if (ImGui.button("Print Color as Vector4f"))
         {
@@ -23,6 +23,5 @@ public class ColorPickerWindow extends ImGuiWindow
                     "f, " + Utils.round(colorChannels[1], 3) +
                     "f, " + Utils.round(colorChannels[2], 3) + "f, 1.0f)");
         }
-        ImGui.end();
     }
 }

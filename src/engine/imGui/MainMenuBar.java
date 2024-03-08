@@ -1,10 +1,9 @@
 package engine.imGui;
 
-import engine.core.MainComponent;
 import engine.core.Window;
 import imgui.ImGui;
 
-public class MainMenuBar extends ImGuiWindow
+public class MainMenuBar extends ImGuiRootComponent
 {
     public MainMenuBar()
     {}
