@@ -31,6 +31,7 @@ public class TextMesh extends Entity
     public Vector2i textAlignment;
     public String text;
     public Vector4f colorRGBA;
+    public Vector3f lastCalculatedScreenPosition;
 
     private final float BASE_SCALE = 0.01408450704225f;
 
@@ -49,6 +50,7 @@ public class TextMesh extends Entity
         textAlignment = new Vector2i(1, 1);
         text = "Hello world!";
         colorRGBA = new Vector4f(1.0f);
+        lastCalculatedScreenPosition = new Vector3f(0.0f);
     }
 
     public void render()
@@ -95,6 +97,9 @@ public class TextMesh extends Entity
         transform.translate(finalPosition);
         transform.rotateXYZ(rotation);
         transform.scale(new Vector3f(BASE_SCALE).mul(fontSize_PIXELS));
+
+        transform.getTranslation(lastCalculatedScreenPosition);
+        lastCalculatedScreenPosition.add(new Vector3f((float) GlobalSettings.WINDOW_WIDTH / 2.0f, (float)GlobalSettings.WINDOW_HEIGHT / 2.0f, 0.0f));
 
         bindMaterial();
         updateUniforms(colorRGBA, transform);
