@@ -45,6 +45,13 @@ public class SceneEntityList extends ArrayList<Entity> implements Observable
             executeActionsInQueue();
     }
 
+    public void clear()
+    {
+        entityListActionQueue.offer(new EntityListAction(null, 0, EntityListAction.ActionType.CLEAR_ALL_ENTITIES));
+        if (inInitialization)
+            executeActionsInQueue();
+    }
+
     @Override
     public void notifyObservers()
     {
@@ -78,6 +85,7 @@ public class SceneEntityList extends ArrayList<Entity> implements Observable
                 case ADD_INDEXED -> super.add(entityAction.index, entityAction.target);
                 case REMOVE_INDEXED -> super.remove(entityAction.index);
                 case REMOVE_OBJECT -> super.remove(entityAction.target);
+                case CLEAR_ALL_ENTITIES -> super.clear();
             }
         }
 

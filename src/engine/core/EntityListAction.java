@@ -7,7 +7,8 @@ public class EntityListAction
         ADD_OBJECT,
         ADD_INDEXED,
         REMOVE_OBJECT,
-        REMOVE_INDEXED;
+        REMOVE_INDEXED,
+        CLEAR_ALL_ENTITIES;
     }
 
     public Entity target;

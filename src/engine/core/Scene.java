@@ -96,11 +96,4 @@ public class Scene
 
         return out;
     }
-
-    @SuppressWarnings("All")
-    public static void deleteAllEntities()
-    {
-        for (int i = 0; i < entities.size(); i++)
-            entities.remove(i);
-    }
 }
