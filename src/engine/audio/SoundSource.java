@@ -1,77 +1,46 @@
 package engine.audio;
 
+import engine.core.Entity;
+import engine.core.EntityType;
 import org.joml.Vector3f;
 
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-
 import static org.lwjgl.openal.AL10.*;
-import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.libc.LibCStdlib.free;
 
-public class SoundSource
+public class SoundSource extends Entity
 {
-    public String filepath;
+    public SoundClip clip;
 
     private boolean isPlaying;
-    private int bufferId;
     private int sourceId;
     private float volume;
     private float pitch;
-    private Vector3f position;
 
-    public SoundSource(String filepath, boolean loops)
+    public SoundSource(String name, SoundClip clip, boolean loops)
     {
-        this.filepath = filepath;
+        super(name, EntityType.SoundSource);
+        this.clip = clip;
         isPlaying = false;
         volume = 0.5f;
         pitch = 1.0f;
         position = new Vector3f(0.0f);
 
-        stackPush();
-        IntBuffer channelsBuffer = stackMallocInt(1);
-        stackPush();
-        IntBuffer sampleRateBuffer = stackMallocInt(1);
-
-        ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename(filepath, channelsBuffer, sampleRateBuffer);
-        if (rawAudioBuffer == null)
-        {
-            System.err.println("Could not load sound from filepath: " + filepath);
-            stackPop();
-            stackPop();
-            return;
-        }
-
-        int channels = channelsBuffer.get();
-        int sampleRate = sampleRateBuffer.get();
-        stackPop();
-        stackPop();
-
-        int format = -1;
-        if (channels == 1)
-            format = AL_FORMAT_MONO16;
-        else if (channels == 2)
-            format = AL_FORMAT_STEREO16;
-
-        bufferId = alGenBuffers();
-        alBufferData(bufferId, format, rawAudioBuffer, sampleRate);
-
         sourceId = alGenSources();
-        alSourcei(sourceId, AL_BUFFER, bufferId);
+        alSourcei(sourceId, AL_BUFFER, clip.getBufferId());
         alSourcei(sourceId, AL_LOOPING, loops ? 1 : 0);
         alSourcei(sourceId, AL_POSITION, 0);
         alSourcef(sourceId, AL_GAIN, volume);
         alSourcef(sourceId, AL_PITCH, pitch);
         alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z);
+    }
 
-        free(rawAudioBuffer);
+    public void update()
+    {
+        alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z);
     }
 
     public void delete()
     {
         alDeleteSources(sourceId);
-        alDeleteBuffers(bufferId);
     }
 
     public void play()
@@ -127,22 +96,5 @@ public class SoundSource
     public float getPitch()
     {
         return pitch;
-    }
-
-    public void translate(float x, float y, float z)
-    {
-        position.add(x, y, z);
-        alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z);
-    }
-
-    public void setPosition(float x, float y, float z)
-    {
-        position = new Vector3f(x, y, z);
-        alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z);
-    }
-
-    public Vector3f getPosition()
-    {
-        return position;
     }
 }
