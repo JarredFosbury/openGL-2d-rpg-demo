@@ -69,8 +69,6 @@ public class Shader
 
     protected void setMatrix4Uniform(String name, Matrix4f value)
     {
-        // TODO: Verify that the matrix orientation is indeed transpose!
-
         FloatBuffer matrixValuesBuffer = BufferUtils.createFloatBuffer(16);
         value.get(matrixValuesBuffer);
         glUniformMatrix4fv(glGetUniformLocation(shaderProgramID, name), false, matrixValuesBuffer);
