@@ -89,6 +89,8 @@ public class TextMesh extends Entity
         Vector3f textAlignmentPos = new Vector3f(-boundSize.x/2 + (textAlignment.x * boundSize.x/2), boundSize.y/2 + (boundSize.y/2 * textAlignment.y), 0.0f);
         finalPosition.add(textAlignmentPos);
 
+        // TODO: fix bug causing text to move continuously when not location anchored
+        //  if it's broken here, it's broken in ScreenSpaceSprite as well. fix it there too!
         Matrix4f transform = new Matrix4f().identity();
         transform.translate(finalPosition);
         transform.rotateXYZ(rotation);
