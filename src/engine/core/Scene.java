@@ -37,9 +37,6 @@ public class Scene
         mainCamera = (Camera) findByName("Main Camera")[0];
         mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
-        new Sprite("Example Sprite", "res/textures/bricks_01.jpg", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
-        new HeartIconTest("Script behaviour");
-
         new MainMenuBar();
         new SceneEntityViewer();
 
