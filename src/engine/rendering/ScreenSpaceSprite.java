@@ -83,9 +83,9 @@ public class ScreenSpaceSprite extends Entity
         {
             float halfWidth = (float)GlobalSettings.WINDOW_WIDTH / 2.0f;
             float halfHeight = (float)GlobalSettings.WINDOW_HEIGHT / 2.0f;
-            float x = halfWidth * (float)locationAnchor.x;
-            float y = halfHeight * (float)locationAnchor.y;
-            finalPosition = new Vector3f(x + position.x, y + position.y, position.z);
+            float anchorX = (halfWidth * (float)locationAnchor.x) + halfWidth;
+            float anchorY = (halfHeight * (float)locationAnchor.y) + halfHeight;
+            finalPosition = new Vector3f(anchorX + position.x, anchorY + position.y, position.z);
         }
         else
         {
@@ -93,7 +93,7 @@ public class ScreenSpaceSprite extends Entity
         }
 
         Matrix4f transform = new Matrix4f().identity();
-        transform.translate(finalPosition);
+        transform.translate(getPositionAsScreenSpace(finalPosition));
         transform.rotateXYZ(rotation);
         transform.scale(scale);
 
