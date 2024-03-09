@@ -64,4 +64,12 @@ public class Entity
     {
         scale.mul(v.x, v.y, v.z);
     }
+
+    public Vector3f getPositionAsScreenSpace(Vector3f inPos)
+    {
+        Vector3f outPos = new Vector3f(0.0f);
+        outPos.y = inPos.y * -1.0f + (float)GlobalSettings.WINDOW_HEIGHT / 2.0f;
+        outPos.x = inPos.x - (float)GlobalSettings.WINDOW_WIDTH / 2.0f;
+        return new Vector3f(outPos);
+    }
 }
