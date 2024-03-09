@@ -94,6 +94,8 @@ public class ShaderCompiler
                 System.err.println("GLSL ERROR: engine.rendering.Shader linking failed!\n" + programLog);
             }
 
+            glDetachShader(shaderProgramID, vertShaderID);
+            glDetachShader(shaderProgramID, fragShaderID);
             glDeleteShader(vertShaderID);
             glDeleteShader(fragShaderID);
 
