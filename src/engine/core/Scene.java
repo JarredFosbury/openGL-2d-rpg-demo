@@ -19,7 +19,7 @@ public class Scene
     public static Camera mainCamera;
 
     public static SceneEntityList entities;
-    public static List<ImGuiRootComponent> imGuiComponents;
+    public static SceneImGuiComponentList imGuiComponents;
 
     public static void initialize()
     {
@@ -31,7 +31,7 @@ public class Scene
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
 
         entities = new SceneEntityList();
-        imGuiComponents = new ArrayList<>();
+        imGuiComponents = new SceneImGuiComponentList();
 
         new Camera("Main Camera");
         mainCamera = (Camera) findByName("Main Camera")[0];
