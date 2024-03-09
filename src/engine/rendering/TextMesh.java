@@ -31,7 +31,6 @@ public class TextMesh extends Entity
     public Vector2i textAlignment;
     public String text;
     public Vector4f colorRGBA;
-    public Vector3f lastCalculatedScreenPosition;
 
     private final float BASE_SCALE = 0.01408450704225f;
 
@@ -50,7 +49,6 @@ public class TextMesh extends Entity
         textAlignment = new Vector2i(1, 1);
         text = "Hello world!";
         colorRGBA = new Vector4f(1.0f);
-        lastCalculatedScreenPosition = new Vector3f(0.0f);
     }
 
     public void render()
@@ -58,7 +56,7 @@ public class TextMesh extends Entity
         drawString();
     }
 
-    public void drawString()
+    private void drawString()
     {
         if (!text.equals(lastDrawCall) || lastDrawCall.isEmpty())
         {
@@ -77,11 +75,11 @@ public class TextMesh extends Entity
         Vector3f finalPosition;
         if (isLocationAnchored)
         {
-            float halfWidth = (float) GlobalSettings.WINDOW_WIDTH / 2.0f;
+            float halfWidth = (float)GlobalSettings.WINDOW_WIDTH / 2.0f;
             float halfHeight = (float)GlobalSettings.WINDOW_HEIGHT / 2.0f;
-            float x = halfWidth * (float)locationAnchor.x;
-            float y = halfHeight * (float)locationAnchor.y;
-            finalPosition = new Vector3f(x + position.x, y + position.y, position.z);
+            float anchorX = (halfWidth * (float)locationAnchor.x) + halfWidth;
+            float anchorY = (halfHeight * (float)locationAnchor.y) + halfHeight;
+            finalPosition = new Vector3f(anchorX + position.x, anchorY + position.y, position.z);
         }
         else
         {
@@ -91,15 +89,12 @@ public class TextMesh extends Entity
         Vector3f textAlignmentPos = new Vector3f(-boundSize.x/2 + (textAlignment.x * boundSize.x/2), boundSize.y/2 + (boundSize.y/2 * textAlignment.y), 0.0f);
         finalPosition.add(textAlignmentPos);
 
-        // TODO: fix bug causing text to move continuously when not location anchored
-        //  if it's broken here, it's broken in ScreenSpaceSprite as well. fix it there too!
+        // TODO: fix bug causing text to move continuously when not location anchored.
+        //  Note it's not broken in ScreenSpaceSprite for some reason, only here.
         Matrix4f transform = new Matrix4f().identity();
-        transform.translate(finalPosition);
+        transform.translate(getPositionAsScreenSpace(finalPosition));
         transform.rotateXYZ(rotation);
         transform.scale(new Vector3f(BASE_SCALE).mul(fontSize_PIXELS));
-
-        transform.getTranslation(lastCalculatedScreenPosition);
-        lastCalculatedScreenPosition.add(new Vector3f((float) GlobalSettings.WINDOW_WIDTH / 2.0f, (float)GlobalSettings.WINDOW_HEIGHT / 2.0f, 0.0f));
 
         bindMaterial();
         updateUniforms(colorRGBA, transform);
@@ -242,5 +237,16 @@ public class TextMesh extends Entity
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indexData.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
+    }
+
+    public Vector3f getTrueScreenPosition()
+    {
+        Vector3f outPos;
+        float halfWidth = (float)GlobalSettings.WINDOW_WIDTH / 2.0f;
+        float halfHeight = (float)GlobalSettings.WINDOW_HEIGHT / 2.0f;
+        float anchorX = (halfWidth * (float)locationAnchor.x) + halfWidth;
+        float anchorY = (halfHeight * (float)locationAnchor.y) + halfHeight;
+        outPos = new Vector3f(anchorX + position.x, anchorY + position.y, position.z);
+        return outPos;
     }
 }
