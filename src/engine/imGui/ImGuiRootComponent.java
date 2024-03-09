@@ -11,4 +11,9 @@ public class ImGuiRootComponent
 
     public void render()
     {}
+
+    public void delete()
+    {
+        Scene.imGuiComponents.remove(this);
+    }
 }
