@@ -73,4 +73,10 @@ public class Shader
         value.get(matrixValuesBuffer);
         glUniformMatrix4fv(glGetUniformLocation(shaderProgramID, name), false, matrixValuesBuffer);
     }
+
+    public void delete()
+    {
+        unbind();
+        glDeleteProgram(shaderProgramID);
+    }
 }

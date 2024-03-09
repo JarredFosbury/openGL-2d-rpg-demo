@@ -34,4 +34,9 @@ public class Font
         this.bitmap = bitmap;
         this.size = size;
     }
+
+    public void delete()
+    {
+        bitmap.delete();
+    }
 }

@@ -80,4 +80,10 @@ public class Texture
     {
         return filepath;
     }
+
+    public void delete()
+    {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDeleteTextures(textureID);
+    }
 }
