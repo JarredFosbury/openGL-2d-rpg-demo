@@ -45,12 +45,8 @@ public class SoundSource extends Entity
 
     public void play()
     {
-        int state = alGetSourcei(sourceId, AL_SOURCE_STATE);
-        if (state == AL_STOPPED)
-        {
-            isPlaying = false;
-            alSourcei(sourceId, AL_POSITION, 0);
-        }
+        isPlaying = false;
+        alSourcei(sourceId, AL_POSITION, 0);
 
         if (!isPlaying)
         {
