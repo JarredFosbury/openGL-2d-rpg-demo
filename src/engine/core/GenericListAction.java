@@ -1,6 +1,6 @@
 package engine.core;
 
-public class EntityListAction
+public class GenericListAction
 {
     enum ActionType
     {
@@ -11,11 +11,11 @@ public class EntityListAction
         CLEAR_ALL_ENTITIES;
     }
 
-    public Entity target;
+    public Object target;
     public int index;
     public ActionType action;
 
-    public EntityListAction(Entity target, int index, ActionType action)
+    public GenericListAction(Object target, int index, ActionType action)
     {
         this.target = target;
         this.index = index;
