@@ -42,23 +42,11 @@ public class Sprite extends Entity
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
 
-    public Sprite(String name, Standard2dShader shader, Texture mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
+    public Sprite(String name, Standard2dShader shader, String textureAssetKey, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
         super(name, EntityType.Sprite);
         this.shader = shader;
-        this.mainTexture = mainTexture;
-        this.mainTextureTint = mainTextureTint;
-        this.mainTextureOffset = mainTextureOffset;
-        this.mainTextureScale = mainTextureScale;
-        initMeshData();
-        initVariables();
-    }
-
-    public Sprite(String name, Standard2dShader shader, String mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
-    {
-        super(name, EntityType.Sprite);
-        this.shader = shader;
-        this.mainTexture = new Texture(mainTexture, true, false, false);
+        this.mainTexture = (Texture) Scene.assets.getAssetFromPool(textureAssetKey);
         this.mainTextureTint = mainTextureTint;
         this.mainTextureOffset = mainTextureOffset;
         this.mainTextureScale = mainTextureScale;
