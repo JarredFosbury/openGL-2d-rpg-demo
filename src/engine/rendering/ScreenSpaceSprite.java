@@ -80,6 +80,9 @@ public class ScreenSpaceSprite extends Entity
 
     public void render()
     {
+        if (!isVisible)
+            return;
+
         Vector3f finalPosition;
         if (isLocationAnchored)
         {

@@ -38,7 +38,6 @@ public class Sprite extends Entity
     public Vector2f mainTextureScale;
     public int spriteSheetFrame;
     public int animationFrameRate;
-    public boolean visible;
 
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
@@ -92,7 +91,6 @@ public class Sprite extends Entity
         spriteSheetFrame = 0;
         animationFrameRate = 24;
         timeSinceLastFrame = 0.0f;
-        visible = true;
     }
 
     public void initSpriteSheet(String frameOffsetDataFilepath)
@@ -102,7 +100,7 @@ public class Sprite extends Entity
 
     public void render()
     {
-        if (!visible)
+        if (!isVisible)
             return;
 
         Matrix4f transform = new Matrix4f().identity();

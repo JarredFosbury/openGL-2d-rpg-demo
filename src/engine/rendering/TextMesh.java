@@ -54,7 +54,8 @@ public class TextMesh extends Entity
 
     public void render()
     {
-        drawString();
+        if (isVisible)
+            drawString();
     }
 
     private void drawString()
