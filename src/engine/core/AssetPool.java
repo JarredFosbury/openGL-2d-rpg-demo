@@ -2,16 +2,21 @@ package engine.core;
 
 import engine.audio.SoundClip;
 import engine.fontRendering.Font;
+import engine.patternInterfaces.Observable;
+import engine.patternInterfaces.Observer;
 import engine.rendering.Texture;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class AssetPool
+public class AssetPool implements Observable
 {
     public HashMap<String, Texture> texturePool;
     public HashMap<String, SoundClip> soundClipPool;
     public HashMap<String, Font> fontPool;
 
+    private List<Observer> observers = new ArrayList<>();
     private boolean isEmpty;
 
     public AssetPool()
@@ -35,6 +40,8 @@ public class AssetPool
 
         if (asset.getClass().equals(Font.class))
             fontPool.put(name, (Font) asset);
+
+        notifyObservers();
     }
 
     public Object getAssetFromPool(String name)
@@ -78,6 +85,8 @@ public class AssetPool
         soundClipPool.clear();
         fontPool.clear();
         isEmpty = true;
+
+        notifyObservers();
     }
 
     public int getTotalPoolSize()
@@ -109,5 +118,24 @@ public class AssetPool
         }
 
         return outAssetKeys;
+    }
+
+    @Override
+    public void notifyObservers()
+    {
+        for (Observer observer : observers)
+            observer.update(this);
+    }
+
+    @Override
+    public void addObserver(Observer target)
+    {
+        observers.add(target);
+    }
+
+    @Override
+    public void removeObserver(Observer target)
+    {
+        observers.remove(target);
     }
 }
