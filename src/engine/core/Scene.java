@@ -38,6 +38,7 @@ public class Scene
         new MainMenuBar();
         new SceneEntityViewer();
         new AssetPoolWindow();
+        new EntityInspectorWindow();
 
         new Camera("Main Camera");
         mainCamera = (Camera) findByName("Main Camera")[0];
@@ -92,5 +93,22 @@ public class Scene
             System.err.println("WARNING: Could not find entity with name " + name);
 
         return out;
+    }
+
+    public static ImGuiRootComponent[] findImGuiComponents(String name)
+    {
+        List<ImGuiRootComponent> foundComponents = new ArrayList<>();
+        for (ImGuiRootComponent component : imGuiComponents)
+            if (component.NAME.equals(name))
+                foundComponents.add(component);
+
+        ImGuiRootComponent[] outComponents = new ImGuiRootComponent[foundComponents.size()];
+        for (int i = 0; i < outComponents.length; i++)
+            outComponents[i] = foundComponents.get(i);
+
+        if (outComponents.length == 0)
+            System.err.println("WARNING: Could not find ImGuiComponent with name " + name);
+
+        return outComponents;
     }
 }
