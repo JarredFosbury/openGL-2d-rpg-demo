@@ -2,7 +2,9 @@ package engine.core;
 
 import engine.imGui.*;
 import engine.rendering.*;
-import engine.shaders.*;
+import engine.shaders.ScreenSpace2dShader;
+import engine.shaders.Shader;
+import engine.shaders.Standard2dShader;
 import game.*;
 import org.joml.*;
 
@@ -18,6 +20,7 @@ public class Scene
 
     public static Camera mainCamera;
 
+    public static AssetPool assets;
     public static SceneEntityList entities;
     public static SceneImGuiComponentList imGuiComponents;
 
@@ -27,11 +30,12 @@ public class Scene
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        standard2dShader = new Standard2dShader("res/shaders/Standard2D.glsl");
-        screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
-
+        assets = new AssetPool();
         entities = new SceneEntityList();
         imGuiComponents = new SceneImGuiComponentList();
+
+        standard2dShader = new Standard2dShader("res/shaders/Standard2D.glsl");
+        screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
 
         new Camera("Main Camera");
         mainCamera = (Camera) findByName("Main Camera")[0];
