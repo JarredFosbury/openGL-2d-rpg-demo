@@ -7,7 +7,9 @@ import imgui.ImGui;
 public class MainMenuBar extends ImGuiRootComponent
 {
     public MainMenuBar()
-    {}
+    {
+        super("main_menu_bar");
+    }
 
     public void render()
     {

@@ -5,6 +5,11 @@ import imgui.ImGui;
 
 public class ImGuiTools extends ImGuiRootComponent
 {
+    public ImGuiTools()
+    {
+        super("imGui_tools_manager");
+    }
+
     public void render()
     {
         if (GlobalSettings.useImGuiStyleEditor)

@@ -9,6 +9,7 @@ public class ImGuiWindow extends ImGuiRootComponent
 
     public ImGuiWindow(String windowName, String title)
     {
+        super(windowName);
         this.windowName = windowName;
         this.title = title;
     }

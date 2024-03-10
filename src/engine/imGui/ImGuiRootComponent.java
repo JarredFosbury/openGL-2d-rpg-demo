@@ -4,8 +4,11 @@ import engine.core.Scene;
 
 public class ImGuiRootComponent
 {
-    public ImGuiRootComponent()
+    public final String NAME;
+
+    public ImGuiRootComponent(String name)
     {
+        NAME = name;
         Scene.imGuiComponents.add(this);
     }
 
