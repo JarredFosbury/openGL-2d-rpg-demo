@@ -135,7 +135,7 @@ public class Window
         ImGui.createContext();
         ImGuiIO io = ImGui.getIO();
         ImFontConfig config = new ImFontConfig();
-        config.setSizePixels(16.0f);
+        config.setSizePixels(20.0f);
         io.getFonts().addFontDefault(config);
         //io.addConfigFlags(ImGuiConfigFlags.ViewportsEnable);
 

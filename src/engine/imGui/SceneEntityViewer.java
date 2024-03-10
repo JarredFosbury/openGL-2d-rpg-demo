@@ -12,14 +12,14 @@ public class SceneEntityViewer extends ImGuiWindow implements Observer
 
     public SceneEntityViewer()
     {
-        super("scene_entity_list_window", "Scene Entity Viewer | In Scene 0");
+        super("scene_entity_list_window", "Scene Entity Viewer (0 entities)");
         Scene.entities.addObserver(this);
         entityList = new Entity[0];
     }
 
     public void renderWindowContents()
     {
-        setTitle("Scene Entity Viewer | In Scene " + entityList.length);
+        setTitle("Scene Entity Viewer (" + entityList.length + " entities)");
         if (entityList.length > 0)
             for (int i = 0; i < entityList.length; i++)
                 ImGui.selectable(entityList[i].name + "###" + i);
