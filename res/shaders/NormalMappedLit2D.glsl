@@ -32,6 +32,14 @@ float colorToAxis(float colCompIn)
     return (colCompIn * 2.0) - 1.0;
 }
 
+bool isBlack(vec3 sampleColor)
+{
+    if (sampleColor.r <= 0 && sampleColor.g <= 0 && sampleColor.b <= 0)
+        return true;
+    else
+        return false;
+}
+
 void main()
 {
     vec4 mainSample = texture(textureMain, (TexPos * texPosScale) + texPosOffset) * tint;
@@ -39,9 +47,9 @@ void main()
 
     vec3 exampleLightDir = vec3(0.0, 0.0, 1.0);
     vec3 normalDir = normalize(vec3(colorToAxis(normalSample.r), colorToAxis(normalSample.g), colorToAxis(normalSample.b)));
-    float normalFactor = clamp(dot(normalDir, exampleLightDir), 0.0, 1.0);
+    float normalFactor = clamp(dot(normalDir, exampleLightDir), 0.1, 1.0);
 
-    if (normalFactor <= 0.0)
+    if (isBlack(mainSample.xyz))
         discard;
 
     FragColor = vec4(mainSample.xyz * normalFactor, 1.0);
