@@ -86,7 +86,7 @@ public class Window
         glfwWindowHint(GLFW_RESIZABLE, GlobalSettings.canBeResized ? GL_TRUE : GLFW_FALSE);
 
         // create window
-        glfwWindowPtr = glfwCreateWindow(GlobalSettings.WINDOW_WIDTH, GlobalSettings.WINDOW_HEIGHT,
+        glfwWindowPtr = glfwCreateWindow(GlobalSettings.windowWidth, GlobalSettings.windowHeight,
                 GlobalSettings.APPLICATION_NAME, NULL, NULL);
 
         if (glfwWindowPtr == NULL)
@@ -103,7 +103,7 @@ public class Window
         glfwMakeContextCurrent(glfwWindowPtr);
 
         // enable v-sync
-        glfwSwapInterval(GlobalSettings.USE_VSYNC ? 1 : 0);
+        glfwSwapInterval(GlobalSettings.useVsync ? 1 : 0);
 
         // show the window
         glfwShowWindow(glfwWindowPtr);

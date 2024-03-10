@@ -76,8 +76,8 @@ public class TextMesh extends Entity
         Vector3f finalPosition;
         if (isLocationAnchored)
         {
-            float halfWidth = (float)GlobalSettings.WINDOW_WIDTH / 2.0f;
-            float halfHeight = (float)GlobalSettings.WINDOW_HEIGHT / 2.0f;
+            float halfWidth = (float)GlobalSettings.windowWidth / 2.0f;
+            float halfHeight = (float)GlobalSettings.windowHeight / 2.0f;
             float anchorX = (halfWidth * (float)locationAnchor.x) + halfWidth;
             float anchorY = (halfHeight * (float)locationAnchor.y) + halfHeight;
             finalPosition = new Vector3f(anchorX + position.x, anchorY + position.y, position.z);
@@ -243,8 +243,8 @@ public class TextMesh extends Entity
     public Vector3f getTrueScreenPosition()
     {
         Vector3f outPos;
-        float halfWidth = (float)GlobalSettings.WINDOW_WIDTH / 2.0f;
-        float halfHeight = (float)GlobalSettings.WINDOW_HEIGHT / 2.0f;
+        float halfWidth = (float)GlobalSettings.windowWidth / 2.0f;
+        float halfHeight = (float)GlobalSettings.windowHeight / 2.0f;
         float anchorX = (halfWidth * (float)locationAnchor.x) + halfWidth;
         float anchorY = (halfHeight * (float)locationAnchor.y) + halfHeight;
         outPos = new Vector3f(anchorX + position.x, anchorY + position.y, position.z);

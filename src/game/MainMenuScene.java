@@ -5,12 +5,8 @@ import engine.audio.SoundSource;
 import engine.core.*;
 import engine.fontRendering.Font;
 import engine.fontRendering.FontLoader;
-import engine.rendering.Color;
-import engine.rendering.ScreenSpaceSprite;
 import engine.rendering.TextMesh;
 import engine.rendering.Texture;
-import engine.shaders.ScreenSpace2dShader;
-import engine.shaders.Standard2dShader;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
@@ -111,7 +107,7 @@ public class MainMenuScene extends Entity
 
         if (MouseListener.isButtonPressed(0))
         {
-            int halfWidth = GlobalSettings.WINDOW_WIDTH / 2;
+            int halfWidth = GlobalSettings.windowWidth / 2;
             int horizontalButtonBounds_PX = 150;
             if (cursor.x < halfWidth + horizontalButtonBounds_PX && cursor.x > halfWidth - horizontalButtonBounds_PX)
             {

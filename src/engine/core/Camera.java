@@ -23,8 +23,8 @@ public class Camera extends Entity
         this.nearPlane = nearPlane;
         this.farPlane = farPlane;
 
-        float halfWidth = (float)GlobalSettings.WINDOW_WIDTH / 2.0f;
-        float halfHeight = (float)GlobalSettings.WINDOW_HEIGHT / 2.0f;
+        float halfWidth = (float)GlobalSettings.windowWidth / 2.0f;
+        float halfHeight = (float)GlobalSettings.windowHeight / 2.0f;
         float aspectRatio = (halfWidth / halfHeight) * viewPlaneScale;
         projection = new Matrix4f().ortho(-aspectRatio, aspectRatio, -1.0f * viewPlaneScale, viewPlaneScale, nearPlane, farPlane);
         screenSpaceProjection = new Matrix4f().ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, -1.0f, 1.0f);

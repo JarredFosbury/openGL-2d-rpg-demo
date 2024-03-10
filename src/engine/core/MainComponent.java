@@ -6,7 +6,7 @@ public class MainComponent
 {
     public static void main(String[] args)
     {
-        if (GlobalSettings.USE_LAUNCHER)
+        if (GlobalSettings.useLauncher)
             LauncherManager.createJFrame();
         else
             launchGame();

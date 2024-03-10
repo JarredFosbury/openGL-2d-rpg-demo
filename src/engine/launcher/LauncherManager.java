@@ -15,11 +15,11 @@ public class LauncherManager
     public static void launchGame()
     {
         int[] resolution = window.getSelectedResolution();
-        GlobalSettings.WINDOW_WIDTH = resolution[0];
-        GlobalSettings.WINDOW_HEIGHT = resolution[1];
+        GlobalSettings.windowWidth = resolution[0];
+        GlobalSettings.windowHeight = resolution[1];
 
         boolean[] windowSettings = window.getWindowSettings();
-        GlobalSettings.USE_VSYNC = windowSettings[0];
+        GlobalSettings.useVsync = windowSettings[0];
         GlobalSettings.windowMaximized = windowSettings[1];
         GlobalSettings.windowBorderless = windowSettings[2];
 
