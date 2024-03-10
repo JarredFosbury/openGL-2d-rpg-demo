@@ -13,6 +13,8 @@ public class NormalMappedLit2DShader extends Shader
 
     public void updateUniforms(Vector4f tint, Matrix4f transform, Matrix4f projection, Matrix4f cameraTransform, Vector2f texPosOffset, Vector2f texPosScale)
     {
+        setIntegerUniform("textureMain", 0);
+        setIntegerUniform("textureNormal", 1);
         setFloat4Uniform("tint", tint);
         setMatrix4Uniform("transform", transform);
         setMatrix4Uniform("projection", projection);
