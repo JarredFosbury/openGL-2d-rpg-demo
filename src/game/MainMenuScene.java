@@ -49,6 +49,8 @@ public class MainMenuScene extends Entity
         mainMenuTitle = "2D RPG DEMO";
         settingsMenuTitle = "Settings";
 
+        Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/consolas/consolas.png",
+                "res/fonts/consolas/consolas.fnt"), "consolas");
         Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/morris roman/morrisRoman.png",
                 "res/fonts/morris roman/morrisRoman.fnt"), "morrisRoman");
         Scene.assets.addAssetToPool(new SoundClip("res/audio/music/mainMenuTheme.ogg"), "mainMenuTheme");

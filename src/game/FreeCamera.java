@@ -25,13 +25,13 @@ public class FreeCamera extends Entity
 
         mainCamera = Scene.mainCamera;
 
-        debugPositionText = new TextMesh("cameraPosDebug-text", "morrisRoman", true);
+        debugPositionText = new TextMesh("cameraPosDebug-text", "consolas", true);
         debugPositionText.fontSize_PIXELS = 24.0f;
         debugPositionText.locationAnchor = new Vector2i(-1, 1);
         debugPositionText.position = new Vector3f(25.0f, -50.0f, 0.0f);
         debugPositionText.textAlignment = new Vector2i(1, 0);
 
-        debugViewportText = new TextMesh("cameraViewportDebug-text", "morrisRoman", true);
+        debugViewportText = new TextMesh("cameraViewportDebug-text", "consolas", true);
         debugViewportText.fontSize_PIXELS = 24.0f;
         debugViewportText.locationAnchor = new Vector2i(-1, 1);
         debugViewportText.position = new Vector3f(25.0f, -90.0f, 0.0f);

@@ -15,6 +15,8 @@ public class GameScene extends Entity
     public GameScene()
     {
         super("Game Scene Handler", EntityType.ScriptableBehavior);
+        Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/consolas/consolas.png",
+                "res/fonts/consolas/consolas.fnt"), "consolas");
         Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/morris roman/morrisRoman.png",
                 "res/fonts/morris roman/morrisRoman.fnt"), "morrisRoman");
         Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/lamp_alb.png", true, false, true), "sprite-alb");
