@@ -35,11 +35,14 @@ float colorToAxis(float colCompIn)
 void main()
 {
     vec4 mainSample = texture(textureMain, (TexPos * texPosScale) + texPosOffset) * tint;
-    vec4 normalSample = texture(textureNormal, (TexPos * texPosScale) + texPosOffset);
+    vec3 normalSample = texture(textureNormal, (TexPos * texPosScale) + texPosOffset).xyz;
 
-    vec3 normalDir = normalize(vec3(colorToAxis(normalSample.x), colorToAxis(normalSample.y), colorToAxis(normalSample.z)));
-    vec3 forward = vec3(0.0, 0.0, 1.0);
-    float normalFactor = clamp(dot(normalDir, forward), 0.0, 1.0);
+    vec3 exampleLightDir = vec3(0.0, 0.0, 1.0);
+    vec3 normalDir = normalize(vec3(colorToAxis(normalSample.r), colorToAxis(normalSample.g), colorToAxis(normalSample.b)));
+    float normalFactor = clamp(dot(normalDir, exampleLightDir), 0.0, 1.0);
 
-    FragColor = mainSample * normalFactor;
+    if (normalFactor <= 0.0)
+        discard;
+
+    FragColor = vec4(mainSample.xyz * normalFactor, 1.0);
 }
