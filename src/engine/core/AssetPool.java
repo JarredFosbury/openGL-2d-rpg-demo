@@ -89,9 +89,9 @@ public class AssetPool implements Observable
         notifyObservers();
     }
 
-    public int getTotalPoolSize()
+    public short getTotalPoolSize()
     {
-        return texturePool.size() + soundClipPool.size() + fontPool.size();
+        return (short) (texturePool.size() + soundClipPool.size() + fontPool.size());
     }
 
     public String[] getAllAssetKeys()
