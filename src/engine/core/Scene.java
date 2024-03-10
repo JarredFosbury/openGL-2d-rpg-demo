@@ -1,6 +1,7 @@
 package engine.core;
 
 import engine.imGui.*;
+import engine.shaders.NormalMappedLit2DShader;
 import engine.shaders.ScreenSpace2dShader;
 import engine.shaders.Standard2dShader;
 import game.*;
@@ -14,6 +15,7 @@ public class Scene
 {
     public static Standard2dShader standard2dShader;
     public static ScreenSpace2dShader screenSpace2dShader;
+    public static NormalMappedLit2DShader normalMappedLit2dShader;
 
     public static Camera mainCamera;
 
@@ -33,6 +35,7 @@ public class Scene
 
         standard2dShader = new Standard2dShader("res/shaders/Standard2D.glsl");
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
+        normalMappedLit2dShader = new NormalMappedLit2DShader("res/shaders/NormalMappedLit2D.glsl");
 
         new ImGuiTools();
         new MainMenuBar();
