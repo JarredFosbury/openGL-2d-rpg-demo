@@ -156,7 +156,6 @@ public class Window
             lastTime = System.nanoTime();
 
             // poll input events
-            Scene.pollInput();
             glfwPollEvents();
 
             MouseListener.update();

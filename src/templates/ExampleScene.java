@@ -10,7 +10,7 @@ public class ExampleScene extends Entity
         super("Scene name here", EntityType.ScriptableBehavior);
     }
 
-    public void pollInput()
+    public void start()
     {}
 
     public void update()

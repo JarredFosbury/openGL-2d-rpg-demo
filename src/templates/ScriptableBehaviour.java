@@ -8,10 +8,13 @@ public class ScriptableBehaviour extends Entity
     public ScriptableBehaviour()
     {
         super("Entity name here", EntityType.ScriptableBehavior);
+        // instantiate all instances of needed objects here
     }
 
-    public void pollInput()
-    {}
+    public void start()
+    {
+        // grab references to other objects in the scene here
+    }
 
     public void update()
     {}

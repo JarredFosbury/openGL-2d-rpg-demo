@@ -48,12 +48,6 @@ public class Scene
         entities.endOfInit();
     }
 
-    public static void pollInput()
-    {
-        for (Entity entity : entities)
-            entity.pollInput();
-    }
-
     public static void update()
     {
         for (Entity entity : entities)
