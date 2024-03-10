@@ -1,12 +1,9 @@
 package engine.core;
 
 import engine.imGui.*;
-import engine.rendering.*;
 import engine.shaders.ScreenSpace2dShader;
-import engine.shaders.Shader;
 import engine.shaders.Standard2dShader;
 import game.*;
-import org.joml.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +34,16 @@ public class Scene
         standard2dShader = new Standard2dShader("res/shaders/Standard2D.glsl");
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
 
+        new ImGuiTools();
+        new MainMenuBar();
+        new SceneEntityViewer();
+        new AssetPoolWindow();
+
         new Camera("Main Camera");
         mainCamera = (Camera) findByName("Main Camera")[0];
         mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
         new MainMenuScene();
-
-        new ImGuiTools();
-        new MainMenuBar();
-        new SceneEntityViewer();
 
         entities.endOfInit();
     }
