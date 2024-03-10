@@ -17,8 +17,8 @@ public class GameScene extends Entity
         super("Game Scene Handler", EntityType.ScriptableBehavior);
         Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/morris roman/morrisRoman.png",
                 "res/fonts/morris roman/morrisRoman.fnt"), "morrisRoman");
-        Scene.assets.addAssetToPool(new Texture("res/textures/sphere_alb.png", true, false, true), "sprite-alb");
-        Scene.assets.addAssetToPool(new Texture("res/textures/sphere_nrm.png", true, false, true), "sprite-nrm");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/lamp_alb.png", true, false, true), "sprite-alb");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/lamp_nrm.png", true, false, true), "sprite-nrm");
 
         Scene.mainCamera = new Camera("Main Camera");
         Scene.mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
