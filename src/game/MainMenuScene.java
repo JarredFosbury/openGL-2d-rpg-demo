@@ -3,7 +3,6 @@ package game;
 import engine.audio.SoundClip;
 import engine.audio.SoundSource;
 import engine.core.*;
-import engine.fontRendering.Font;
 import engine.fontRendering.FontLoader;
 import engine.rendering.Color;
 import engine.rendering.ScreenSpaceSprite;
@@ -68,7 +67,7 @@ public class MainMenuScene extends Entity
         buttonClickSfx = new SoundSource("buttonClickSfx-soundSource", (SoundClip) Scene.assets.getAssetFromPool("interfaceClick02"), false);
         buttonClickSfx.setVolume(0.3f);
 
-        titleText = new TextMesh("title-text", (Font) Scene.assets.getAssetFromPool("morrisRoman"), true);
+        titleText = new TextMesh("title-text", "morrisRoman", true);
         titleText.fontSize_PIXELS = 48.0f;
         titleText.locationAnchor = new Vector2i(0, -1);
         titleText.textAlignment = new Vector2i(0, 0);
@@ -79,25 +78,25 @@ public class MainMenuScene extends Entity
         buttonBackdrop.scale = new Vector3f(500.0f, 200.0f, 1.0f);
         buttonBackdrop.position = new Vector3f(0.0f, 130.0f, 0.0f);
 
-        startGameText = new TextMesh("play-text", (Font) Scene.assets.getAssetFromPool("morrisRoman"), true);
+        startGameText = new TextMesh("play-text", "morrisRoman", true);
         startGameText.fontSize_PIXELS = 32.0f;
         startGameText.textAlignment = new Vector2i(0, 0);
         startGameText.position = new Vector3f(0.0f, 50.0f, 0.0f);
         startGameText.text = "Start Game";
 
-        optionsText = new TextMesh("options-text", (Font) Scene.assets.getAssetFromPool("morrisRoman"), true);
+        optionsText = new TextMesh("options-text", "morrisRoman", true);
         optionsText.fontSize_PIXELS = 32.0f;
         optionsText.textAlignment = new Vector2i(0, 0);
         optionsText.position = new Vector3f(0.0f, 100.0f, 0.0f);
         optionsText.text = "Options";
 
-        quitText = new TextMesh("quit-text", (Font) Scene.assets.getAssetFromPool("morrisRoman"), true);
+        quitText = new TextMesh("quit-text", "morrisRoman", true);
         quitText.fontSize_PIXELS = 32.0f;
         quitText.textAlignment = new Vector2i(0, 0);
         quitText.position = new Vector3f(0.0f, 150.0f, 0.0f);
         quitText.text = "Quit To Desktop";
 
-        backToMainText = new TextMesh("back-text", (Font) Scene.assets.getAssetFromPool("morrisRoman"), true);
+        backToMainText = new TextMesh("back-text", "morrisRoman", true);
         backToMainText.fontSize_PIXELS = 32.0f;
         backToMainText.textAlignment = new Vector2i(0, 0);
         backToMainText.locationAnchor = new Vector2i(0, 1);

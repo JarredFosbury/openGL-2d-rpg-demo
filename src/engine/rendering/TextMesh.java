@@ -35,10 +35,10 @@ public class TextMesh extends Entity
 
     private final float BASE_SCALE = 0.01408450704225f;
 
-    public TextMesh(String name, Font font, boolean isLocationAnchored)
+    public TextMesh(String name, String assetKey, boolean isLocationAnchored)
     {
         super(name, EntityType.TextMesh);
-        this.font = font;
+        this.font = (Font) Scene.assets.getAssetFromPool(assetKey);
         screenSpace2dShader = Scene.screenSpace2dShader;
         lastDrawCall = "";
         position = new Vector3f(0.0f);
