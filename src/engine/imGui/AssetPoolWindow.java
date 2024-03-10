@@ -18,7 +18,7 @@ public class AssetPoolWindow extends ImGuiWindow implements Observer
 
     public void renderWindowContents()
     {
-        setTitle("Asset Pool Viewer (" + assetCount + " assets)");
+        setTitle("Loaded Asset Pool (" + assetCount + " assets)");
 
         for (int i = 0; i < assets.length; i++)
         {

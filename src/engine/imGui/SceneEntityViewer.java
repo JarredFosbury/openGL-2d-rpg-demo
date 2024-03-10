@@ -19,7 +19,7 @@ public class SceneEntityViewer extends ImGuiWindow implements Observer
 
     public void renderWindowContents()
     {
-        setTitle("Scene Entity Viewer (" + entityList.length + " entities)");
+        setTitle("Scene Entity List (" + entityList.length + " entities)");
         if (entityList.length > 0)
             for (int i = 0; i < entityList.length; i++)
                 ImGui.selectable(entityList[i].name + "###" + entityList[i].ID);
