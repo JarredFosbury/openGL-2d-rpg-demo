@@ -17,16 +17,16 @@ public class DayNightCycle
     public float duskStartInGame_HOUR;
     public float duskEndInGame_HOUR;
 
-    public final Vector4f dayLightColor;
-    public final Vector4f nightLightColor;
+    public final Vector4f DAY_LIGHT_COLOR;
+    public final Vector4f NIGHT_LIGHT_COLOR;
 
     private final static float ONE_MINUTE = 60.0f;
 
     public DayNightCycle()
     {
-        dayLightColor = new Vector4f(0.96f, 0.9f, 0.86f, 1.0f);
-        nightLightColor = new Vector4f(0.31f, 0.396f, 0.592f, 1.0f);
-        mainLightColor = nightLightColor;
+        DAY_LIGHT_COLOR = new Vector4f(0.96f, 0.9f, 0.86f, 1.0f);
+        NIGHT_LIGHT_COLOR = new Vector4f(0.31f, 0.396f, 0.592f, 1.0f);
+        mainLightColor = NIGHT_LIGHT_COLOR;
         totalCycleLength_MINS = 5.0f;
         cycleTimeElapsed_SECONDS = 0.0f;
 
@@ -64,9 +64,9 @@ public class DayNightCycle
         {
             float interpolationWeight = (currentTime_MINS - (dawnStartInGame_HOUR * ONE_MINUTE)) / ((dawnEndInGame_HOUR - dawnStartInGame_HOUR) * ONE_MINUTE);
             mainLightColor = new Vector4f(
-                    Utils.lerp(nightLightColor.x, dayLightColor.x, interpolationWeight),
-                    Utils.lerp(nightLightColor.y, dayLightColor.y, interpolationWeight),
-                    Utils.lerp(nightLightColor.z, dayLightColor.z, interpolationWeight),
+                    Utils.lerp(NIGHT_LIGHT_COLOR.x, DAY_LIGHT_COLOR.x, interpolationWeight),
+                    Utils.lerp(NIGHT_LIGHT_COLOR.y, DAY_LIGHT_COLOR.y, interpolationWeight),
+                    Utils.lerp(NIGHT_LIGHT_COLOR.z, DAY_LIGHT_COLOR.z, interpolationWeight),
                     1.0f
             );
         }
@@ -75,9 +75,9 @@ public class DayNightCycle
         {
             float interpolationWeight = (currentTime_MINS - (duskStartInGame_HOUR * ONE_MINUTE)) / ((duskEndInGame_HOUR - duskStartInGame_HOUR) * ONE_MINUTE);
             mainLightColor = new Vector4f(
-                    Utils.lerp(dayLightColor.x, nightLightColor.x, interpolationWeight),
-                    Utils.lerp(dayLightColor.y, nightLightColor.y, interpolationWeight),
-                    Utils.lerp(dayLightColor.z, nightLightColor.z, interpolationWeight),
+                    Utils.lerp(DAY_LIGHT_COLOR.x, NIGHT_LIGHT_COLOR.x, interpolationWeight),
+                    Utils.lerp(DAY_LIGHT_COLOR.y, NIGHT_LIGHT_COLOR.y, interpolationWeight),
+                    Utils.lerp(DAY_LIGHT_COLOR.z, NIGHT_LIGHT_COLOR.z, interpolationWeight),
                     1.0f
             );
         }
