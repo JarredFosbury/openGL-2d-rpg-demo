@@ -22,7 +22,7 @@ public class SceneEntityViewer extends ImGuiWindow implements Observer
         setTitle("Scene Entity Viewer (" + entityList.length + " entities)");
         if (entityList.length > 0)
             for (int i = 0; i < entityList.length; i++)
-                ImGui.selectable(entityList[i].name + "###" + i);
+                ImGui.selectable(entityList[i].name + "###" + entityList[i].uniqueId);
     }
 
     @Override
