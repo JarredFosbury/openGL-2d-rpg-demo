@@ -12,6 +12,7 @@ public class SceneEntityList extends ArrayList<Entity> implements Observable
 {
     private List<Observer> observers = new ArrayList<>();
     private Queue<GenericListAction> entityListActionQueue = new LinkedList<>();
+    private Queue<Entity> runStartMethodQueue = new LinkedList<>();
     private boolean inInitialization = true;
 
     public boolean add(Entity entity)
@@ -81,8 +82,8 @@ public class SceneEntityList extends ArrayList<Entity> implements Observable
             updatedEntityList = true;
             switch (entityAction.action)
             {
-                case ADD_OBJECT -> super.add((Entity) entityAction.target);
-                case ADD_INDEXED -> super.add(entityAction.index, (Entity) entityAction.target);
+                case ADD_OBJECT -> {super.add((Entity) entityAction.target); runStartMethodQueue.offer((Entity) entityAction.target);}
+                case ADD_INDEXED -> {super.add(entityAction.index, (Entity) entityAction.target); runStartMethodQueue.offer((Entity) entityAction.target);}
                 case REMOVE_INDEXED -> super.remove(entityAction.index);
                 case REMOVE_OBJECT -> super.remove(entityAction.target);
                 case CLEAR_ALL_ENTITIES -> super.clear();
@@ -91,6 +92,9 @@ public class SceneEntityList extends ArrayList<Entity> implements Observable
 
         if (updatedEntityList)
             notifyObservers();
+
+        while (!runStartMethodQueue.isEmpty())
+            runStartMethodQueue.poll().start();
     }
 
     public void endOfInit()
