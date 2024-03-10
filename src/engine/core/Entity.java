@@ -2,6 +2,8 @@ package engine.core;
 
 import org.joml.Vector3f;
 
+import java.util.UUID;
+
 public class Entity
 {
     public String name;
@@ -9,6 +11,8 @@ public class Entity
     public Vector3f position;
     public Vector3f rotation;
     public Vector3f scale;
+    public boolean isVisible;
+    public final UUID uniqueId;
 
     public Entity(String name, EntityType type)
     {
@@ -18,6 +22,8 @@ public class Entity
         position = new Vector3f(0.0f);
         rotation = new Vector3f(0.0f);
         scale = new Vector3f(1.0f);
+        isVisible = true;
+        uniqueId = UUID.randomUUID();
 
         if (TYPE == EntityType.NULL)
             System.err.println("WARNING: Class type set to NULL!");
