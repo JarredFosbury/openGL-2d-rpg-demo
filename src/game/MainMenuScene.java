@@ -74,9 +74,6 @@ public class MainMenuScene extends Entity
 
         interfaceSfx01 = new SoundSource("interfaceSfx01-soundSource", (SoundClip) Scene.assets.getAssetFromPool("interfaceClick01"), false);
         interfaceSfx01.setVolume(0.1f);
-
-        String[] assets = Scene.assets.getAllAssetKeys();
-        for (String asset : assets) System.out.println(asset);
     }
 
     public void update()
