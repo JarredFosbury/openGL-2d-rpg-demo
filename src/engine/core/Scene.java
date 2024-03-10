@@ -43,6 +43,7 @@ public class Scene
 
         new MainMenuScene();
 
+        new ImGuiTools();
         new MainMenuBar();
         new SceneEntityViewer();
 
