@@ -21,6 +21,5 @@ public class GameScene extends Entity
         Scene.mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
         new FreeCamera();
-        new CampfirePrefab();
     }
 }
