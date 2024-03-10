@@ -3,6 +3,7 @@ package engine.rendering;
 import engine.core.Entity;
 import engine.core.EntityType;
 import engine.core.GlobalSettings;
+import engine.core.Scene;
 import engine.fontRendering.*;
 import engine.shaders.ScreenSpace2dShader;
 import org.joml.*;
@@ -38,7 +39,7 @@ public class TextMesh extends Entity
     {
         super(name, EntityType.TextMesh);
         this.font = font;
-        screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
+        screenSpace2dShader = Scene.screenSpace2dShader;
         lastDrawCall = "";
         position = new Vector3f(0.0f);
         rotation = new Vector3f(0.0f);
