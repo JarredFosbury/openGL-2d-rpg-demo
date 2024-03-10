@@ -4,6 +4,7 @@ import engine.core.Entity;
 import engine.core.EntityType;
 import engine.core.Scene;
 import engine.core.Time;
+import engine.shaders.Standard2dShader;
 import org.joml.*;
 
 import java.lang.Math;
@@ -30,9 +31,7 @@ public class Sprite extends Entity
 
     private int vboID, vaoID, eboID;
 
-    public Vector3f position;
-    public Vector3f rotation;
-    public Vector3f scale;
+    public Standard2dShader shader;
     public Texture mainTexture;
     public Vector4f mainTextureTint;
     public Vector2f mainTextureOffset;
@@ -44,9 +43,10 @@ public class Sprite extends Entity
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
 
-    public Sprite(String name, Texture mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
+    public Sprite(String name, Standard2dShader shader, Texture mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
         super(name, EntityType.Sprite);
+        this.shader = shader;
         this.mainTexture = mainTexture;
         this.mainTextureTint = mainTextureTint;
         this.mainTextureOffset = mainTextureOffset;
@@ -55,9 +55,10 @@ public class Sprite extends Entity
         initVariables();
     }
 
-    public Sprite(String name, String mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
+    public Sprite(String name, Standard2dShader shader, String mainTexture, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
         super(name, EntityType.Sprite);
+        this.shader = shader;
         this.mainTexture = new Texture(mainTexture, true, false, false);
         this.mainTextureTint = mainTextureTint;
         this.mainTextureOffset = mainTextureOffset;
@@ -109,14 +110,14 @@ public class Sprite extends Entity
         transform.rotateXYZ(rotation);
         transform.scale(scale);
 
-        Scene.standard2dShader.bind();
+        shader.bind();
         mainTexture.bind(0);
-        Scene.standard2dShader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.projection, Scene.mainCamera.getTransformation(),
+        shader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.projection, Scene.mainCamera.getTransformation(),
                 mainTextureOffset, mainTextureScale);
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
-        Scene.standard2dShader.unbind();
+        shader.unbind();
     }
 
     public void animateSprite()

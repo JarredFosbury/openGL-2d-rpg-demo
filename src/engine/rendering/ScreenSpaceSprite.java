@@ -3,7 +3,7 @@ package engine.rendering;
 import engine.core.Entity;
 import engine.core.EntityType;
 import engine.core.GlobalSettings;
-import engine.core.Scene;
+import engine.shaders.ScreenSpace2dShader;
 import org.joml.*;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
@@ -32,10 +32,12 @@ public class ScreenSpaceSprite extends Entity
     public boolean isLocationAnchored;
     public Texture mainTexture;
     public Vector4f mainTextureTint;
+    public ScreenSpace2dShader shader;
 
-    public ScreenSpaceSprite(String name, String mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
+    public ScreenSpaceSprite(String name, ScreenSpace2dShader shader, String mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
     {
         super(name, EntityType.ScreenSpaceSprite);
+        this.shader = shader;
         this.mainTexture = new Texture(mainTexture, true, false, false);
         this.mainTextureTint = mainTextureTint;
         this.isLocationAnchored = isLocationAnchored;
@@ -97,12 +99,12 @@ public class ScreenSpaceSprite extends Entity
         transform.rotateXYZ(rotation);
         transform.scale(scale);
 
-        Scene.screenSpace2dShader.bind();
+        shader.bind();
         mainTexture.bind(0);
-        Scene.screenSpace2dShader.updateUniforms(mainTextureTint, transform);
+        shader.updateUniforms(mainTextureTint, transform);
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
-        Scene.screenSpace2dShader.unbind();
+        shader.unbind();
     }
 }
