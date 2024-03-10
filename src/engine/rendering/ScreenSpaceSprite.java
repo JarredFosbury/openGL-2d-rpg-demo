@@ -3,6 +3,7 @@ package engine.rendering;
 import engine.core.Entity;
 import engine.core.EntityType;
 import engine.core.GlobalSettings;
+import engine.core.Scene;
 import engine.shaders.ScreenSpace2dShader;
 import org.joml.*;
 
@@ -34,21 +35,11 @@ public class ScreenSpaceSprite extends Entity
     public Vector4f mainTextureTint;
     public ScreenSpace2dShader shader;
 
-    public ScreenSpaceSprite(String name, ScreenSpace2dShader shader, String mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
+    public ScreenSpaceSprite(String name, ScreenSpace2dShader shader, String textureAssetKey, Vector4f mainTextureTint, boolean isLocationAnchored)
     {
         super(name, EntityType.ScreenSpaceSprite);
         this.shader = shader;
-        this.mainTexture = new Texture(mainTexture, true, false, false);
-        this.mainTextureTint = mainTextureTint;
-        this.isLocationAnchored = isLocationAnchored;
-        initMeshData();
-        initValues();
-    }
-
-    public ScreenSpaceSprite(String name, Texture mainTexture, Vector4f mainTextureTint, boolean isLocationAnchored)
-    {
-        super(name, EntityType.ScreenSpaceSprite);
-        this.mainTexture = mainTexture;
+        this.mainTexture = (Texture) Scene.assets.getAssetFromPool(textureAssetKey);
         this.mainTextureTint = mainTextureTint;
         this.isLocationAnchored = isLocationAnchored;
         initMeshData();
