@@ -12,7 +12,7 @@ public class Entity
     public Vector3f rotation;
     public Vector3f scale;
     public boolean isVisible;
-    public final UUID uniqueId;
+    public final UUID ID;
 
     public Entity(String name, EntityType type)
     {
@@ -23,13 +23,13 @@ public class Entity
         rotation = new Vector3f(0.0f);
         scale = new Vector3f(1.0f);
         isVisible = true;
-        uniqueId = UUID.randomUUID();
+        ID = UUID.randomUUID();
 
         if (TYPE == EntityType.NULL)
             System.err.println("WARNING: Class type set to NULL!");
     }
 
-    public void pollInput()
+    public void start()
     {}
 
     public void update()
