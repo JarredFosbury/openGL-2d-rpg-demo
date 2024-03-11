@@ -17,7 +17,7 @@ public class Utils
 
     public static int randomRangeInteger(int min, int max)
     {
-        return ThreadLocalRandom.current().nextInt(min, max);
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
     public static float randomRangeFloat(float min, float max)
