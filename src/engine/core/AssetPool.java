@@ -27,19 +27,19 @@ public class AssetPool implements Observable
         isEmpty = true;
     }
 
-    public void addAssetToPool(Object asset, String name)
+    public void addAssetToPool(Object asset, String key)
     {
         if (isEmpty)
             isEmpty = false;
 
         if (asset.getClass().equals(Texture.class))
-            texturePool.put(name, (Texture) asset);
+            texturePool.put(key, (Texture) asset);
 
         if (asset.getClass().equals(SoundClip.class))
-            soundClipPool.put(name, (SoundClip) asset);
+            soundClipPool.put(key, (SoundClip) asset);
 
         if (asset.getClass().equals(Font.class))
-            fontPool.put(name, (Font) asset);
+            fontPool.put(key, (Font) asset);
 
         notifyObservers();
     }
