@@ -110,7 +110,7 @@ public class SpriteLit extends Entity
         mainTexture.bind(0);
         normalTexture.bind(1);
         shader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.projection, Scene.mainCamera.getTransformation(),
-                mainTextureOffset, mainTextureScale, null, new PointLight[0]);
+                mainTextureOffset, mainTextureScale, Scene.lightSources.getMainLightSource(), Scene.lightSources.getPointLightSources());
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);

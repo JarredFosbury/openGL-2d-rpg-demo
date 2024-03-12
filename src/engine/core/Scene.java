@@ -21,7 +21,8 @@ public class Scene
 
     public static AssetPool assets;
     public static SceneEntityList entities;
-    public static SceneImGuiComponentList imGuiComponents;
+    public static ImGuiComponentList imGuiComponents;
+    public static LightSourceList lightSources;
 
     public static void initialize()
     {
@@ -31,7 +32,8 @@ public class Scene
 
         assets = new AssetPool();
         entities = new SceneEntityList();
-        imGuiComponents = new SceneImGuiComponentList();
+        imGuiComponents = new ImGuiComponentList();
+        lightSources = new LightSourceList();
 
         standard2dShader = new Standard2dShader("res/shaders/Standard2D.glsl");
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
@@ -42,10 +44,6 @@ public class Scene
         new SceneEntityViewer();
         new AssetPoolWindow();
         new EntityInspectorWindow();
-
-        new Camera("Main Camera");
-        mainCamera = (Camera) findByName("Main Camera")[0];
-        mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
         new MainMenuScene();
 
@@ -81,6 +79,7 @@ public class Scene
         entities.executeActionsInQueue();
     }
 
+    // TODO: move these into their respective classes (SceneEntityList, and SceneImGuiComponentList)
     public static Entity[] findByName(String name)
     {
         List<Entity> foundEntities = new ArrayList<>();

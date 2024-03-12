@@ -1,9 +1,7 @@
 package engine.core;
 
 import engine.audio.SoundSource;
-import engine.rendering.ScreenSpaceSprite;
-import engine.rendering.Sprite;
-import engine.rendering.TextMesh;
+import engine.rendering.*;
 
 public enum EntityType
 {
@@ -13,7 +11,9 @@ public enum EntityType
     Sprite(Sprite.class),
     ScreenSpaceSprite(ScreenSpaceSprite.class),
     TextMesh(TextMesh.class),
-    SoundSource(SoundSource.class);
+    SoundSource(SoundSource.class),
+    SpriteLit(SpriteLit.class),
+    MainLightSource(MainLightSource.class);
 
     final Class classType;
 

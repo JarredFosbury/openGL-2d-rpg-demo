@@ -59,6 +59,9 @@ public class MainMenuScene extends Entity
         Scene.assets.addAssetToPool(new Texture("res/textures/blackLeather_albedo.png", true, true, true), "blackLeather_albedo");
         Scene.assets.addAssetToPool(new Texture("res/textures/UI/heart.png", true, false, true), "heart");
 
+        Scene.mainCamera = new Camera("Main Camera");
+        Scene.mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
+
         musicSource = new SoundSource("music-soundSource", (SoundClip) Scene.assets.getAssetFromPool("mainMenuTheme"), true);
         musicSource.setVolume(0.5f);
         musicSource.play();
