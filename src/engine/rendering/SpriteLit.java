@@ -1,15 +1,16 @@
 package engine.rendering;
 
-import engine.core.Entity;
-import engine.core.EntityType;
-import engine.core.Scene;
-import engine.core.Time;
+import engine.core.*;
+import engine.lighting.PointLight;
 import engine.shaders.NormalMappedLit2DShader;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import java.text.NumberFormat;
+
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
@@ -20,7 +21,7 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class LitSprite extends Entity
+public class SpriteLit extends Entity
 {
     private final float[] vertexData = {
             // positions            // texture coordinates
@@ -49,10 +50,10 @@ public class LitSprite extends Entity
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
 
-    public LitSprite(String name, NormalMappedLit2DShader shader, String textureAssetKey, String texture2AssetKey,
+    public SpriteLit(String name, NormalMappedLit2DShader shader, String textureAssetKey, String texture2AssetKey,
                      Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
-        super(name, EntityType.Sprite);
+        super(name, EntityType.SpriteLit);
         this.shader = shader;
         this.mainTexture = (Texture) Scene.assets.getAssetFromPool(textureAssetKey);
         this.normalTexture = (Texture) Scene.assets.getAssetFromPool(texture2AssetKey);
@@ -109,7 +110,7 @@ public class LitSprite extends Entity
         mainTexture.bind(0);
         normalTexture.bind(1);
         shader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.projection, Scene.mainCamera.getTransformation(),
-                mainTextureOffset, mainTextureScale);
+                mainTextureOffset, mainTextureScale, null, new PointLight[0]);
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
