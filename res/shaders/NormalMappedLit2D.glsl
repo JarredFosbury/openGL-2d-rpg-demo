@@ -70,7 +70,7 @@ uniform PointLight pointLights[16];
 
 float calculateMainLightFactor(vec3 normalIn)
 {
-    return max(dot(normalIn, dLight.direction), 0.0);
+    return max(dot(normalIn, dLight.direction) * dLight.base.intensity, 0.0);
 }
 
 void main()
@@ -82,7 +82,7 @@ void main()
     vec3 normal = normalize(normalSample.rgb * 2.0 - 1.0);
     float mainLightFactor = calculateMainLightFactor(normal);
 
-    vec4 finalColor = vec4(mainSample.rgb * mainLightFactor, 1.0);
+    vec4 finalColor = vec4(mainSample.rgb * mainLightFactor * dLight.base.color, 1.0);
 
     if (mainSample.a <= 0.001)
         discard;

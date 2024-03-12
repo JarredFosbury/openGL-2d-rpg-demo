@@ -1,20 +1,16 @@
 package engine.rendering;
 
-import engine.core.*;
-import engine.lighting.PointLight;
+import engine.core.Entity;
+import engine.core.EntityType;
+import engine.core.Scene;
+import engine.core.Time;
 import engine.shaders.NormalMappedLit2DShader;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import java.text.NumberFormat;
-
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
-import static org.lwjgl.opengl.GL11.glDrawElements;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
@@ -129,6 +125,12 @@ public class SpriteLit extends Entity
 
     public void nextSpriteSheetFrame()
     {
+        if (spriteSheetFrameOffsets == null)
+        {
+            System.err.println("ERROR: CANNOT ANIMATE SPRITE WITHOUT SHEET FRAME DATA!\nNo sprite sheet data has been provided");
+            return;
+        }
+
         spriteSheetFrame ++;
         if (spriteSheetFrame >= spriteSheetFrameOffsets.length)
             spriteSheetFrame = 0;

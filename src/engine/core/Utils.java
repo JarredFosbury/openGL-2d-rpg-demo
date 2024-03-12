@@ -32,4 +32,12 @@ public class Utils
         else
             return Math.max(in, 0.0f);
     }
+
+    public static int clampInt(int value, int min, int max)
+    {
+        if (value > max)
+            return max;
+
+        return Math.max(value, min);
+    }
 }
