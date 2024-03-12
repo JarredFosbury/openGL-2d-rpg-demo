@@ -54,11 +54,39 @@ public class Entity
     public void rotate(float x, float y, float z)
     {
         rotation.add((float) Math.toRadians(x), (float)Math.toRadians(y), (float)Math.toRadians(z));
+
+        // clamp rotation between -180 and 180 degrees to reduce floating point error
+        float [] rots = {rotation.x, rotation.y, rotation.z};
+
+        for (int i = 0; i < rots.length; i++)
+        {
+            if (rots[i] < -3.141593f)
+                rots[i] += 6.283185f;
+
+            if (rots[i] > 3.141593f)
+                rots[i] -= 6.283185f;
+        }
+
+        this.rotation = new Vector3f(rots[0], rots[1], rots[2]);
     }
 
     public void rotate(Vector3f v)
     {
         rotation.add((float) Math.toRadians(v.x), (float)Math.toRadians(v.y), (float)Math.toRadians(v.z));
+
+        // clamp rotation between -180 and 180 degrees to reduce floating point error
+        float [] rots = {rotation.x, rotation.y, rotation.z};
+
+        for (int i = 0; i < rots.length; i++)
+        {
+            if (rots[i] < -3.141593f)
+                rots[i] += 6.283185f;
+
+            if (rots[i] > 3.141593f)
+                rots[i] -= 6.283185f;
+        }
+
+        this.rotation = new Vector3f(rots[0], rots[1], rots[2]);
     }
 
     public void scale(float x, float y, float z)
