@@ -19,8 +19,7 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public class TextMesh extends Entity
 {
-    public final Font font;
-    public final ScreenSpace2dShader screenSpace2dShader;
+    public Font font;
     public int vboID, vaoID, eboID;
     public float[] vertexData;
     public int[] indexData;
@@ -33,6 +32,7 @@ public class TextMesh extends Entity
     public String text;
     public Vector4f colorRGBA;
 
+    private final ScreenSpace2dShader screenSpace2dShader;
     private final float BASE_SCALE = 0.01408450704225f;
 
     public TextMesh(String name, String assetKey, boolean isLocationAnchored)

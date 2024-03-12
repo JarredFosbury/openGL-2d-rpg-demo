@@ -31,7 +31,6 @@ public class Sprite extends Entity
 
     private int vboID, vaoID, eboID;
 
-    public Standard2dShader shader;
     public Texture mainTexture;
     public Vector4f mainTextureTint;
     public Vector2f mainTextureOffset;
@@ -39,13 +38,14 @@ public class Sprite extends Entity
     public int spriteSheetFrame;
     public int animationFrameRate;
 
+    private final Standard2dShader shader;
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
 
-    public Sprite(String name, Standard2dShader shader, String textureAssetKey, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
+    public Sprite(String name, String textureAssetKey, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
         super(name, EntityType.Sprite);
-        this.shader = shader;
+        this.shader = Scene.standard2dShader;
         this.mainTexture = (Texture) Scene.assets.getAssetFromPool(textureAssetKey);
         this.mainTextureTint = mainTextureTint;
         this.mainTextureOffset = mainTextureOffset;
@@ -118,6 +118,12 @@ public class Sprite extends Entity
 
     public void nextSpriteSheetFrame()
     {
+        if (spriteSheetFrameOffsets == null)
+        {
+            System.err.println("ERROR: CANNOT ANIMATE SPRITE WITHOUT SHEET FRAME DATA!\nNo sprite sheet data has been provided");
+            return;
+        }
+
         spriteSheetFrame ++;
         if (spriteSheetFrame >= spriteSheetFrameOffsets.length)
             spriteSheetFrame = 0;

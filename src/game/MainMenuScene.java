@@ -79,7 +79,7 @@ public class MainMenuScene extends Entity
         titleText.position = new Vector3f(0.0f, 120.0f, 0.0f);
         titleText.text = "2D RPG DEMO";
 
-        buttonBackdrop = new ScreenSpaceSprite("buttonBg-sprite", Scene.screenSpace2dShader,"blackLeather_albedo", Color.WHITE, true);
+        buttonBackdrop = new ScreenSpaceSprite("buttonBg-sprite","blackLeather_albedo", Color.WHITE, true);
         buttonBackdrop.scale = new Vector3f(500.0f, 200.0f, 1.0f);
         buttonBackdrop.position = new Vector3f(0.0f, 130.0f, 0.0f);
 
