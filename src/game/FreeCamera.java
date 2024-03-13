@@ -14,6 +14,7 @@ public class FreeCamera extends Entity
     private final Camera mainCamera;
     private final TextMesh debugPositionText;
     private final TextMesh debugViewportText;
+    private final TextMesh debugStateText;
 
     private float moveSpeed;
     private float shiftSpeedMultiplier;
@@ -36,6 +37,13 @@ public class FreeCamera extends Entity
         debugViewportText.locationAnchor = new Vector2i(-1, 1);
         debugViewportText.position = new Vector3f(25.0f, -90.0f, 0.0f);
         debugViewportText.textAlignment = new Vector2i(1, 0);
+
+        debugStateText = new TextMesh("cameraStateDebug-text", "consolas", true);
+        debugStateText.fontSize_PIXELS = 24.0f;
+        debugStateText.locationAnchor = new Vector2i(-1, 1);
+        debugStateText.position = new Vector3f(25.0f, -130.0f, 0.0f);
+        debugStateText.textAlignment = new Vector2i(1, 0);
+        debugStateText.text = "Free Camera Mode";
     }
 
     public void start()

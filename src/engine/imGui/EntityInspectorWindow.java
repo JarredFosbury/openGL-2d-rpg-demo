@@ -5,7 +5,6 @@ import engine.core.Entity;
 import engine.core.Utils;
 import engine.rendering.*;
 import imgui.ImGui;
-import imgui.flag.ImGuiInputTextFlags;
 import imgui.flag.ImGuiTreeNodeFlags;
 import imgui.type.ImBoolean;
 import imgui.type.ImFloat;

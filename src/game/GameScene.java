@@ -30,13 +30,15 @@ public class GameScene extends Entity
         source.rotate(-55.0f, 0.0f, -45.0f);
 
         new FreeCamera();
-        new SpriteLit("demoSprite-lit", Scene.normalMappedLit2dShader, "spriteAlb",
+        SpriteLit barrel = new SpriteLit("demoSprite-lit", Scene.normalMappedLit2dShader, "spriteAlb",
                 "spriteNrm", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
+        barrel.scale = new Vector3f(2.0f);
+
         playerSprite = new SpriteLit("playerSprite-lit", Scene.normalMappedLit2dShader,
                 "playerAlb", "playerNrm", Color.WHITE, new Vector2f(0.0f, 0.857f), new Vector2f(0.1429f));
         playerSprite.initSpriteSheet("res/spriteSheetData/playerJumpRight_SheetData.ssd");
         playerSprite.scale = new Vector3f(2.0f);
-        playerSprite.translate(0.0f, 1.450f, 0.0f);
+        playerSprite.translate(0.0f, 1.95f, 0.0f);
     }
 
     public void update()
