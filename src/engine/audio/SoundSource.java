@@ -15,9 +15,9 @@ public class SoundSource extends Entity
     private float volume;
     private float pitch;
 
-    public SoundSource(String name, SoundClip clip, boolean loops)
+    public SoundSource(String name, short HIERARCHY_INDEX, SoundClip clip, boolean loops)
     {
-        super(name, EntityType.SoundSource);
+        super(name, EntityType.SoundSource, HIERARCHY_INDEX);
         this.clip = clip;
         isPlaying = false;
         volume = 0.5f;

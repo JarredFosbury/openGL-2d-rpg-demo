@@ -13,32 +13,30 @@ public class GameScene extends Entity
 
     public GameScene()
     {
-        super("Game Scene Handler", EntityType.ScriptableBehavior);
+        super("Game Scene Handler", EntityType.ScriptableBehavior,  (short) 0);
         Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/consolas/consolas.png",
                 "res/fonts/consolas/consolas.fnt"), "consolas");
         Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/morris roman/morrisRoman.png",
                 "res/fonts/morris roman/morrisRoman.fnt"), "morrisRoman");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/barrel_alb.png", true, true, true), "spriteAlb");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/barrel_nrm.png", true, true, true), "spriteNrm");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/playerJumpRight_alb.png", true, true, true), "playerAlb");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/playerJumpRight_nrm.png", true, true, true), "playerNrm");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/barrel_alb.png", true, true, true), "barrel-alb");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/barrel_nrm.png", true, true, true), "barrel-nrm");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/playerJumpRight_alb.png", true, true, true), "player-alb");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/playerJumpRight_nrm.png", true, true, true), "player-nrm");
 
-        Scene.mainCamera = new Camera("Main Camera");
+        Scene.mainCamera = new Camera("Main Camera", (short) 0);
         Scene.mainCamera.updateViewport(1.5f, -1.0f, 1.0f);
 
-        source = new MainLightSource("mainLightSource", Color.WHITE, 1.0f);
+        source = new MainLightSource("mainLightSource", (short) 0, Color.WHITE, 1.0f);
         source.rotate(-55.0f, 0.0f, -45.0f);
 
         new FreeCamera();
-        SpriteLit barrel = new SpriteLit("demoSprite-lit", Scene.normalMappedLit2dShader, "spriteAlb",
-                "spriteNrm", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
-        barrel.scale = new Vector3f(2.0f);
-
-        playerSprite = new SpriteLit("playerSprite-lit", Scene.normalMappedLit2dShader,
-                "playerAlb", "playerNrm", Color.WHITE, new Vector2f(0.0f, 0.857f), new Vector2f(0.1429f));
+        new SpriteLit("demoBarrelSprite-lit", (short) 0, Scene.normalMappedLit2dShader, "barrel-alb",
+                "barrel-nrm", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
+        playerSprite = new SpriteLit("playerSprite-lit", (short) 0, Scene.normalMappedLit2dShader,
+                "player-alb", "player-nrm", Color.WHITE, new Vector2f(0.0f, 0.857f), new Vector2f(0.1429f));
         playerSprite.initSpriteSheet("res/spriteSheetData/playerJumpRight_SheetData.ssd");
         playerSprite.scale = new Vector3f(2.0f);
-        playerSprite.translate(0.0f, 1.95f, 0.0f);
+        playerSprite.translate(0.0f, 1.45f, 0.0f);
     }
 
     public void update()

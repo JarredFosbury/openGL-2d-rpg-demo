@@ -61,6 +61,9 @@ public class AssetPool implements Observable
         if (fontOut != null)
             assetOut = fontOut;
 
+        if (assetOut == null)
+            System.err.println("ERROR: COULD NOT LOAD ASSET FROM POOL\nNo asset with key " + name + " could be found.");
+
         return assetOut;
     }
 

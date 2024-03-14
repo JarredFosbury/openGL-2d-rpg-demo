@@ -7,7 +7,7 @@ public class ExampleScene extends Entity
 {
     public ExampleScene()
     {
-        super("Scene name here", EntityType.ScriptableBehavior);
+        super("Scene name here", EntityType.ScriptableBehavior, (short) 0);
     }
 
     public void start()

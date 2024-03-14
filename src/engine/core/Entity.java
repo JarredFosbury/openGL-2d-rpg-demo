@@ -13,10 +13,10 @@ public class Entity
     public Vector3f scale;
     public boolean isVisible;
     public final UUID ID;
+    public final short HIERARCHY_INDEX;
 
-    public Entity(String name, EntityType type)
+    public Entity(String name, EntityType type, short HIERARCHY_INDEX)
     {
-        Scene.entities.add(this);
         this.name = name;
         this.TYPE = type;
         position = new Vector3f(0.0f);
@@ -24,6 +24,8 @@ public class Entity
         scale = new Vector3f(1.0f);
         isVisible = true;
         ID = UUID.randomUUID();
+        this.HIERARCHY_INDEX = HIERARCHY_INDEX;
+        Scene.entities.add(this);
 
         if (TYPE == EntityType.NULL)
             System.err.println("WARNING: Class type set to NULL!");

@@ -11,9 +11,9 @@ public class Camera extends Entity
     public float nearPlane;
     public float farPlane;
 
-    public Camera(String name)
+    public Camera(String name, short HIERARCHY_INDEX)
     {
-        super(name, EntityType.Camera);
+        super(name, EntityType.Camera, HIERARCHY_INDEX);
         updateViewport(1.0f, -1.0f, 1.0f);
     }
 

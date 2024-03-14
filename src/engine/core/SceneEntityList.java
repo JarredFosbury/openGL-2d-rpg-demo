@@ -82,7 +82,7 @@ public class SceneEntityList extends ArrayList<Entity> implements Observable
             updatedEntityList = true;
             switch (entityAction.action)
             {
-                case ADD_OBJECT -> {super.add((Entity) entityAction.target); runStartMethodQueue.offer((Entity) entityAction.target);}
+                case ADD_OBJECT -> addEntityByHierarchyIndex((Entity) entityAction.target);
                 case ADD_INDEXED -> {super.add(entityAction.index, (Entity) entityAction.target); runStartMethodQueue.offer((Entity) entityAction.target);}
                 case REMOVE_INDEXED -> super.remove(entityAction.index);
                 case REMOVE_OBJECT -> super.remove(entityAction.target);
@@ -101,5 +101,34 @@ public class SceneEntityList extends ArrayList<Entity> implements Observable
     {
         inInitialization = false;
         notifyObservers();
+    }
+
+    private void addEntityByHierarchyIndex(Entity insertable)
+    {
+        short hierarchyIndex = insertable.HIERARCHY_INDEX;
+        if (super.size() == 0)
+        {
+            super.add(insertable);
+            runStartMethodQueue.offer(insertable);
+            return;
+        }
+
+        for (int i = 0; i < super.size(); i++)
+        {
+            short listObjIndex = super.get(i).HIERARCHY_INDEX;
+            if (hierarchyIndex < listObjIndex)
+            {
+                super.add(i, insertable);
+                runStartMethodQueue.offer(insertable);
+                return;
+            }
+
+            if (i == super.size() - 1)
+            {
+                super.add(insertable);
+                runStartMethodQueue.offer(insertable);
+                return;
+            }
+        }
     }
 }

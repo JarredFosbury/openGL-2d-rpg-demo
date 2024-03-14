@@ -6,10 +6,7 @@ import engine.core.Utils;
 import engine.rendering.*;
 import imgui.ImGui;
 import imgui.flag.ImGuiTreeNodeFlags;
-import imgui.type.ImBoolean;
-import imgui.type.ImFloat;
-import imgui.type.ImInt;
-import imgui.type.ImString;
+import imgui.type.*;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
@@ -55,6 +52,13 @@ public class EntityInspectorWindow extends ImGuiWindow
             axis = new float[] {selectedEntity.scale.x, selectedEntity.scale.y, selectedEntity.scale.z};
             ImGui.inputFloat3("Scale", axis);
             selectedEntity.scale = new Vector3f(axis[0], axis[1], axis[2]);
+
+            ImBoolean visible = new ImBoolean(selectedEntity.isVisible);
+            ImGui.checkbox("Visible?", visible);
+            selectedEntity.isVisible = visible.get();
+
+            ImInt index = new ImInt(selectedEntity.HIERARCHY_INDEX);
+            ImGui.labelText("Hierarchy Index", String.valueOf(index));
         }
 
         parseEntityType();
@@ -207,9 +211,20 @@ public class EntityInspectorWindow extends ImGuiWindow
             float[] bounds = {meshRef.boundSize.x, meshRef.boundSize.y};
             ImGui.inputFloat2("Mesh Bounds", bounds);
 
-            ImGui.labelText("Mesh Index Count", String.valueOf(meshRef.indexData.length));
-            ImGui.labelText("Mesh Vertex Count", String.valueOf(meshRef.vertexData.length));
-            ImGui.labelText("Mesh Triangle Count", String.valueOf(meshRef.vertexData.length/3));
+            int indexLength = 0;
+            int vertexLength = 0;
+            int triangles = 0;
+
+            if (meshRef.indexData != null && meshRef.vertexData != null)
+            {
+                indexLength = meshRef.indexData.length;
+                vertexLength = meshRef.vertexData.length;
+                triangles = meshRef.vertexData.length/3;
+            }
+
+            ImGui.labelText("Mesh Index Count", String.valueOf(indexLength));
+            ImGui.labelText("Mesh Vertex Count", String.valueOf(vertexLength));
+            ImGui.labelText("Mesh Triangle Count", String.valueOf(triangles));
         }
     }
 

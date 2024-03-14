@@ -35,9 +35,9 @@ public class TextMesh extends Entity
     private final ScreenSpace2dShader screenSpace2dShader;
     private final float BASE_SCALE = 0.01408450704225f;
 
-    public TextMesh(String name, String assetKey, boolean isLocationAnchored)
+    public TextMesh(String name, short HIERARCHY_INDEX, String assetKey, boolean isLocationAnchored)
     {
-        super(name, EntityType.TextMesh);
+        super(name, EntityType.TextMesh, HIERARCHY_INDEX);
         this.font = (Font) Scene.assets.getAssetFromPool(assetKey);
         screenSpace2dShader = Scene.screenSpace2dShader;
         lastDrawCall = "";

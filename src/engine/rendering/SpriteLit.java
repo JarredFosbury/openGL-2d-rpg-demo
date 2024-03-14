@@ -46,10 +46,10 @@ public class SpriteLit extends Entity
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
 
-    public SpriteLit(String name, NormalMappedLit2DShader shader, String textureAssetKey, String texture2AssetKey,
+    public SpriteLit(String name, short HIERARCHY_INDEX, NormalMappedLit2DShader shader, String textureAssetKey, String texture2AssetKey,
                      Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
-        super(name, EntityType.SpriteLit);
+        super(name, EntityType.SpriteLit, HIERARCHY_INDEX);
         this.shader = shader;
         this.mainTexture = (Texture) Scene.assets.getAssetFromPool(textureAssetKey);
         this.normalTexture = (Texture) Scene.assets.getAssetFromPool(texture2AssetKey);

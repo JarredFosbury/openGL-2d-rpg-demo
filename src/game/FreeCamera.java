@@ -22,23 +22,23 @@ public class FreeCamera extends Entity
 
     public FreeCamera()
     {
-        super("freeCamController-script", EntityType.ScriptableBehavior);
+        super("freeCamController-script", EntityType.ScriptableBehavior, (short) 0);
 
         mainCamera = Scene.mainCamera;
 
-        debugPositionText = new TextMesh("cameraPosDebug-text", "consolas", true);
+        debugPositionText = new TextMesh("cameraPosDebug-text", (short) 0, "consolas", true);
         debugPositionText.fontSize_PIXELS = 24.0f;
         debugPositionText.locationAnchor = new Vector2i(-1, 1);
         debugPositionText.position = new Vector3f(25.0f, -50.0f, 0.0f);
         debugPositionText.textAlignment = new Vector2i(1, 0);
 
-        debugViewportText = new TextMesh("cameraViewportDebug-text", "consolas", true);
+        debugViewportText = new TextMesh("cameraViewportDebug-text", (short) 0, "consolas", true);
         debugViewportText.fontSize_PIXELS = 24.0f;
         debugViewportText.locationAnchor = new Vector2i(-1, 1);
         debugViewportText.position = new Vector3f(25.0f, -90.0f, 0.0f);
         debugViewportText.textAlignment = new Vector2i(1, 0);
 
-        debugStateText = new TextMesh("cameraStateDebug-text", "consolas", true);
+        debugStateText = new TextMesh("cameraStateDebug-text", (short) 0, "consolas", true);
         debugStateText.fontSize_PIXELS = 24.0f;
         debugStateText.locationAnchor = new Vector2i(-1, 1);
         debugStateText.position = new Vector3f(25.0f, -130.0f, 0.0f);
