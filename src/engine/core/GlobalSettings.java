@@ -6,11 +6,11 @@ public class GlobalSettings
     public final static String GLSL_VERSION     = "#version 330";
 
     public static int windowWidth               = 2560;
-    public static int windowHeight              = 1411;
+    public static int windowHeight              = 1440;
     public static boolean useVsync              = true;
     public static boolean useLauncher           = false;
     public static boolean windowMaximized       = true;
-    public static boolean windowBorderless      = false;
+    public static boolean windowBorderless      = true;
     public static boolean canBeResized          = false;
     public static int msaaSamples               = 1;
 

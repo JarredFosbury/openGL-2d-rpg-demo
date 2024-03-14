@@ -1,5 +1,7 @@
 package engine.rendering;
 
+import org.joml.Vector2i;
+
 import java.nio.ByteBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -13,6 +15,8 @@ public class Texture
 
     private final int textureID;
     private final String filepath;
+    private final int width;
+    private final int height;
 
     public Texture(String filepath, boolean flipVertically, boolean wrap, boolean nearest)
     {
@@ -63,6 +67,9 @@ public class Texture
         TEXTURE_SLOTS[13] = GL_TEXTURE13;
         TEXTURE_SLOTS[14] = GL_TEXTURE14;
         TEXTURE_SLOTS[15] = GL_TEXTURE15;
+
+        this.width = width[0];
+        this.height = height[0];
     }
 
     public void bind(int slot)
@@ -85,5 +92,10 @@ public class Texture
     {
         glBindTexture(GL_TEXTURE_2D, 0);
         glDeleteTextures(textureID);
+    }
+
+    public Vector2i getSize()
+    {
+        return new Vector2i(width, height);
     }
 }

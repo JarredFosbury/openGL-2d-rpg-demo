@@ -82,6 +82,7 @@ public class EntityInspectorWindow extends ImGuiWindow
             case SoundSource -> renderSoundSourceInspector();
             case SpriteLit -> renderSpriteLitInspector();
             case MainLightSource -> renderMainLightSourceInspector();
+            case ScreenSpaceSprite9Slice -> renderScreenSpaceSprite9SliceInspector();
         }
     }
 
@@ -289,6 +290,36 @@ public class EntityInspectorWindow extends ImGuiWindow
             ImFloat intensity = new ImFloat(sourceRef.intensity);
             ImGui.inputFloat("Intensity", intensity);
             sourceRef.intensity = intensity.get();
+        }
+    }
+
+    private void renderScreenSpaceSprite9SliceInspector()
+    {
+        if (ImGui.collapsingHeader("9-slice Screen Space Sprite", ImGuiTreeNodeFlags.DefaultOpen))
+        {
+            ScreenSpace9SliceSprite spriteRef = (ScreenSpace9SliceSprite) selectedEntity;
+            // TODO: allow texture to be changed from inspector using asset viewer
+            ImGui.image(spriteRef.mainTexture.getTextureID(), 128.0f, 128.0f);
+            ImGui.sameLine();
+            ImGui.text("mainTexture");
+
+            Vector4f tint = spriteRef.mainTextureTint;
+            float[] col4 = {tint.x, tint.y, tint.z, tint.w};
+            ImGui.colorEdit4("mainTexture Tint", col4);
+            spriteRef.mainTextureTint = new Vector4f(col4[0], col4[1], col4[2], col4[3]);
+
+            ImBoolean isAnchored = new ImBoolean(spriteRef.isLocationAnchored);
+            ImGui.checkbox("Use Location Anchor", isAnchored);
+            spriteRef.isLocationAnchored = isAnchored.get();
+
+            int[] anchorAxis = {spriteRef.locationAnchor.x, spriteRef.locationAnchor.y};
+            ImGui.inputInt2("Location Anchor", anchorAxis);
+            spriteRef.locationAnchor = new Vector2i(Utils.clampInt(anchorAxis[0], -1, 1), Utils.clampInt(anchorAxis[1], -1, 1));
+
+            Vector4f sliceBorders = spriteRef.sliceBorders;
+            float[] borders = {sliceBorders.x, sliceBorders.y, sliceBorders.z, sliceBorders.w};
+            ImGui.inputFloat4("Slice Borders", borders);
+            spriteRef.sliceBorders = new Vector4f(borders[0], borders[1], borders[2], borders[3]);
         }
     }
 }

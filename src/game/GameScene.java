@@ -4,7 +4,9 @@ import engine.core.*;
 import engine.fontRendering.FontLoader;
 import engine.rendering.*;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class GameScene extends Entity
 {
@@ -22,6 +24,7 @@ public class GameScene extends Entity
         Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/barrel_nrm.png", true, true, true), "barrel-nrm");
         Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/playerJumpRight_alb.png", true, true, true), "player-alb");
         Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/playerJumpRight_nrm.png", true, true, true), "player-nrm");
+        Scene.assets.addAssetToPool(new Texture("res/textures/UI/frame_simple.png", true, true, true), "9sliceFrameSprite");
 
         Scene.mainCamera = new Camera("Main Camera", (short) 0);
         Scene.mainCamera.updateViewport(1.5f, -1.0f, 1.0f);
@@ -37,11 +40,17 @@ public class GameScene extends Entity
         playerSprite.initSpriteSheet("res/spriteSheetData/playerJumpRight_SheetData.ssd");
         playerSprite.scale = new Vector3f(2.0f);
         playerSprite.translate(0.0f, 1.45f, 0.0f);
+
+        ScreenSpace9SliceSprite sprite9Slice = new ScreenSpace9SliceSprite("sprite9Slice-TEST", (short) 1000,
+                "9sliceFrameSprite", Color.WHITE, true, new Vector4f(8.0f));
+        sprite9Slice.locationAnchor = new Vector2i(0);
+        sprite9Slice.position = new Vector3f(0.0f);
+        sprite9Slice.scale = new Vector3f(sprite9Slice.mainTexture.getSize().x * 3.0f, sprite9Slice.mainTexture.getSize().y * 5.0f, 1.0f);
     }
 
     public void update()
     {
-        source.rotate(0.0f, 0.0f, Time.deltaTime * 45.0f);
+        source.rotate(0.0f, 0.0f, Time.deltaTime * 20.0f);
         playerSprite.animateSprite();
     }
 }
