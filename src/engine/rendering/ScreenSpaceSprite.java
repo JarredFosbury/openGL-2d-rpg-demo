@@ -36,7 +36,7 @@ public class ScreenSpaceSprite extends Entity
 
     private final ScreenSpace2dShader shader;
 
-    public ScreenSpaceSprite(String name, short HIERARCHY_INDEX, String textureAssetKey, Vector4f mainTextureTint, boolean isLocationAnchored)
+    public ScreenSpaceSprite(String name, int HIERARCHY_INDEX, String textureAssetKey, Vector4f mainTextureTint, boolean isLocationAnchored)
     {
         super(name, EntityType.ScreenSpaceSprite, HIERARCHY_INDEX);
         this.shader = Scene.screenSpace2dShader;

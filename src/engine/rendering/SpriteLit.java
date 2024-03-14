@@ -46,7 +46,7 @@ public class SpriteLit extends Entity
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
 
-    public SpriteLit(String name, short HIERARCHY_INDEX, NormalMappedLit2DShader shader, String textureAssetKey, String texture2AssetKey,
+    public SpriteLit(String name, int HIERARCHY_INDEX, NormalMappedLit2DShader shader, String textureAssetKey, String texture2AssetKey,
                      Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
         super(name, EntityType.SpriteLit, HIERARCHY_INDEX);

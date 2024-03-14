@@ -15,7 +15,7 @@ public class Entity
     public final UUID ID;
     public final short HIERARCHY_INDEX;
 
-    public Entity(String name, EntityType type, short HIERARCHY_INDEX)
+    public Entity(String name, EntityType type, int HIERARCHY_INDEX)
     {
         this.name = name;
         this.TYPE = type;
@@ -24,7 +24,7 @@ public class Entity
         scale = new Vector3f(1.0f);
         isVisible = true;
         ID = UUID.randomUUID();
-        this.HIERARCHY_INDEX = HIERARCHY_INDEX;
+        this.HIERARCHY_INDEX = (short) Utils.clampInt(HIERARCHY_INDEX, Short.MIN_VALUE, Short.MAX_VALUE);
         Scene.entities.add(this);
 
         if (TYPE == EntityType.NULL)

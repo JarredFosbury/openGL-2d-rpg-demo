@@ -39,7 +39,7 @@ public class ScreenSpace9SliceSprite extends Entity
 
     private final ScreenSpace9SliceShader shader;
 
-    public ScreenSpace9SliceSprite(String name, short HIERARCHY_INDEX, String textureAssetKey, Vector4f mainTextureTint, boolean isLocationAnchored, Vector4f sliceBorders)
+    public ScreenSpace9SliceSprite(String name, int HIERARCHY_INDEX, String textureAssetKey, Vector4f mainTextureTint, boolean isLocationAnchored, Vector4f sliceBorders)
     {
         super(name, EntityType.ScreenSpaceSprite9Slice, HIERARCHY_INDEX);
         this.shader = Scene.screenSpace9sliceShader;

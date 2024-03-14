@@ -15,7 +15,7 @@ public class MainLightSource extends Entity
 
     private final DirectionalLight light;
 
-    public MainLightSource(String name, short HIERARCHY_INDEX, Vector4f color, float intensity)
+    public MainLightSource(String name, int HIERARCHY_INDEX, Vector4f color, float intensity)
     {
         super(name, EntityType.MainLightSource, HIERARCHY_INDEX);
         this.color = color;

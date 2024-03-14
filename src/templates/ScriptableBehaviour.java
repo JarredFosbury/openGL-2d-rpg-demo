@@ -7,7 +7,7 @@ public class ScriptableBehaviour extends Entity
 {
     public ScriptableBehaviour()
     {
-        super("Entity name here", EntityType.ScriptableBehavior, (short) 0);
+        super("Entity name here", EntityType.ScriptableBehavior, 0);
         // instantiate all instances of needed objects here
     }
 

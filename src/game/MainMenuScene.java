@@ -38,7 +38,7 @@ public class MainMenuScene extends Entity
 
     public MainMenuScene()
     {
-        super("Main Menu Scene Handler", EntityType.ScriptableBehavior, (short) 0);
+        super("Main Menu Scene Handler", EntityType.ScriptableBehavior, 0);
 
         inSettingsMenu = false;
         cursorSelectionId = 0;
@@ -59,52 +59,52 @@ public class MainMenuScene extends Entity
         Scene.assets.addAssetToPool(new Texture("res/textures/blackLeather_albedo.png", true, true, true), "blackLeather_albedo");
         Scene.assets.addAssetToPool(new Texture("res/textures/UI/heart.png", true, false, true), "heart");
 
-        Scene.mainCamera = new Camera("Main Camera", (short) 0);
+        Scene.mainCamera = new Camera("Main Camera", 0);
         Scene.mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
-        musicSource = new SoundSource("music-soundSource", (short) 0, (SoundClip) Scene.assets.getAssetFromPool("mainMenuTheme"), true);
+        musicSource = new SoundSource("music-soundSource", 0, (SoundClip) Scene.assets.getAssetFromPool("mainMenuTheme"), true);
         musicSource.setVolume(0.2f);
         musicSource.play();
 
-        buttonHoverSfx = new SoundSource("buttonHoverSfx-soundSource", (short) 0, (SoundClip) Scene.assets.getAssetFromPool("interfaceClick01"), false);
+        buttonHoverSfx = new SoundSource("buttonHoverSfx-soundSource", 0, (SoundClip) Scene.assets.getAssetFromPool("interfaceClick01"), false);
         buttonHoverSfx.setVolume(0.1f);
 
-        buttonClickSfx = new SoundSource("buttonClickSfx-soundSource", (short) 0, (SoundClip) Scene.assets.getAssetFromPool("interfaceClick02"), false);
+        buttonClickSfx = new SoundSource("buttonClickSfx-soundSource", 0, (SoundClip) Scene.assets.getAssetFromPool("interfaceClick02"), false);
         buttonClickSfx.setVolume(0.3f);
 
-        titleText = new TextMesh("title-text", (short) 0, "morrisRoman", true);
+        titleText = new TextMesh("title-text", 0, "morrisRoman", true);
         titleText.fontSize_PIXELS = 48.0f;
         titleText.locationAnchor = new Vector2i(0, -1);
         titleText.textAlignment = new Vector2i(0, 0);
         titleText.position = new Vector3f(0.0f, 120.0f, 0.0f);
         titleText.text = "2D RPG DEMO";
 
-        startGameText = new TextMesh("play-text", (short) 0, "morrisRoman", true);
+        startGameText = new TextMesh("play-text", 0, "morrisRoman", true);
         startGameText.fontSize_PIXELS = 32.0f;
         startGameText.textAlignment = new Vector2i(0, 0);
         startGameText.position = new Vector3f(0.0f, 50.0f, 0.0f);
         startGameText.text = "Start Game";
 
-        optionsText = new TextMesh("options-text", (short) 0, "morrisRoman", true);
+        optionsText = new TextMesh("options-text", 0, "morrisRoman", true);
         optionsText.fontSize_PIXELS = 32.0f;
         optionsText.textAlignment = new Vector2i(0, 0);
         optionsText.position = new Vector3f(0.0f, 100.0f, 0.0f);
         optionsText.text = "Options";
 
-        quitText = new TextMesh("quit-text", (short) 0, "morrisRoman", true);
+        quitText = new TextMesh("quit-text", 0, "morrisRoman", true);
         quitText.fontSize_PIXELS = 32.0f;
         quitText.textAlignment = new Vector2i(0, 0);
         quitText.position = new Vector3f(0.0f, 150.0f, 0.0f);
         quitText.text = "Quit To Desktop";
 
-        backToMainText = new TextMesh("back-text", (short) 0, "morrisRoman", true);
+        backToMainText = new TextMesh("back-text", 0, "morrisRoman", true);
         backToMainText.fontSize_PIXELS = 32.0f;
         backToMainText.textAlignment = new Vector2i(0, 0);
         backToMainText.locationAnchor = new Vector2i(0, 1);
         backToMainText.position = new Vector3f(0.0f, -100.0f, 0.0f);
         backToMainText.text = "Back";
 
-        buttonBackdrop = new ScreenSpaceSprite("buttonBg-sprite", (short) -1,"blackLeather_albedo", Color.WHITE, true);
+        buttonBackdrop = new ScreenSpaceSprite("buttonBg-sprite", -1,"blackLeather_albedo", Color.WHITE, true);
         buttonBackdrop.scale = new Vector3f(500.0f, 200.0f, 1.0f);
         buttonBackdrop.position = new Vector3f(0.0f, 130.0f, 0.0f);
     }
