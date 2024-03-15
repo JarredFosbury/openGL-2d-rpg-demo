@@ -43,6 +43,7 @@ public class SpriteLit extends Entity
     public int spriteSheetFrame;
     public int animationFrameRate;
     public boolean loops;
+    public boolean clampFrameAtEndOfAnimation;
 
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
@@ -95,10 +96,11 @@ public class SpriteLit extends Entity
         timeSinceLastFrame = 0.0f;
     }
 
-    public void initSpriteSheet(String frameOffsetDataFilepath, boolean loops)
+    public void initSpriteSheet(String frameOffsetDataFilepath, boolean loops, boolean clampFrameAtEndOfAnimation)
     {
         this.spriteSheetFrameOffsets = SpriteSheetDataLoader.loadSheetDataFromPath(frameOffsetDataFilepath);
         this.loops = loops;
+        this.clampFrameAtEndOfAnimation = clampFrameAtEndOfAnimation;
     }
 
     public void render()
@@ -142,7 +144,11 @@ public class SpriteLit extends Entity
 
         spriteSheetFrame ++;
         if (spriteSheetFrame >= spriteSheetFrameOffsets.length)
+        {
             resetAnimation();
+            if (clampFrameAtEndOfAnimation)
+                spriteSheetFrame = spriteSheetFrameOffsets.length - 1;
+        }
 
         mainTextureOffset = spriteSheetFrameOffsets[spriteSheetFrame];
     }

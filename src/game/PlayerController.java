@@ -29,58 +29,48 @@ public class PlayerController extends Entity
     private final SpriteLit[] sprites;
     private AnimationState animState;
 
+    private float walkSpeed;
+    private float runSpeed;
+
     public PlayerController()
     {
         super("PlayerController", EntityType.ScriptableBehavior, 0);
-
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/player/breathingIdle/playerBreathingIdle_alb.png",
-                true, true, true), "breathingIdleAlbedo");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/player/breathingIdle/playerBreathingIdle_nrm.png",
-                true, true, true), "breathingIdleNormal");
-
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/player/jumpingDown/playerJumpingDown_alb.png",
-                true, true, true), "jumpingDownAlbedo");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/player/jumpingDown/playerJumpingDown_nrm.png",
-                true, true, true), "jumpingDownNormal");
-
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/player/jumpingUp/playerJumpingUp_alb.png",
-                true, true, true), "jumpingUpAlbedo");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/player/jumpingUp/playerJumpingUp_nrm.png",
-                true, true, true), "jumpingUpNormal");
-
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/player/running/playerRunning_alb.png",
-                true, true, true), "runningAlbedo");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/player/running/playerRunning_nrm.png",
-                true, true, true), "runningNormal");
-
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/player/walking/playerWalking_alb.png",
-                true, true, true), "walkingAlbedo");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/player/walking/playerWalking_nrm.png",
-                true, true, true), "walkingNormal");
-
         idleSprite = new SpriteLit("playerIdleSpriteSheet", 0, "breathingIdleAlbedo",
                 "breathingIdleNormal", Color.WHITE, new Vector2f(0.0f, 0.93333334f), new Vector2f(0.06666667f));
-        idleSprite.initSpriteSheet("res/textures/litSprites/player/breathingIdle/playerBreathingIdle_SheetData.ssd", true);
+        idleSprite.initSpriteSheet("res/textures/litSprites/player/breathingIdle/playerBreathingIdle_SheetData.ssd", true, false);
+        idleSprite.isVisible = false;
 
         walkingSprite = new SpriteLit("playerWalkingSpriteSheet", 0, "walkingAlbedo",
                 "walkingNormal", Color.WHITE, new Vector2f(0.0f, 0.83333325f), new Vector2f(0.16666667f));
-        walkingSprite.initSpriteSheet("res/textures/litSprites/player/walking/playerWalking_SheetData.ssd", true);
+        walkingSprite.initSpriteSheet("res/textures/litSprites/player/walking/playerWalking_SheetData.ssd", true, false);
+        walkingSprite.isVisible = false;
 
         runningSprite = new SpriteLit("playerRunningSpriteSheet", 0, "runningAlbedo",
                 "runningNormal", Color.WHITE, new Vector2f(0.0f, 0.75f), new Vector2f(0.25f));
-        runningSprite.initSpriteSheet("res/textures/litSprites/player/running/playerRunning_SheetData.ssd", true);
+        runningSprite.initSpriteSheet("res/textures/litSprites/player/running/playerRunning_SheetData.ssd", true, false);
+        runningSprite.isVisible = false;
 
         jumpUpSprite = new SpriteLit("playerJumpUpSpriteSheet", 0, "jumpingUpAlbedo",
                 "jumpingUpNormal", Color.WHITE, new Vector2f(0.0f, 0.8f), new Vector2f(0.2f));
-        jumpUpSprite.initSpriteSheet("res/textures/litSprites/player/jumpingUp/playerJumpingUp_SheetData.ssd", false);
+        jumpUpSprite.initSpriteSheet("res/textures/litSprites/player/jumpingUp/playerJumpingUp_SheetData.ssd", false, true);
+        jumpUpSprite.isVisible = false;
 
         jumpDownSprite = new SpriteLit("playerJumpDownSpriteSheet", 0, "jumpingDownAlbedo",
                 "jumpingDownNormal", Color.WHITE, new Vector2f(0.0f, 0.83333325f), new Vector2f(0.16666667f));
-        jumpDownSprite.initSpriteSheet("res/textures/litSprites/player/jumpingDown/playerJumpingDown_SheetData.ssd", false);
+        jumpDownSprite.initSpriteSheet("res/textures/litSprites/player/jumpingDown/playerJumpingDown_SheetData.ssd", false, true);
+        jumpDownSprite.isVisible = false;
 
         sprites = new SpriteLit[] {idleSprite, walkingSprite, runningSprite, jumpUpSprite, jumpDownSprite};
         animState = AnimationState.IDLE;
         mainCamera = Scene.mainCamera;
+
+        walkSpeed = 0.5f;
+        runSpeed = 1.5f;
+    }
+
+    public void start()
+    {
+        setAnimationState(AnimationState.IDLE);
     }
 
     public void update()
@@ -151,12 +141,12 @@ public class PlayerController extends Entity
 
        if (KeyListener.isKeyActive(GLFW_KEY_D) && !KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
        {
-           translate(2.0f * Time.deltaTime, 0.0f, 0.0f);
+           translate(walkSpeed * Time.deltaTime, 0.0f, 0.0f);
            scale = new Vector3f(1.0f);
        }
        else if (KeyListener.isKeyActive(GLFW_KEY_A) && !KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
        {
-           translate(-2.0f * Time.deltaTime, 0.0f, 0.0f);
+           translate(-walkSpeed * Time.deltaTime, 0.0f, 0.0f);
            scale = new Vector3f(-1.0f, 1.0f, 1.0f);
        }
        else if ((KeyListener.isKeyActive(GLFW_KEY_A) || KeyListener.isKeyActive(GLFW_KEY_D)) && KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
@@ -176,12 +166,12 @@ public class PlayerController extends Entity
 
         if (KeyListener.isKeyActive(GLFW_KEY_D) && KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
         {
-            translate(5.0f * Time.deltaTime, 0.0f, 0.0f);
+            translate(runSpeed * Time.deltaTime, 0.0f, 0.0f);
             scale = new Vector3f(1.0f);
         }
         else if (KeyListener.isKeyActive(GLFW_KEY_A) && KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
         {
-            translate(-5.0f * Time.deltaTime, 0.0f, 0.0f);
+            translate(-runSpeed * Time.deltaTime, 0.0f, 0.0f);
             scale = new Vector3f(-1.0f, 1.0f, 1.0f);
         }
         else if ((KeyListener.isKeyActive(GLFW_KEY_A) || KeyListener.isKeyActive(GLFW_KEY_D)) && !KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))

@@ -26,7 +26,7 @@ public class GameScene extends Entity
         source.rotate(-55.0f, 0.0f, -45.0f);
 
         new FreeCamera();
-        new PlayerController();
+        new PlayerStartingAnimationController();
     }
 
     public void update()

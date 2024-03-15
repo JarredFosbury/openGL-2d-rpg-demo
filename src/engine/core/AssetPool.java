@@ -92,6 +92,30 @@ public class AssetPool implements Observable
         notifyObservers();
     }
 
+    public void releaseTextureFromPool(String key)
+    {
+        Texture texture = texturePool.get(key);
+        texture.delete();
+        texturePool.remove(key);
+        notifyObservers();
+    }
+
+    public void releaseSoundClipFromPool(String key)
+    {
+        SoundClip soundClip = soundClipPool.get(key);
+        soundClip.delete();
+        soundClipPool.remove(key);
+        notifyObservers();
+    }
+
+    public void releaseFontFromPool(String key)
+    {
+        Font font = fontPool.get(key);
+        font.delete();
+        fontPool.remove(key);
+        notifyObservers();
+    }
+
     public short getTotalPoolSize()
     {
         return (short) (texturePool.size() + soundClipPool.size() + fontPool.size());
