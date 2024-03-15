@@ -42,15 +42,17 @@ public class SpriteLit extends Entity
     public Vector2f mainTextureScale;
     public int spriteSheetFrame;
     public int animationFrameRate;
+    public boolean loops;
 
     private float timeSinceLastFrame;
     private Vector2f[] spriteSheetFrameOffsets;
+    private boolean isPlaying;
 
-    public SpriteLit(String name, int HIERARCHY_INDEX, NormalMappedLit2DShader shader, String textureAssetKey, String texture2AssetKey,
+    public SpriteLit(String name, int HIERARCHY_INDEX, String textureAssetKey, String texture2AssetKey,
                      Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
     {
         super(name, EntityType.SpriteLit, HIERARCHY_INDEX);
-        this.shader = shader;
+        this.shader = Scene.normalMappedLit2dShader;
         this.mainTexture = (Texture) Scene.assets.getAssetFromPool(textureAssetKey);
         this.normalTexture = (Texture) Scene.assets.getAssetFromPool(texture2AssetKey);
         this.mainTextureTint = mainTextureTint;
@@ -58,6 +60,12 @@ public class SpriteLit extends Entity
         this.mainTextureScale = mainTextureScale;
         initMeshData();
         initVariables();
+    }
+
+    public void update()
+    {
+        if (isPlaying)
+            animateSprite();
     }
 
     private void initMeshData()
@@ -87,9 +95,10 @@ public class SpriteLit extends Entity
         timeSinceLastFrame = 0.0f;
     }
 
-    public void initSpriteSheet(String frameOffsetDataFilepath)
+    public void initSpriteSheet(String frameOffsetDataFilepath, boolean loops)
     {
         this.spriteSheetFrameOffsets = SpriteSheetDataLoader.loadSheetDataFromPath(frameOffsetDataFilepath);
+        this.loops = loops;
     }
 
     public void render()
@@ -133,8 +142,26 @@ public class SpriteLit extends Entity
 
         spriteSheetFrame ++;
         if (spriteSheetFrame >= spriteSheetFrameOffsets.length)
-            spriteSheetFrame = 0;
+            resetAnimation();
 
         mainTextureOffset = spriteSheetFrameOffsets[spriteSheetFrame];
+    }
+
+    public void playAnimation()
+    {
+        resetAnimation();
+        isPlaying = true;
+    }
+
+    private void resetAnimation()
+    {
+        isPlaying = loops;
+        spriteSheetFrame = 0;
+        mainTextureOffset = spriteSheetFrameOffsets[spriteSheetFrame];
+    }
+
+    public boolean getPlayingState()
+    {
+        return isPlaying;
     }
 }
