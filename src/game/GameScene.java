@@ -23,8 +23,8 @@ public class GameScene extends Entity
                 "res/fonts/morris roman/morrisRoman.fnt"), "morrisRoman");
         Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/barrel_alb.png", true, true, true), "barrel-alb");
         Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/barrel_nrm.png", true, true, true), "barrel-nrm");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/playerJumpRight_alb.png", true, true, true), "player-alb");
-        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/playerJumpRight_nrm.png", true, true, true), "player-nrm");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/playerSittingIdle_alb.png", true, true, true), "playerSittingAlbedo");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/playerSittingIdle_nrm.png", true, true, true), "playerSittingNormal");
         Scene.assets.addAssetToPool(new Texture("res/textures/UI/frameRoundedSimple.png", true, true, true), "9sliceFrameSprite");
 
         Scene.mainCamera = new Camera("Main Camera", 0);
@@ -37,10 +37,10 @@ public class GameScene extends Entity
         new SpriteLit("demoBarrelSprite-lit", 0, Scene.normalMappedLit2dShader, "barrel-alb",
                 "barrel-nrm", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
         playerSprite = new SpriteLit("playerSprite-lit", 0, Scene.normalMappedLit2dShader,
-                "player-alb", "player-nrm", Color.WHITE, new Vector2f(0.0f, 0.857f), new Vector2f(0.1429f));
-        playerSprite.initSpriteSheet("res/spriteSheetData/playerJumpRight_SheetData.ssd");
+                "playerSittingAlbedo", "playerSittingNormal", Color.WHITE, new Vector2f(0.0f, 0.9411765f), new Vector2f(0.05882353f));
+        playerSprite.initSpriteSheet("res/spriteSheetData/playerSittingIdle_SheetData.ssd");
         playerSprite.scale = new Vector3f(2.0f);
-        playerSprite.translate(0.0f, 1.45f, 0.0f);
+        playerSprite.translate(-0.2f, 1.48f, 0.0f);
     }
 
     public void update()

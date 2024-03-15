@@ -49,7 +49,7 @@ public class FreeCamera extends Entity
         debugStateText.textAlignment = new Vector2i(1, 0);
         debugStateText.text = "Free Camera Mode";
 
-        sprite9Slice = new ScreenSpace9SliceSprite("sprite9Slice-TEST", 1000,
+        sprite9Slice = new ScreenSpace9SliceSprite("debugInfoBorder-sprite9Slice", 1000,
                 "9sliceFrameSprite", Color.WHITE, true, new Vector4f(8.0f));
         sprite9Slice.locationAnchor = new Vector2i(-1, 1);
         sprite9Slice.position = new Vector3f(266.0f, -74.0f, 0.0f);

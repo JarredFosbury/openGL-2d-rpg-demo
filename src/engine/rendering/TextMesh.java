@@ -41,8 +41,6 @@ public class TextMesh extends Entity
         this.font = (Font) Scene.assets.getAssetFromPool(assetKey);
         screenSpace2dShader = Scene.screenSpace2dShader;
         lastDrawCall = "";
-        position = new Vector3f(0.0f);
-        rotation = new Vector3f(0.0f);
         fontSize_PIXELS = 12;
         locationAnchor = new Vector2i(0);
         this.isLocationAnchored = isLocationAnchored;
