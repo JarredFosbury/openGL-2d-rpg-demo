@@ -6,6 +6,7 @@ import engine.shaders.ScreenSpace2dShader;
 import engine.shaders.ScreenSpace9SliceShader;
 import engine.shaders.Standard2dShader;
 import game.*;
+import org.joml.Vector4f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class Scene
     public static ScreenSpace9SliceShader screenSpace9sliceShader;
 
     public static Camera mainCamera;
-
+    public static Vector4f ambientLight;
     public static AssetPool assets;
     public static SceneEntityList entities;
     public static ImGuiComponentList imGuiComponents;
@@ -32,6 +33,7 @@ public class Scene
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+        ambientLight = new Vector4f(0.2f);
         assets = new AssetPool();
         entities = new SceneEntityList();
         imGuiComponents = new ImGuiComponentList();

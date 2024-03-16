@@ -83,6 +83,7 @@ public class EntityInspectorWindow extends ImGuiWindow
             case SpriteLit -> renderSpriteLitInspector();
             case MainLightSource -> renderMainLightSourceInspector();
             case ScreenSpaceSprite9Slice -> renderScreenSpaceSprite9SliceInspector();
+            case PointLightSource -> renderPointLightSourceInspector();
         }
     }
 
@@ -320,6 +321,39 @@ public class EntityInspectorWindow extends ImGuiWindow
             float[] borders = {sliceBorders.x, sliceBorders.y, sliceBorders.z, sliceBorders.w};
             ImGui.inputFloat4("Slice Borders", borders);
             spriteRef.sliceBorders = new Vector4f(borders[0], borders[1], borders[2], borders[3]);
+        }
+    }
+
+    private void renderPointLightSourceInspector()
+    {
+        if (ImGui.collapsingHeader("Point Light Source", ImGuiTreeNodeFlags.DefaultOpen))
+        {
+            PointLightSource sourceRef = (PointLightSource) selectedEntity;
+            Vector4f tint = sourceRef.color;
+            float[] col4 = {tint.x, tint.y, tint.z, tint.w};
+            ImGui.colorEdit4("Light Color", col4);
+            sourceRef.color = new Vector4f(col4[0], col4[1], col4[2], col4[3]);
+
+            ImFloat intensity = new ImFloat(sourceRef.intensity);
+            ImGui.inputFloat("Intensity", intensity);
+            sourceRef.intensity = intensity.get();
+
+            ImFloat range = new ImFloat(sourceRef.range);
+            ImGui.inputFloat("Range", range);
+            sourceRef.range = range.get();
+
+            ImGui.text("Falloff Factors");
+            ImFloat constant = new ImFloat(sourceRef.constant);
+            ImGui.inputFloat("Constant", constant);
+            sourceRef.constant = constant.get();
+
+            ImFloat linear = new ImFloat(sourceRef.linear);
+            ImGui.inputFloat("Linear", linear);
+            sourceRef.linear = linear.get();
+
+            ImFloat exponent = new ImFloat(sourceRef.exponent);
+            ImGui.inputFloat("Exponent", exponent);
+            sourceRef.exponent = exponent.get();
         }
     }
 }

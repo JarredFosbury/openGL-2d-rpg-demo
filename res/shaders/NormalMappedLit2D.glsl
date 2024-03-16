@@ -25,6 +25,8 @@ void main()
 
 #type fragment
 #version 330 core
+const int MAX_POINT_LIGHTS = 16;
+
 out vec4 FragColor;
 
 in vec2 TexPos;
@@ -68,23 +70,56 @@ uniform vec2 texPosScale;
 uniform DirectionalLight dLight;
 uniform PointLight pointLights[16];
 
-vec3 calculateMainLightFactor(vec3 normalIn)
+vec4 calculateMainLight(vec3 normalIn)
 {
-    return max(dot(normalIn, dLight.direction) * dLight.base.intensity, 0.0) * dLight.base.color;
+    float diffuseFactor = max(dot(normalIn, dLight.direction) * dLight.base.intensity, 0.0);
+    return diffuseFactor * vec4(dLight.base.color, 1.0);
+}
+
+vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
+{
+    float diffuseFactor = dot(normal, -direction);
+    vec4 diffuseColor = vec4(0, 0, 0, 0);
+    if(diffuseFactor > 0)
+    {
+        diffuseColor = vec4(base.color, 1.0) * base.intensity * diffuseFactor;
+    }
+    return diffuseColor;
+}
+
+vec4 calculatePointLight(PointLight light, vec3 normal)
+{
+    vec3 lightDirection = fragPos - light.position;
+    float distanceToLight = length(lightDirection);
+
+    if(distanceToLight > light.range)
+    {
+        return vec4(0, 0, 0, 0);
+    }
+
+    lightDirection = normalize(lightDirection);
+    vec4 color = calculateLight(light.base, lightDirection, normal);
+    float attenuation = light.attenuation.constant + light.attenuation.linear * distanceToLight + light.attenuation.exponent * distanceToLight * distanceToLight + 0.0001;
+
+    return color / attenuation;
 }
 
 void main()
 {
+    vec4 totalLight = vec4(ambientLightColor, 1.0);
     vec2 uv = (TexPos * texPosScale) + texPosOffset;
     vec4 mainSample = texture(textureMain, uv) * tint;
-    vec4 normalSample = texture(textureNormal, uv);
-
-    vec3 normal = normalize(normalSample.rgb * 2.0 - 1.0);
-
-    vec4 finalColor = vec4(mainSample.rgb * calculateMainLightFactor(normal), 1.0);
-
     if (mainSample.a <= 0.001)
+    {
         discard;
+    }
 
-    FragColor = finalColor;
+    vec3 normal = normalize(texture(textureNormal, uv).xyz * 2.0 - 1.0);
+    totalLight += calculateMainLight(normal);
+    for (int i = 0; i < MAX_POINT_LIGHTS; i++)
+    {
+        totalLight += calculatePointLight(pointLights[i], normal);
+    }
+
+    FragColor = mainSample * totalLight;
 }

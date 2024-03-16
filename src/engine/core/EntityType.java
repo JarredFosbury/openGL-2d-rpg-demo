@@ -11,5 +11,6 @@ public enum EntityType
     SoundSource,
     SpriteLit,
     MainLightSource,
-    ScreenSpaceSprite9Slice;
+    ScreenSpaceSprite9Slice,
+    PointLightSource;
 }

@@ -4,6 +4,7 @@ import engine.lighting.DirectionalLight;
 import engine.lighting.PointLight;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public class NormalMappedLit2DShader extends Shader
@@ -14,7 +15,7 @@ public class NormalMappedLit2DShader extends Shader
     }
 
     public void updateUniforms(Vector4f tint, Matrix4f transform, Matrix4f projection, Matrix4f cameraTransform,
-                               Vector2f texPosOffset, Vector2f texPosScale, DirectionalLight dLight, PointLight[] pLights)
+                               Vector2f texPosOffset, Vector2f texPosScale, DirectionalLight dLight, PointLight[] pLights, Vector4f ambientLight)
     {
         setIntegerUniform("textureMain", 0);
         setIntegerUniform("textureNormal", 1);
@@ -24,6 +25,7 @@ public class NormalMappedLit2DShader extends Shader
         setMatrix4Uniform("cameraTransform", cameraTransform);
         setFloat2Uniform("texPosOffset", texPosOffset);
         setFloat2Uniform("texPosScale", texPosScale);
+        setFloat3Uniform("ambientLightColor", new Vector3f(ambientLight.x, ambientLight.y, ambientLight.z));
 
         if (dLight != null)
         {

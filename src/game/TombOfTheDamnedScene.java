@@ -2,17 +2,12 @@ package game;
 
 import engine.core.*;
 import engine.fontRendering.FontLoader;
-import engine.rendering.Color;
-import engine.rendering.MainLightSource;
-import engine.rendering.SpriteLit;
-import engine.rendering.Texture;
+import engine.rendering.*;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class TombOfTheDamnedScene extends Entity
 {
-    private final MainLightSource source;
-
     public TombOfTheDamnedScene()
     {
         super("Game Scene Handler", EntityType.ScriptableBehavior, 0);
@@ -29,7 +24,7 @@ public class TombOfTheDamnedScene extends Entity
         Scene.mainCamera = new Camera("Main Camera", 0);
         Scene.mainCamera.updateViewport(1.5f, -1.0f, 1.0f);
 
-        source = new MainLightSource("mainLightSource", 0, Color.WHITE, 1.0f);
+        MainLightSource source = new MainLightSource("mainLightSource", 0, Color.WHITE, 1.0f);
         source.rotate(-55.0f, 0.0f, -45.0f);
 
         new PlayerStartingAnimationController();
@@ -37,11 +32,10 @@ public class TombOfTheDamnedScene extends Entity
         SpriteLit wall = new SpriteLit("cobblestoneBackgroundWall", -1, "cobblestoneWallAlbedo",
                 "cobblestoneWallNormal", Color.WHITE, new Vector2f(0.0f), new Vector2f(10.0f, 2.0f));
         wall.scale = new Vector3f(20.0f, 4.0f, 1.0f);
-        wall.translate(0.0f, 1.0f, 0.0f);
-    }
+        wall.translate(0.0f, 1.0f, -1.0f);
 
-    public void update()
-    {
-        source.rotate(0.0f, 0.0f, Time.deltaTime * 20.0f);
+        PointLightSource source2 = new PointLightSource("demo-pointLight", 0, Color.WHITE,
+                1.0f, 20.0f, 0.0f, 0.0f, 2.0f);
+        source2.translate(0.0f, 1.0f, 1.0f);
     }
 }
