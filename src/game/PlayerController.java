@@ -3,7 +3,6 @@ package game;
 import engine.core.*;
 import engine.rendering.Color;
 import engine.rendering.SpriteLit;
-import engine.rendering.Texture;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -63,9 +62,9 @@ public class PlayerController extends Entity
         sprites = new SpriteLit[] {idleSprite, walkingSprite, runningSprite, jumpUpSprite, jumpDownSprite};
         animState = AnimationState.IDLE;
         mainCamera = Scene.mainCamera;
-
-        walkSpeed = 0.5f;
-        runSpeed = 1.5f;
+        scale = new Vector3f(2.0f);
+        walkSpeed = 1.5f;
+        runSpeed = 4.0f;
     }
 
     public void start()
@@ -124,13 +123,11 @@ public class PlayerController extends Entity
         if (KeyListener.isKeyActive(GLFW_KEY_D))
         {
             setAnimationState(AnimationState.WALKING);
-            scale = new Vector3f(1.0f);
         }
 
         if (KeyListener.isKeyActive(GLFW_KEY_A))
         {
             setAnimationState(AnimationState.WALKING);
-            scale = new Vector3f(-1.0f, 1.0f, 1.0f);
         }
     }
 
@@ -142,12 +139,12 @@ public class PlayerController extends Entity
        if (KeyListener.isKeyActive(GLFW_KEY_D) && !KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
        {
            translate(walkSpeed * Time.deltaTime, 0.0f, 0.0f);
-           scale = new Vector3f(1.0f);
+           scale = new Vector3f(2.0f);
        }
        else if (KeyListener.isKeyActive(GLFW_KEY_A) && !KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
        {
            translate(-walkSpeed * Time.deltaTime, 0.0f, 0.0f);
-           scale = new Vector3f(-1.0f, 1.0f, 1.0f);
+           scale = new Vector3f(-2.0f, 2.0f, 2.0f);
        }
        else if ((KeyListener.isKeyActive(GLFW_KEY_A) || KeyListener.isKeyActive(GLFW_KEY_D)) && KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
        {
@@ -167,12 +164,12 @@ public class PlayerController extends Entity
         if (KeyListener.isKeyActive(GLFW_KEY_D) && KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
         {
             translate(runSpeed * Time.deltaTime, 0.0f, 0.0f);
-            scale = new Vector3f(1.0f);
+            scale = new Vector3f(2.0f);
         }
         else if (KeyListener.isKeyActive(GLFW_KEY_A) && KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
         {
             translate(-runSpeed * Time.deltaTime, 0.0f, 0.0f);
-            scale = new Vector3f(-1.0f, 1.0f, 1.0f);
+            scale = new Vector3f(-2.0f, 2.0f, 2.0f);
         }
         else if ((KeyListener.isKeyActive(GLFW_KEY_A) || KeyListener.isKeyActive(GLFW_KEY_D)) && !KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
         {

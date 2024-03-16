@@ -7,6 +7,7 @@ import engine.rendering.Color;
 import engine.rendering.SpriteLit;
 import engine.rendering.Texture;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 public class PlayerStartingAnimationController extends Entity
 {
@@ -44,7 +45,9 @@ public class PlayerStartingAnimationController extends Entity
         animationSheet = new SpriteLit("playerStandingSpriteSheet", 0, "standingUpAlbedo",
                 "standingUpNormal", Color.WHITE, new Vector2f(0.0f, 0.923077f), new Vector2f(0.07692308f));
         animationSheet.initSpriteSheet("res/textures/litSprites/player/standUp/playerStandingUp_SheetData.ssd", false, true);
+        animationSheet.scale = new Vector3f(2.0f);
         triggered = false;
+        Scene.mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
     }
 
     public void update()

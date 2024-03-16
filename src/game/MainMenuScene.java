@@ -197,7 +197,7 @@ public class MainMenuScene extends Entity
     {
         buttonClickSfx.play();
         unloadScene();
-        new GameScene();
+        new TombOfTheDamnedScene();
     }
 
     private void toggleSettingsMenu()

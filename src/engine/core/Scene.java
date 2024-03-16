@@ -48,7 +48,7 @@ public class Scene
         new AssetPoolWindow();
         new EntityInspectorWindow();
 
-        new GameScene();
+        new TombOfTheDamnedScene();
 
         entities.endOfInit();
     }
