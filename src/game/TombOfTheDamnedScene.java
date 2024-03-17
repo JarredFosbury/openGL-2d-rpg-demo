@@ -24,7 +24,7 @@ public class TombOfTheDamnedScene extends Entity
         Scene.mainCamera = new Camera("Main Camera", 0);
         Scene.mainCamera.updateViewport(1.5f, -1.0f, 1.0f);
 
-        MainLightSource source = new MainLightSource("mainLightSource", 0, Color.WHITE, 1.0f);
+        MainLightSource source = new MainLightSource("mainLightSource", 0, Color.WHITE, 0.0f);
         source.rotate(-55.0f, 0.0f, -45.0f);
 
         new PlayerStartingAnimationController();
@@ -33,9 +33,5 @@ public class TombOfTheDamnedScene extends Entity
                 "cobblestoneWallNormal", Color.WHITE, new Vector2f(0.0f), new Vector2f(10.0f, 2.0f));
         wall.scale = new Vector3f(20.0f, 4.0f, 1.0f);
         wall.translate(0.0f, 1.0f, -1.0f);
-
-        PointLightSource source2 = new PointLightSource("demo-pointLight", 0, Color.WHITE,
-                1.0f, 20.0f, 0.0f, 0.0f, 2.0f);
-        source2.translate(0.0f, 1.0f, 1.0f);
     }
 }

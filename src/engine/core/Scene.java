@@ -32,7 +32,7 @@ public class Scene
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        ambientLight = new Vector4f(0.2f);
+        ambientLight = new Vector4f(0.1f);
         assets = new AssetPool();
         entities = new SceneEntityList();
         imGuiComponents = new ImGuiComponentList();

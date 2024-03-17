@@ -2,10 +2,12 @@ package game;
 
 import engine.core.*;
 import engine.rendering.Color;
+import engine.rendering.PointLightSource;
 import engine.rendering.TextMesh;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -27,12 +29,12 @@ public class PlayerController extends Entity
     private final SpriteLitActor jumpUpSprite;
     private final SpriteLitActor jumpDownSprite;
     private final SpriteLitActor[] sprites;
+    private final PointLightSource spiritLight;
     private AnimationState animState;
-
-    private final TextMesh debugDirectionText;
 
     private float walkSpeed;
     private float runSpeed;
+    private float spiritLightAwakeTimer;
 
     public PlayerController()
     {
@@ -62,17 +64,16 @@ public class PlayerController extends Entity
         jumpDownSprite.initSpriteSheet("res/textures/litSprites/player/jumpingDown/playerJumpingDown_SheetData.ssd", false, true);
         jumpDownSprite.isVisible = false;
 
+        spiritLight = new PointLightSource("playerSpiritLight", 0, Color.WHITE, 0.0f, 25.0f, 0.0f, 0.0f, 2.0f);
+        spiritLight.color = new Vector4f(0.561f, 0.773f, 1.0f, 1.0f);
+
         sprites = new SpriteLitActor[] {idleSprite, walkingSprite, runningSprite, jumpUpSprite, jumpDownSprite};
         animState = AnimationState.IDLE;
         mainCamera = Scene.mainCamera;
         scale = new Vector3f(2.0f);
         walkSpeed = 1.5f;
         runSpeed = 4.0f;
-
-        debugDirectionText = new TextMesh("debugPlayerDirection-text", 1000, "consolas", true);
-        debugDirectionText.locationAnchor = new Vector2i(-1, 1);
-        debugDirectionText.position = new Vector3f(20.0f, -55.0f, 0.0f);
-        debugDirectionText.fontSize_PIXELS = 24.0f;
+        spiritLightAwakeTimer = 2.0f;
     }
 
     public void start()
@@ -84,8 +85,7 @@ public class PlayerController extends Entity
     {
         syncTransforms();
         manageAnimationState();
-
-        debugDirectionText.text = "Horizontal direction: " + idleSprite.horizontalDirection;
+        updateSpiritLightTimer();
     }
 
     public void fixedPhysicsUpdate()
@@ -103,6 +103,7 @@ public class PlayerController extends Entity
         }
 
         mainCamera.position = position;
+        spiritLight.position = new Vector3f(position.x, position.y + 0.1f, position.z + 0.5f);
     }
 
     private void setHorizontalDirection(float dir)
@@ -114,6 +115,18 @@ public class PlayerController extends Entity
         runningSprite.horizontalDirection = dir;
         jumpUpSprite.horizontalDirection = dir;
         jumpDownSprite.horizontalDirection = dir;
+    }
+
+    private void updateSpiritLightTimer()
+    {
+        if (spiritLightAwakeTimer <= 0.0f)
+            return;
+
+        spiritLightAwakeTimer -= Time.deltaTime;
+        spiritLight.intensity = 1.0f - (spiritLightAwakeTimer / 2.0f);
+
+        if (spiritLight.intensity > 1.0f)
+            spiritLight.intensity = 1.0f;
     }
 
     private void manageAnimationState()
