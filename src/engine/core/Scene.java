@@ -1,10 +1,8 @@
 package engine.core;
 
 import engine.imGui.*;
-import engine.shaders.NormalMappedLit2DShader;
-import engine.shaders.ScreenSpace2dShader;
-import engine.shaders.ScreenSpace9SliceShader;
-import engine.shaders.Standard2dShader;
+import engine.shaders.*;
+import engine.shaders.NormalMappedActorLit2DShader;
 import game.*;
 import org.joml.Vector4f;
 
@@ -19,6 +17,7 @@ public class Scene
     public static ScreenSpace2dShader screenSpace2dShader;
     public static NormalMappedLit2DShader normalMappedLit2dShader;
     public static ScreenSpace9SliceShader screenSpace9sliceShader;
+    public static NormalMappedActorLit2DShader normalMappedActorLit2dShader;
 
     public static Camera mainCamera;
     public static Vector4f ambientLight;
@@ -43,6 +42,7 @@ public class Scene
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
         normalMappedLit2dShader = new NormalMappedLit2DShader("res/shaders/NormalMappedLit2D.glsl");
         screenSpace9sliceShader = new ScreenSpace9SliceShader("res/shaders/ScreenSpace9SliceSprite2D.glsl");
+        normalMappedActorLit2dShader = new NormalMappedActorLit2DShader("res/shaders/NormalMappedActorLit2D.glsl");
 
         new ImGuiTools();
         new MainMenuBar();
