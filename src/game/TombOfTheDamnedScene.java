@@ -17,11 +17,12 @@ public class TombOfTheDamnedScene extends Entity
                 "res/fonts/consolas/consolas.fnt"), "consolas");
         Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/morris roman/morrisRoman.png",
                 "res/fonts/morris roman/morrisRoman.fnt"), "morrisRoman");
-        Scene.assets.addAssetToPool(new Texture("res/textures/UI/frameRoundedSimple.png", true, true, true), "9sliceFrameSprite");
         Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/materials/cobblestoneWall_alb.png",
                 true, true, true), "cobblestoneWallAlbedo");
         Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/materials/cobblestoneWall_nrm.png",
                 true, true, true), "cobblestoneWallNormal");
+        Scene.assets.addAssetToPool(new Texture("res/textures/UI/whiteSwatch32px.png",
+                true, true, true), "whiteSwatch32px");
 
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx01.ogg"), "caveDrip01");
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx02.ogg"), "caveDrip02");
@@ -42,5 +43,9 @@ public class TombOfTheDamnedScene extends Entity
                 "cobblestoneWallNormal", Color.WHITE, new Vector2f(0.0f), new Vector2f(10.0f, 2.0f));
         wall.scale = new Vector3f(20.0f, 4.0f, 1.0f);
         wall.translate(0.0f, 1.0f, -1.0f);
+
+        ScreenSpaceSprite swatchBg = new ScreenSpaceSprite("background", -1000, "whiteSwatch32px", Color.BLACK, true);
+        int[] wSize = Window.get().getWindowSize();
+        swatchBg.scale = new Vector3f(wSize[0], wSize[1], 1.0f);
     }
 }

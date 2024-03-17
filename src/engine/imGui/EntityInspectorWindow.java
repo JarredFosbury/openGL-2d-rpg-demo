@@ -1,10 +1,7 @@
 package engine.imGui;
 
 import engine.audio.SoundSource;
-import engine.core.Camera;
-import engine.core.Entity;
-import engine.core.KeyListener;
-import engine.core.Utils;
+import engine.core.*;
 import engine.rendering.*;
 import imgui.ImGui;
 import imgui.flag.ImGuiTreeNodeFlags;
@@ -18,17 +15,179 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class EntityInspectorWindow extends ImGuiWindow
 {
+    private enum TransformType
+    {
+        NULL,
+        TRANSLATE,
+        ROTATE,
+        SCALE;
+    }
+
+    private enum TransformAxis
+    {
+        ALL,
+        X,
+        Y;
+    }
+
     private Entity selectedEntity;
+    private TransformType manipulationType;
+    private TransformAxis selectedAxis;
+    private Vector3f preManipulationPosition;
+    private Vector3f preManipulationRotation;
+    private Vector3f preManipulationScale;
+    private Vector2f preManipulationMousePos;
+    private boolean useScreenSpaceSnapping;
+    private float defaultSnapStepSize;
+    private float screenSpaceSnapStepSize;
+    private boolean snappingActive;
+    private float defaultManipulationSensitivity;
+    private float screenSpaceManipulationSensitivity;
 
     public EntityInspectorWindow()
     {
         super("entity_inspector_window", "Entity Inspector");
+        manipulationType = TransformType.NULL;
+        selectedAxis = TransformAxis.ALL;
+        useScreenSpaceSnapping = false;
+        defaultSnapStepSize = 0.1f;
+        screenSpaceSnapStepSize = 10.0f;
+        snappingActive = false;
+        defaultManipulationSensitivity = 0.02f;
+        screenSpaceManipulationSensitivity = 1.0f;
     }
 
     public void hotkeyControls()
     {
         if (KeyListener.isKeyActive(GLFW_KEY_LEFT_ALT) && KeyListener.isKeyPressed(GLFW_KEY_A))
             selectedEntity = null;
+
+        // TODO: Implement hot keys for altering transform values, like blender, G to cycle through transform components
+        //  (Translate -> G -> Rotate -> G -> Scale -> G -> back to Translate), shift or ctrl to modify increment snapping
+        //  size, escape to cancel, enter to set changes
+        //  .
+        //  #
+        //  #             Current Control Scheme
+        //  #
+        //  #  G                -> Cycle through transformations
+        //  #  Esc              -> To cancel manipulation
+        //  #  Enter            -> Confirm manipulation
+        //  #  LShift + X       -> Select X axis only
+        //  #  LShift + Y       -> Select Y axis only
+        //  #  LShift + LAlt    -> Select all axis
+        //  #  LCtrl + LAlt     -> Toggle snap mode (default or screenSpace)
+        //  #  LCtrl            -> Use current snap mode for placement
+
+        if (selectedEntity == null)
+            return;
+
+        if (KeyListener.isKeyPressed(GLFW_KEY_G))
+        {
+            if (manipulationType == TransformType.NULL)
+            {
+                manipulationType = TransformType.TRANSLATE;
+                preManipulationPosition = selectedEntity.position;
+                preManipulationRotation = selectedEntity.rotation;
+                preManipulationScale = selectedEntity.scale;
+                preManipulationMousePos = MouseListener.getPosition();
+            }
+
+            if (manipulationType == TransformType.TRANSLATE)
+                manipulationType = TransformType.ROTATE;
+
+            if (manipulationType == TransformType.ROTATE)
+                manipulationType = TransformType.SCALE;
+
+            if (manipulationType == TransformType.SCALE)
+                manipulationType = TransformType.TRANSLATE;
+        }
+
+        if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE))
+        {
+            manipulationType = TransformType.NULL;
+            selectedEntity.position = preManipulationPosition;
+            selectedEntity.rotation = preManipulationRotation;
+            selectedEntity.scale = preManipulationScale;
+            preManipulationMousePos = MouseListener.getPosition();
+        }
+
+        if (KeyListener.isKeyPressed(GLFW_KEY_ENTER))
+        {
+            manipulationType = TransformType.NULL;
+            preManipulationMousePos = MouseListener.getPosition();
+        }
+
+        if (manipulationType != TransformType.NULL)
+        {
+            if (KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT) && KeyListener.isKeyPressed(GLFW_KEY_X))
+                selectedAxis = TransformAxis.X;
+
+            if (KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT) && KeyListener.isKeyPressed(GLFW_KEY_Y))
+                selectedAxis = TransformAxis.Y;
+
+            if (KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT) && KeyListener.isKeyPressed(GLFW_KEY_LEFT_ALT))
+                selectedAxis = TransformAxis.ALL;
+
+            switch (manipulationType)
+            {
+                case TRANSLATE -> translateSelected();
+                case ROTATE -> rotateSelected();
+                case SCALE -> scaleSelected();
+            }
+        }
+
+        if (KeyListener.isKeyActive(GLFW_KEY_LEFT_CONTROL) && KeyListener.isKeyPressed(GLFW_KEY_LEFT_ALT))
+            useScreenSpaceSnapping = !useScreenSpaceSnapping;
+
+        snappingActive = KeyListener.isKeyActive(GLFW_KEY_LEFT_CONTROL);
+    }
+
+    private void translateSelected()
+    {
+        float manipulationSensitivity = (useScreenSpaceSnapping ? screenSpaceManipulationSensitivity : defaultManipulationSensitivity);
+        float x;
+        float y;
+        if (selectedAxis != TransformAxis.ALL)
+        {
+            x = snapCoordinate(preManipulationPosition.x + ((selectedAxis == TransformAxis.X) ? (MouseListener.getPositionX()
+                    - preManipulationMousePos.x) * manipulationSensitivity : 0.0f));
+            y = snapCoordinate(preManipulationPosition.y + ((selectedAxis == TransformAxis.Y) ? (MouseListener.getPositionY()
+                    - preManipulationMousePos.y) * manipulationSensitivity : 0.0f) * (useScreenSpaceSnapping ? 1.0f : -1.0f));
+        }
+        else
+        {
+            x = snapCoordinate(preManipulationPosition.x + (MouseListener.getPositionX() - preManipulationMousePos.x) * manipulationSensitivity);
+            y = snapCoordinate(preManipulationPosition.y + (MouseListener.getPositionY() - preManipulationMousePos.y)
+                    * manipulationSensitivity * (useScreenSpaceSnapping ? 1.0f : -1.0f));
+        }
+
+        selectedEntity.position = new Vector3f(x, y, preManipulationPosition.z);
+    }
+
+    private void rotateSelected()
+    {}
+
+    private void scaleSelected()
+    {}
+
+    private float snapCoordinate(float inVal)
+    {
+        float outVal = inVal;
+        if (!snappingActive)
+            return outVal;
+
+        if (useScreenSpaceSnapping)
+        {
+            outVal = Math.round(inVal * (1.0f / screenSpaceSnapStepSize));
+            outVal *= screenSpaceSnapStepSize;
+        }
+        else
+        {
+            outVal = Math.round(inVal * (1.0f / defaultSnapStepSize));
+            outVal *= defaultSnapStepSize;
+        }
+
+        return outVal;
     }
 
     public void renderWindowContents()
