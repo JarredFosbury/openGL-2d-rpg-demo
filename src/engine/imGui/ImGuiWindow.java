@@ -17,9 +17,20 @@ public class ImGuiWindow extends ImGuiRootComponent
     public void render()
     {
         ImGui.begin(title + "###" + windowName);
+
+        if (ImGuiWindowFocusManager.currentFocusedWindow.equals(windowName))
+            hotkeyControls();
+
         renderWindowContents();
+
+        if (ImGui.isWindowFocused())
+            ImGuiWindowFocusManager.currentFocusedWindow = windowName;
+
         ImGui.end();
     }
+
+    public void hotkeyControls()
+    {}
 
     public void renderWindowContents()
     {}

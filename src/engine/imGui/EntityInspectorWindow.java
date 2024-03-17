@@ -3,6 +3,7 @@ package engine.imGui;
 import engine.audio.SoundSource;
 import engine.core.Camera;
 import engine.core.Entity;
+import engine.core.KeyListener;
 import engine.core.Utils;
 import engine.rendering.*;
 import imgui.ImGui;
@@ -13,6 +14,8 @@ import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import static org.lwjgl.glfw.GLFW.*;
+
 public class EntityInspectorWindow extends ImGuiWindow
 {
     private Entity selectedEntity;
@@ -20,6 +23,12 @@ public class EntityInspectorWindow extends ImGuiWindow
     public EntityInspectorWindow()
     {
         super("entity_inspector_window", "Entity Inspector");
+    }
+
+    public void hotkeyControls()
+    {
+        if (KeyListener.isKeyActive(GLFW_KEY_LEFT_ALT) && KeyListener.isKeyPressed(GLFW_KEY_A))
+            selectedEntity = null;
     }
 
     public void renderWindowContents()
