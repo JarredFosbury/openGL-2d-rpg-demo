@@ -1,5 +1,6 @@
 package engine.imGui;
 
+import engine.audio.SoundSource;
 import engine.core.Camera;
 import engine.core.Entity;
 import engine.core.Utils;
@@ -234,7 +235,20 @@ public class EntityInspectorWindow extends ImGuiWindow
     {
         if (ImGui.collapsingHeader("Sound Source", ImGuiTreeNodeFlags.DefaultOpen))
         {
-            ImGui.text("Nothing to display at the moment :3");
+            SoundSource sourceRef = (SoundSource) selectedEntity;
+            ImGui.labelText("Sound Clip Buffer ID", String.valueOf(sourceRef.clip.getBufferId()));
+
+            ImFloat volume = new ImFloat(sourceRef.volume);
+            ImGui.inputFloat("Volume", volume);
+            sourceRef.volume = volume.get();
+
+            ImFloat pitch = new ImFloat(sourceRef.pitch);
+            ImGui.inputFloat("Pitch", pitch);
+            sourceRef.pitch = pitch.get();
+
+            ImFloat falloffRange = new ImFloat(sourceRef.falloffRange);
+            ImGui.inputFloat("Fall-off Range", falloffRange);
+            sourceRef.falloffRange = falloffRange.get();
         }
     }
 

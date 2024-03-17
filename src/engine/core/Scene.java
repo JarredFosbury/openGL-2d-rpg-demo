@@ -1,5 +1,6 @@
 package engine.core;
 
+import engine.audio.Listener;
 import engine.imGui.*;
 import engine.shaders.*;
 import engine.shaders.NormalMappedActorLit2DShader;
@@ -20,6 +21,8 @@ public class Scene
     public static NormalMappedActorLit2DShader normalMappedActorLit2dShader;
 
     public static Camera mainCamera;
+    public static Listener audioListener;
+
     public static Vector4f ambientLight;
     public static AssetPool assets;
     public static SceneEntityList entities;
@@ -50,7 +53,8 @@ public class Scene
         new AssetPoolWindow();
         new EntityInspectorWindow();
 
-        new TombOfTheDamnedScene();
+        // Loads first scene
+        new MainMenuScene();
 
         entities.endOfInit();
     }

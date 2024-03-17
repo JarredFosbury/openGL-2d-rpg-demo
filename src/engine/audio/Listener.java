@@ -1,33 +1,32 @@
 package engine.audio;
 
-import org.joml.Vector3f;
+import engine.core.Camera;
+import engine.core.Entity;
+import engine.core.EntityType;
+import engine.core.Scene;
 
 import static org.lwjgl.openal.AL10.AL_POSITION;
 import static org.lwjgl.openal.AL10.alListener3f;
 
-public class Listener
+public class Listener extends Entity
 {
-    private Vector3f position;
+    private Camera mainCamera;
 
     public Listener()
     {
-        setPosition(0.0f, 0.0f, 0.0f);
+        super("AudioListener", EntityType.AudioListener, 0);
     }
 
-    public void translate(float x, float y, float z)
+    public void start()
     {
-        position.add(x, y, z);
+        mainCamera = Scene.mainCamera;
+    }
+
+    public void update()
+    {
+        if (mainCamera != null)
+            position = mainCamera.position;
+
         alListener3f(AL_POSITION, position.x, position.y, position.z);
-    }
-
-    public void setPosition(float x, float y, float z)
-    {
-        position = new Vector3f(x, y, z);
-        alListener3f(AL_POSITION, position.x, position.y, position.z);
-    }
-
-    public Vector3f getPosition()
-    {
-        return position;
     }
 }

@@ -1,5 +1,6 @@
 package game;
 
+import engine.audio.Listener;
 import engine.audio.SoundClip;
 import engine.audio.SoundSource;
 import engine.core.*;
@@ -59,18 +60,19 @@ public class MainMenuScene extends Entity
         Scene.assets.addAssetToPool(new Texture("res/textures/blackLeather_albedo.png", true, true, true), "blackLeather_albedo");
         Scene.assets.addAssetToPool(new Texture("res/textures/UI/heart.png", true, false, true), "heart");
 
+        Scene.audioListener = new Listener();
         Scene.mainCamera = new Camera("Main Camera", 0);
         Scene.mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
         musicSource = new SoundSource("music-soundSource", 0, (SoundClip) Scene.assets.getAssetFromPool("mainMenuTheme"), true);
-        musicSource.setVolume(0.2f);
+        musicSource.volume = 0.2f;
         musicSource.play();
 
         buttonHoverSfx = new SoundSource("buttonHoverSfx-soundSource", 0, (SoundClip) Scene.assets.getAssetFromPool("interfaceClick01"), false);
-        buttonHoverSfx.setVolume(0.1f);
+        buttonHoverSfx.volume = 0.1f;
 
         buttonClickSfx = new SoundSource("buttonClickSfx-soundSource", 0, (SoundClip) Scene.assets.getAssetFromPool("interfaceClick02"), false);
-        buttonClickSfx.setVolume(0.3f);
+        buttonClickSfx.volume = 0.3f;
 
         titleText = new TextMesh("title-text", 0, "morrisRoman", true);
         titleText.fontSize_PIXELS = 48.0f;

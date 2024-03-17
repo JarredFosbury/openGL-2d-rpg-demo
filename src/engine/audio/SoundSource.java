@@ -2,6 +2,7 @@ package engine.audio;
 
 import engine.core.Entity;
 import engine.core.EntityType;
+import engine.core.Scene;
 import org.joml.Vector3f;
 
 import static org.lwjgl.openal.AL10.*;
@@ -9,11 +10,13 @@ import static org.lwjgl.openal.AL10.*;
 public class SoundSource extends Entity
 {
     public SoundClip clip;
+    public float volume;
+    public float pitch;
+    public float falloffRange;
 
+    private final Listener audioListener;
     private boolean isPlaying;
     private int sourceId;
-    private float volume;
-    private float pitch;
 
     public SoundSource(String name, int HIERARCHY_INDEX, SoundClip clip, boolean loops)
     {
@@ -22,7 +25,8 @@ public class SoundSource extends Entity
         isPlaying = false;
         volume = 0.5f;
         pitch = 1.0f;
-        position = new Vector3f(0.0f);
+        falloffRange = 25.0f;
+        audioListener = Scene.audioListener;
 
         sourceId = alGenSources();
         alSourcei(sourceId, AL_BUFFER, clip.getBufferId());
@@ -36,6 +40,8 @@ public class SoundSource extends Entity
     public void update()
     {
         alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z);
+        alSourcef(sourceId, AL_GAIN, volume * calculateFalloffCoefficient());
+        alSourcef(sourceId, AL_PITCH, pitch);
     }
 
     public void delete()
@@ -45,7 +51,8 @@ public class SoundSource extends Entity
 
     public void play()
     {
-        isPlaying = false;
+        stop();
+        alSourcei(sourceId, AL_BUFFER, clip.getBufferId());
         alSourcei(sourceId, AL_POSITION, 0);
 
         if (!isPlaying)
@@ -72,25 +79,9 @@ public class SoundSource extends Entity
         return isPlaying;
     }
 
-    public void setVolume(float volume)
+    private float calculateFalloffCoefficient()
     {
-        this.volume = volume;
-        alSourcef(sourceId, AL_GAIN, volume);
-    }
-
-    public float getVolume()
-    {
-        return volume;
-    }
-
-    public void setPitch(float pitch)
-    {
-        this.pitch = pitch;
-        alSourcef(sourceId, AL_PITCH, pitch);
-    }
-
-    public float getPitch()
-    {
-        return pitch;
+        float dist = Vector3f.distance(position.x, position.y, position.z, audioListener.position.x, audioListener.position.y, audioListener.position.z);
+        return Math.max(1.0f - (dist / falloffRange), 0.0f);
     }
 }
