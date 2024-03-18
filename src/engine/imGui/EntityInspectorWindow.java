@@ -228,6 +228,16 @@ public class EntityInspectorWindow extends ImGuiWindow
 
             ImInt index = new ImInt(selectedEntity.HIERARCHY_INDEX);
             ImGui.labelText("Hierarchy Index", String.valueOf(index));
+
+            if (ImGui.button("Print Transform Values"))
+            {
+                Vector3f pos = selectedEntity.position;
+                Vector3f rot = selectedEntity.rotation;
+                Vector3f scale = selectedEntity.scale;
+                System.out.println(selectedEntity.name + ".position = new Vector3f(" + pos.x + "f, " + pos.y + "f, " + pos.z + "f);");
+                System.out.println(selectedEntity.name + ".rotation = new Vector3f(" + rot.x + "f, " + rot.y + "f, " + rot.z + "f);");
+                System.out.println(selectedEntity.name + ".scale = new Vector3f(" + scale.x + "f, " + scale.y + "f, " + scale.z + "f);");
+            }
         }
 
         parseEntityType();

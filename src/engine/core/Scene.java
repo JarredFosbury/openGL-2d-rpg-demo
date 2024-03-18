@@ -54,7 +54,7 @@ public class Scene
         new EntityInspectorWindow();
 
         // Loads first scene
-        new MainMenuScene();
+        new TombOfTheDamnedScene();
 
         entities.endOfInit();
     }

@@ -23,6 +23,14 @@ public class TombOfTheDamnedScene extends Entity
                 true, true, true), "cobblestoneWallNormal");
         Scene.assets.addAssetToPool(new Texture("res/textures/UI/whiteSwatch32px.png",
                 true, true, true), "whiteSwatch32px");
+        Scene.assets.addAssetToPool(new Texture("res/textures/UI/centerLitBarSwatch32px.png", false,
+                true, false), "barSwatch32px");
+        Scene.assets.addAssetToPool(new Texture("res/textures/UI/frameRoundedSimple.png", false,
+                true, false), "roundedFrame");
+        Scene.assets.addAssetToPool(new Texture("res/textures/UI/itemSlot.png", false,
+                true, false), "itemSlot");
+        Scene.assets.addAssetToPool(new Texture("res/textures/UI/button.png", false,
+                true, false), "button");
 
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx01.ogg"), "caveDrip01");
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx02.ogg"), "caveDrip02");
@@ -38,6 +46,7 @@ public class TombOfTheDamnedScene extends Entity
 
         new PlayerStartingAnimationController();
         new DrippingWaterSfxHandler();
+        new PlayerGameHUD(1000);
 
         SpriteLit wall = new SpriteLit("cobblestoneBackgroundWall", -1, "cobblestoneWallAlbedo",
                 "cobblestoneWallNormal", Color.WHITE, new Vector2f(0.0f), new Vector2f(10.0f, 2.0f));
