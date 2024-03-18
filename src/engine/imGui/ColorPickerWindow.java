@@ -9,7 +9,7 @@ public class ColorPickerWindow extends ImGuiWindow
 
     public ColorPickerWindow()
     {
-        super("color_picker_window", "Color Picker");
+        super("color_picker_window", "Color Picker", false);
         colorChannels = new float[3];
     }
 

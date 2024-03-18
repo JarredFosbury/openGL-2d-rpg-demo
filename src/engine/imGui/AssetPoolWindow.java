@@ -12,7 +12,7 @@ public class AssetPoolWindow extends ImGuiWindow implements Observer
 
     public AssetPoolWindow()
     {
-        super("asset_pool_window", "Asset Pool Viewer (0 assets)");
+        super("asset_pool_window", "Asset Pool Viewer (0 assets)", true);
         Scene.assets.addObserver(this);
     }
 

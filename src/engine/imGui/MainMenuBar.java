@@ -1,6 +1,7 @@
 package engine.imGui;
 
 import engine.core.GlobalSettings;
+import engine.core.Scene;
 import engine.core.Window;
 import imgui.ImGui;
 
@@ -41,6 +42,14 @@ public class MainMenuBar extends ImGuiRootComponent
 
             if (ImGui.menuItem("Metrics"))
                 GlobalSettings.useImGuiMetricsWindow = !GlobalSettings.useImGuiMetricsWindow;
+
+            ImGui.endMenu();
+        }
+
+        if (ImGui.beginMenu("Editor Tools"))
+        {
+            if (ImGui.menuItem("Color Picker"))
+                ((ColorPickerWindow) Scene.findImGuiComponents("color_picker_window")[0]).isActive = true;
 
             ImGui.endMenu();
         }

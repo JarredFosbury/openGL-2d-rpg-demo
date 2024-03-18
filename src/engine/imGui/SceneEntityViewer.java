@@ -12,7 +12,7 @@ public class SceneEntityViewer extends ImGuiWindow implements Observer
 
     public SceneEntityViewer()
     {
-        super("scene_entity_list_window", "Scene Entity Viewer (0 entities)");
+        super("scene_entity_list_window", "Scene Entity Viewer (0 entities)", true);
         Scene.entities.addObserver(this);
         entityList = new Entity[0];
     }

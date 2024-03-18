@@ -47,11 +47,13 @@ public class Scene
         screenSpace9sliceShader = new ScreenSpace9SliceShader("res/shaders/ScreenSpace9SliceSprite2D.glsl");
         normalMappedActorLit2dShader = new NormalMappedActorLit2DShader("res/shaders/NormalMappedActorLit2D.glsl");
 
+        // Adding editor windows and components
         new ImGuiTools();
         new MainMenuBar();
         new SceneEntityViewer();
         new AssetPoolWindow();
         new EntityInspectorWindow();
+        new ColorPickerWindow();
 
         // Loads first scene
         new TombOfTheDamnedScene();

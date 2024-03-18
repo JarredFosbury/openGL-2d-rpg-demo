@@ -47,7 +47,7 @@ public class EntityInspectorWindow extends ImGuiWindow
 
     public EntityInspectorWindow()
     {
-        super("entity_inspector_window", "Entity Inspector");
+        super("entity_inspector_window", "Entity Inspector", true);
         manipulationType = TransformType.NULL;
         selectedAxis = TransformAxis.ALL;
         useScreenSpaceSnapping = false;

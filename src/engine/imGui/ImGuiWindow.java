@@ -4,22 +4,33 @@ import imgui.ImGui;
 
 public class ImGuiWindow extends ImGuiRootComponent
 {
+    public boolean isActive;
+
     private final String windowName;
     private String title;
+    private final boolean alwaysActive;
 
-    public ImGuiWindow(String windowName, String title)
+    public ImGuiWindow(String windowName, String title, boolean alwaysActive)
     {
         super(windowName);
         this.windowName = windowName;
         this.title = title;
+        this.alwaysActive = alwaysActive;
+        this.isActive = alwaysActive;
     }
 
     public void render()
     {
-        ImGui.begin(title + "###" + windowName);
+        if (!isActive)
+            return;
 
+        ImGui.begin(title + "###" + windowName);
         if (ImGuiWindowFocusManager.currentFocusedWindow.equals(windowName))
             hotkeyControls();
+
+        if (!alwaysActive)
+            if (ImGui.button("Close This Window"))
+                this.isActive = false;
 
         renderWindowContents();
 
