@@ -43,6 +43,7 @@ public class EntityInspectorWindow extends ImGuiWindow
     private boolean snappingActive;
     private float defaultManipulationSensitivity;
     private float screenSpaceManipulationSensitivity;
+    private float rotationSnapStepSize;
 
     public EntityInspectorWindow()
     {
@@ -52,6 +53,7 @@ public class EntityInspectorWindow extends ImGuiWindow
         useScreenSpaceSnapping = false;
         defaultSnapStepSize = 0.1f;
         screenSpaceSnapStepSize = 10.0f;
+        rotationSnapStepSize = 15.0f;
         snappingActive = false;
         defaultManipulationSensitivity = 0.02f;
         screenSpaceManipulationSensitivity = 1.0f;
@@ -62,21 +64,16 @@ public class EntityInspectorWindow extends ImGuiWindow
         if (KeyListener.isKeyActive(GLFW_KEY_LEFT_ALT) && KeyListener.isKeyPressed(GLFW_KEY_A))
             selectedEntity = null;
 
-        // TODO: Implement hot keys for altering transform values, like blender, G to cycle through transform components
-        //  (Translate -> G -> Rotate -> G -> Scale -> G -> back to Translate), shift or ctrl to modify increment snapping
-        //  size, escape to cancel, enter to set changes
-        //  .
-        //  #
-        //  #             Current Control Scheme
-        //  #
-        //  #  G                -> Cycle through transformations
-        //  #  Esc              -> To cancel manipulation
-        //  #  Enter            -> Confirm manipulation
-        //  #  LShift + X       -> Select X axis only
-        //  #  LShift + Y       -> Select Y axis only
-        //  #  LShift + LAlt    -> Select all axis
-        //  #  LCtrl + LAlt     -> Toggle snap mode (default or screenSpace)
-        //  #  LCtrl            -> Use current snap mode for placement
+        //               Current Control Scheme
+        //
+        //    G                -> Cycle through transformations
+        //    Esc              -> To cancel manipulation
+        //    Enter            -> Confirm manipulation
+        //    LShift + X       -> Select X axis only
+        //    LShift + Y       -> Select Y axis only
+        //    LShift + LAlt    -> Select all axis
+        //    LCtrl + LAlt     -> Toggle snap mode (default or screenSpace)
+        //    LCtrl            -> Use current snap mode for placement
 
         if (selectedEntity == null)
             return;
@@ -91,18 +88,15 @@ public class EntityInspectorWindow extends ImGuiWindow
                 preManipulationScale = selectedEntity.scale;
                 preManipulationMousePos = MouseListener.getPosition();
             }
-
-            if (manipulationType == TransformType.TRANSLATE)
+            else if (manipulationType == TransformType.TRANSLATE)
                 manipulationType = TransformType.ROTATE;
-
-            if (manipulationType == TransformType.ROTATE)
+            else if (manipulationType == TransformType.ROTATE)
                 manipulationType = TransformType.SCALE;
-
-            if (manipulationType == TransformType.SCALE)
+            else if (manipulationType == TransformType.SCALE)
                 manipulationType = TransformType.TRANSLATE;
         }
 
-        if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE))
+        if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE) && manipulationType != TransformType.NULL)
         {
             manipulationType = TransformType.NULL;
             selectedEntity.position = preManipulationPosition;
@@ -149,15 +143,15 @@ public class EntityInspectorWindow extends ImGuiWindow
         float y;
         if (selectedAxis != TransformAxis.ALL)
         {
-            x = snapCoordinate(preManipulationPosition.x + ((selectedAxis == TransformAxis.X) ? (MouseListener.getPositionX()
+            x = snapTranslation(preManipulationPosition.x + ((selectedAxis == TransformAxis.X) ? (MouseListener.getPositionX()
                     - preManipulationMousePos.x) * manipulationSensitivity : 0.0f));
-            y = snapCoordinate(preManipulationPosition.y + ((selectedAxis == TransformAxis.Y) ? (MouseListener.getPositionY()
+            y = snapTranslation(preManipulationPosition.y + ((selectedAxis == TransformAxis.Y) ? (MouseListener.getPositionY()
                     - preManipulationMousePos.y) * manipulationSensitivity : 0.0f) * (useScreenSpaceSnapping ? 1.0f : -1.0f));
         }
         else
         {
-            x = snapCoordinate(preManipulationPosition.x + (MouseListener.getPositionX() - preManipulationMousePos.x) * manipulationSensitivity);
-            y = snapCoordinate(preManipulationPosition.y + (MouseListener.getPositionY() - preManipulationMousePos.y)
+            x = snapTranslation(preManipulationPosition.x + (MouseListener.getPositionX() - preManipulationMousePos.x) * manipulationSensitivity);
+            y = snapTranslation(preManipulationPosition.y + (MouseListener.getPositionY() - preManipulationMousePos.y)
                     * manipulationSensitivity * (useScreenSpaceSnapping ? 1.0f : -1.0f));
         }
 
@@ -165,12 +159,22 @@ public class EntityInspectorWindow extends ImGuiWindow
     }
 
     private void rotateSelected()
-    {}
+    {
+        float z = preManipulationRotation.z + (MouseListener.getPositionX() - preManipulationMousePos.x) * defaultManipulationSensitivity * 10.0f;
+
+        if (snappingActive)
+        {
+            z = Math.round(z * (1.0f / rotationSnapStepSize));
+            z *= rotationSnapStepSize;
+        }
+
+        selectedEntity.rotation = new Vector3f(preManipulationRotation.x, preManipulationRotation.y, (float) Math.toRadians(z));
+    }
 
     private void scaleSelected()
     {}
 
-    private float snapCoordinate(float inVal)
+    private float snapTranslation(float inVal)
     {
         float outVal = inVal;
         if (!snappingActive)
