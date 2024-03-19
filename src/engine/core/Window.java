@@ -137,7 +137,7 @@ public class Window
         ImFontConfig config = new ImFontConfig();
         config.setSizePixels(20.0f);
         io.getFonts().addFontDefault(config);
-        //io.addConfigFlags(ImGuiConfigFlags.ViewportsEnable);
+        io.addConfigFlags(ImGuiConfigFlags.DockingEnable);
 
         imGuiGlfw.init(glfwWindowPtr, true);
         imGuiGl3.init(GlobalSettings.GLSL_VERSION);
