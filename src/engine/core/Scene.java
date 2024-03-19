@@ -54,6 +54,7 @@ public class Scene
         new AssetPoolWindow();
         new EntityInspectorWindow();
         new ColorPickerWindow();
+        new PerformanceGraphWindow();
 
         // Loads first scene
         new TombOfTheDamnedScene();

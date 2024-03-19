@@ -10,6 +10,12 @@ public class Utils
         return Math.round(value * multiplier) / multiplier;
     }
 
+    public static double round(double value, int decimalPlace)
+    {
+        double multiplier = Math.pow(10.0, decimalPlace);
+        return Math.round(value * multiplier) / multiplier;
+    }
+
     public static float lerp(float a, float b, float weight)
     {
         return a + (b - a) * weight;

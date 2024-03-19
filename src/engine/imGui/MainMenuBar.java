@@ -51,6 +51,9 @@ public class MainMenuBar extends ImGuiRootComponent
             if (ImGui.menuItem("Color Picker"))
                 ((ColorPickerWindow) Scene.findImGuiComponents("color_picker_window")[0]).isActive = true;
 
+            if (ImGui.menuItem("Performance Metrics"))
+                ((PerformanceGraphWindow) Scene.findImGuiComponents("performance_metrics_window")[0]).isActive = true;
+
             ImGui.endMenu();
         }
 
