@@ -3,7 +3,6 @@ package engine.core;
 import engine.audio.Listener;
 import engine.imGui.*;
 import engine.shaders.*;
-import engine.shaders.NormalMappedActorLit2DShader;
 import game.*;
 import org.joml.Vector4f;
 

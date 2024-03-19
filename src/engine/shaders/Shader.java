@@ -42,36 +42,36 @@ public class Shader
     {}
 
     //TODO: cache these glGetUniformLocation calls somehow, pulling information from the GPU is expensive!!!
-    protected void setIntegerUniform(String name, int value)
+    protected void setIntegerUniform(int location, int value)
     {
-        glUniform1i(glGetUniformLocation(shaderProgramID, name), value);
+        glUniform1i(location, value);
     }
 
-    protected void setFloatUniform(String name, float value)
+    protected void setFloatUniform(int location, float value)
     {
-        glUniform1f(glGetUniformLocation(shaderProgramID, name), value);
+        glUniform1f(location, value);
     }
 
-    protected void setFloat2Uniform(String name, Vector2f value)
+    protected void setFloat2Uniform(int location, Vector2f value)
     {
-        glUniform2f(glGetUniformLocation(shaderProgramID, name), value.x, value.y);
+        glUniform2f(location, value.x, value.y);
     }
 
-    protected void setFloat3Uniform(String name, Vector3f value)
+    protected void setFloat3Uniform(int location, Vector3f value)
     {
-        glUniform3f(glGetUniformLocation(shaderProgramID, name), value.x, value.y, value.z);
+        glUniform3f(location, value.x, value.y, value.z);
     }
 
-    protected void setFloat4Uniform(String name, Vector4f value)
+    protected void setFloat4Uniform(int location, Vector4f value)
     {
-        glUniform4f(glGetUniformLocation(shaderProgramID, name), value.x, value.y, value.z, value.w);
+        glUniform4f(location, value.x, value.y, value.z, value.w);
     }
 
-    protected void setMatrix4Uniform(String name, Matrix4f value)
+    protected void setMatrix4Uniform(int location, Matrix4f value)
     {
         FloatBuffer matrixValuesBuffer = BufferUtils.createFloatBuffer(16);
         value.get(matrixValuesBuffer);
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgramID, name), false, matrixValuesBuffer);
+        glUniformMatrix4fv(location, false, matrixValuesBuffer);
     }
 
     public void delete()

@@ -6,7 +6,6 @@ import engine.core.Scene;
 import engine.core.Time;
 import engine.rendering.SpriteSheetDataLoader;
 import engine.rendering.Texture;
-import engine.shaders.NormalMappedActorLit2DShader;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
