@@ -5,18 +5,11 @@ import engine.audio.SoundClip;
 import engine.core.*;
 import engine.fontRendering.FontLoader;
 import engine.rendering.*;
-import engine.vfx.ParticleSystem;
-import engine.vfx.ParticleSystemConfiguration;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
-
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
 public class TombOfTheDamnedScene extends Entity
 {
-    private final ParticleSystem demoSystem;
-
     public TombOfTheDamnedScene()
     {
         super("Game Scene Handler", EntityType.ScriptableBehavior, 0);
@@ -28,6 +21,10 @@ public class TombOfTheDamnedScene extends Entity
                 true, true, true), "cobblestoneWallAlbedo");
         Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/materials/cobblestoneWall_nrm.png",
                 true, true, true), "cobblestoneWallNormal");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/props/torch_alb.png",
+                true, true, true), "torchAlb");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/props/torch_nrm.png",
+                true, true, true), "torchNrm");
         Scene.assets.addAssetToPool(new Texture("res/textures/UI/whiteSwatch32px.png",
                 true, true, true), "whiteSwatch32px");
         Scene.assets.addAssetToPool(new Texture("res/textures/UI/centerLitBarSwatch32px.png", false,
@@ -38,13 +35,14 @@ public class TombOfTheDamnedScene extends Entity
                 true, false), "itemSlot");
         Scene.assets.addAssetToPool(new Texture("res/textures/UI/button.png", false,
                 true, false), "button");
-        Scene.assets.addAssetToPool(new Texture("res/textures/particles/defaultParticleWhite128px.png", true,
-                true, false), "defaultParticle");
+        Scene.assets.addAssetToPool(new Texture("res/textures/fireSheet_lowRes.png", true,
+                true, false), "fireSheet");
 
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx01.ogg"), "caveDrip01");
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx02.ogg"), "caveDrip02");
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx03.ogg"), "caveDrip03");
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx04.ogg"), "caveDrip04");
+        Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/fireSmall.ogg"), "fireSmall");
 
         Scene.audioListener = new Listener();
         Scene.mainCamera = new Camera("Main Camera", 0);
@@ -57,7 +55,7 @@ public class TombOfTheDamnedScene extends Entity
         new DrippingWaterSfxHandler();
         new PlayerGameHUD(1000);
 
-        SpriteLit wall = new SpriteLit("cobblestoneBackgroundWall", -1, "cobblestoneWallAlbedo",
+        SpriteLit wall = new SpriteLit("cobblestoneBackgroundWall", -10, "cobblestoneWallAlbedo",
                 "cobblestoneWallNormal", Color.WHITE, new Vector2f(0.0f), new Vector2f(10.0f, 2.0f));
         wall.scale = new Vector3f(20.0f, 4.0f, 1.0f);
         wall.translate(0.0f, 1.0f, -1.0f);
@@ -66,27 +64,13 @@ public class TombOfTheDamnedScene extends Entity
         int[] wSize = Window.get().getWindowSize();
         swatchBg.scale = new Vector3f(wSize[0], wSize[1], 1.0f);
 
-        ParticleSystemConfiguration config = new ParticleSystemConfiguration();
-        config.maxParticleCount = 100;
-        config.looping = true;
-        config.size = new Vector3f(0.1f);
-        config.textureKey = "defaultParticle";
-        config.startWithRandomizedRotation = true;
-        config.color = new Vector4f(0.965f, 0.482f, 0.122f, 1.0f);
+        WallTorch torch1 = new WallTorch("torch1", -9);
+        torch1.position = new Vector3f(0.0f, 1.0f, -0.9f);
 
-        config.emissionModule.use = true;
-        config.emissionModule.emitsPerSecond = 20.0f;
+        WallTorch torch2 = new WallTorch("torch2", -9);
+        torch2.position = new Vector3f(5.0f, 1.0f, -0.9f);
 
-        config.velocityOverLifetimeModule.use = true;
-        config.velocityOverLifetimeModule.useRandomizedLinear = true;
-        config.velocityOverLifetimeModule.linearRandomMin = new Vector3f(-0.1f, 0.1f, 0.0f);
-        config.velocityOverLifetimeModule.linearRandomMax = new Vector3f(0.1f, 0.5f, 0.0f);
-        demoSystem = new ParticleSystem("demoParticleSystem", 50, config);
-    }
-
-    public void update()
-    {
-        if (KeyListener.isKeyPressed(GLFW_KEY_SPACE))
-            demoSystem.play();
+        WallTorch torch3 = new WallTorch("torch3", -9);
+        torch3.position = new Vector3f(-5.0f, 1.0f, -0.9f);
     }
 }

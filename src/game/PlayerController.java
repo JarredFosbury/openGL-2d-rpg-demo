@@ -3,9 +3,7 @@ package game;
 import engine.core.*;
 import engine.rendering.Color;
 import engine.rendering.PointLightSource;
-import engine.rendering.TextMesh;
 import org.joml.Vector2f;
-import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -64,7 +62,7 @@ public class PlayerController extends Entity
         jumpDownSprite.initSpriteSheet("res/textures/litSprites/player/jumpingDown/playerJumpingDown_SheetData.ssd", false, true);
         jumpDownSprite.isVisible = false;
 
-        spiritLight = new PointLightSource("playerSpiritLight", 0, Color.WHITE, 0.0f, 25.0f, 0.0f, 0.0f, 2.0f);
+        spiritLight = new PointLightSource("playerSpiritLight", 0, Color.WHITE, 0.0f, 25.0f, 0.0f, 0.0f, 1.5f);
         spiritLight.color = new Vector4f(0.561f, 0.773f, 1.0f, 1.0f);
 
         sprites = new SpriteLitActor[] {idleSprite, walkingSprite, runningSprite, jumpUpSprite, jumpDownSprite};
@@ -123,10 +121,10 @@ public class PlayerController extends Entity
             return;
 
         spiritLightAwakeTimer -= Time.deltaTime;
-        spiritLight.intensity = 1.0f - (spiritLightAwakeTimer / 2.0f);
+        spiritLight.intensity = (1.0f - (spiritLightAwakeTimer / 2.0f)) * 0.5f;
 
-        if (spiritLight.intensity > 1.0f)
-            spiritLight.intensity = 1.0f;
+        if (spiritLight.intensity > 0.5f)
+            spiritLight.intensity = 0.5f;
     }
 
     private void manageAnimationState()
