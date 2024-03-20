@@ -5,11 +5,17 @@ import engine.audio.SoundClip;
 import engine.core.*;
 import engine.fontRendering.FontLoader;
 import engine.rendering.*;
+import engine.vfx.ParticleSystem;
+import engine.vfx.ParticleSystemConfiguration;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+
 public class TombOfTheDamnedScene extends Entity
 {
+    private final ParticleSystem demoSystem;
+
     public TombOfTheDamnedScene()
     {
         super("Game Scene Handler", EntityType.ScriptableBehavior, 0);
@@ -31,6 +37,8 @@ public class TombOfTheDamnedScene extends Entity
                 true, false), "itemSlot");
         Scene.assets.addAssetToPool(new Texture("res/textures/UI/button.png", false,
                 true, false), "button");
+        Scene.assets.addAssetToPool(new Texture("res/textures/particles/defaultParticleWhite128px.png", true,
+                true, false), "defaultParticle");
 
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx01.ogg"), "caveDrip01");
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx02.ogg"), "caveDrip02");
@@ -56,5 +64,24 @@ public class TombOfTheDamnedScene extends Entity
         ScreenSpaceSprite swatchBg = new ScreenSpaceSprite("background", -1000, "whiteSwatch32px", Color.BLACK, true);
         int[] wSize = Window.get().getWindowSize();
         swatchBg.scale = new Vector3f(wSize[0], wSize[1], 1.0f);
+
+        ParticleSystemConfiguration config = new ParticleSystemConfiguration();
+        config.maxParticleCount = 100;
+        config.looping = true;
+        config.size = new Vector3f(0.1f);
+        config.textureKey = "defaultParticle";
+        config.emissionModule.use = true;
+        config.emissionModule.emitsPerSecond = 20.0f;
+        config.startWithRandomizedRotation = true;
+        config.shapeModule.use = true;
+        config.shapeModule.shape = ParticleSystemConfiguration.Shape.Circle;
+        config.shapeModule.radius = 0.5f;
+        demoSystem = new ParticleSystem("demoParticleSystem", 50, config);
+    }
+
+    public void update()
+    {
+        if (KeyListener.isKeyPressed(GLFW_KEY_SPACE))
+            demoSystem.play();
     }
 }

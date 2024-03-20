@@ -1,12 +1,12 @@
-package engine.rendering;
+package engine.vfx;
 
-import engine.core.Entity;
-import engine.core.EntityType;
 import engine.core.Scene;
 import engine.core.Time;
+import engine.rendering.Texture;
 import engine.shaders.Standard2dShader;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
@@ -16,8 +16,20 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class Sprite extends Entity
+public class Particle
 {
+    public Vector3f position;
+    public Vector3f rotation;
+    public Vector3f scale;
+    public boolean isActive;
+    public Texture mainTexture;
+    public Vector4f mainTextureTint;
+    public Vector2f mainTextureOffset;
+    public Vector2f mainTextureScale;
+    public int spriteSheetFrame;
+    public int animationFrameRate;
+    public float lifeRemaining;
+
     private final float[] vertexData = {
             // positions            // texture coordinates
             0.5f,  0.5f, 0.0f,      1.0f, 1.0f,     // top right
@@ -33,25 +45,18 @@ public class Sprite extends Entity
 
     private int vboID, vaoID, eboID;
 
-    public Texture mainTexture;
-    public Vector4f mainTextureTint;
-    public Vector2f mainTextureOffset;
-    public Vector2f mainTextureScale;
-    public int spriteSheetFrame;
-    public int animationFrameRate;
-
     private final Standard2dShader shader;
     private float timeSinceLastFrame;
-    private Vector2f[] spriteSheetFrameOffsets;
+    private final Vector2f[] spriteSheetFrameOffsets;
 
-    public Sprite(String name, int HIERARCHY_INDEX, String textureAssetKey, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale)
+    public Particle(String textureKey, Vector4f mainTextureTint, Vector2f mainTextureOffset, Vector2f mainTextureScale, Vector2f[] spriteSheetFrameOffsets)
     {
-        super(name, EntityType.Sprite, HIERARCHY_INDEX);
         this.shader = Scene.standard2dShader;
-        this.mainTexture = (Texture) Scene.assets.getAssetFromPool(textureAssetKey);
+        this.mainTexture = (Texture) Scene.assets.getAssetFromPool(textureKey);
         this.mainTextureTint = mainTextureTint;
         this.mainTextureOffset = mainTextureOffset;
         this.mainTextureScale = mainTextureScale;
+        this.spriteSheetFrameOffsets = spriteSheetFrameOffsets;
         initMeshData();
         initVariables();
     }
@@ -75,19 +80,17 @@ public class Sprite extends Entity
 
     private void initVariables()
     {
+        position = new Vector3f(0.0f, 0.0f, 0.0f);
+        rotation = new Vector3f(0.0f, 0.0f, 0.0f);
+        scale = new Vector3f(1.0f, 1.0f, 1.0f);
         spriteSheetFrame = 0;
         animationFrameRate = 24;
         timeSinceLastFrame = 0.0f;
     }
 
-    public void initSpriteSheet(String frameOffsetDataFilepath)
+    public void render(Matrix4f cameraTransformation)
     {
-        this.spriteSheetFrameOffsets = SpriteSheetDataLoader.loadSheetDataFromPath(frameOffsetDataFilepath);
-    }
-
-    public void render()
-    {
-        if (!isVisible)
+        if (!isActive)
             return;
 
         Matrix4f transform = new Matrix4f().identity();
@@ -97,7 +100,7 @@ public class Sprite extends Entity
 
         shader.bind();
         mainTexture.bind(0);
-        shader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.projection, Scene.mainCamera.getTransformation(),
+        shader.updateUniforms(mainTextureTint, transform, Scene.mainCamera.projection, cameraTransformation,
                 mainTextureOffset, mainTextureScale);
         glBindVertexArray(vaoID);
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
@@ -105,17 +108,17 @@ public class Sprite extends Entity
         shader.unbind();
     }
 
-    public void animateSprite()
+    public void animateParticle()
     {
         timeSinceLastFrame += Time.deltaTime;
         if (timeSinceLastFrame >= 1.0f / (float) animationFrameRate)
         {
             timeSinceLastFrame -= 1.0f / (float) animationFrameRate;
-            nextSpriteSheetFrame();
+            nextFrame();
         }
     }
 
-    public void nextSpriteSheetFrame()
+    public void nextFrame()
     {
         if (spriteSheetFrameOffsets == null)
         {

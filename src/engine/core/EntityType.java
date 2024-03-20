@@ -13,5 +13,6 @@ public enum EntityType
     MainLightSource,
     ScreenSpaceSprite9Slice,
     PointLightSource,
-    AudioListener;
+    AudioListener,
+    ParticleSystem;
 }
