@@ -29,6 +29,7 @@ public class Particle
     public int spriteSheetFrame;
     public int animationFrameRate;
     public float lifeRemaining;
+    public Vector3f velocity;
 
     private final float[] vertexData = {
             // positions            // texture coordinates
@@ -57,6 +58,7 @@ public class Particle
         this.mainTextureOffset = mainTextureOffset;
         this.mainTextureScale = mainTextureScale;
         this.spriteSheetFrameOffsets = spriteSheetFrameOffsets;
+        this.velocity = new Vector3f(0.0f);
         initMeshData();
         initVariables();
     }

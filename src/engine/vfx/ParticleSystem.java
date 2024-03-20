@@ -96,6 +96,7 @@ public class ParticleSystem extends Entity
             if (!particlePool[i].isActive)
                 continue;
 
+            particlePool[i].position = new Vector3f(particlePool[i].position).add(new Vector3f(particlePool[i].velocity).mul(Time.deltaTime));
             if (particlePool[i].lifeRemaining <= 0.0f)
             {
                 particlePool[i].isActive = false;
@@ -209,6 +210,23 @@ public class ParticleSystem extends Entity
         }
 
         particlePool[nextParticleIndex].scale = new Vector3f(CONFIG.size);
+
+        if (CONFIG.velocityOverLifetimeModule.use)
+        {
+            if (CONFIG.velocityOverLifetimeModule.useRandomizedLinear)
+            {
+                particlePool[nextParticleIndex].velocity = new Vector3f(
+                        Utils.randomRangeFloat(CONFIG.velocityOverLifetimeModule.linearRandomMin.x, CONFIG.velocityOverLifetimeModule.linearRandomMax.x),
+                        Utils.randomRangeFloat(CONFIG.velocityOverLifetimeModule.linearRandomMin.y, CONFIG.velocityOverLifetimeModule.linearRandomMax.y),
+                        Utils.randomRangeFloat(CONFIG.velocityOverLifetimeModule.linearRandomMin.z, CONFIG.velocityOverLifetimeModule.linearRandomMax.z)
+                );
+            }
+            else
+            {
+                particlePool[nextParticleIndex].velocity = CONFIG.velocityOverLifetimeModule.linearFixed;
+            }
+        }
+
         if (CONFIG.useSpriteSheetAnimation)
             particlePool[nextParticleIndex].spriteSheetFrame = 0;
 

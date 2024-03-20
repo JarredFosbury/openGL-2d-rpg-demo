@@ -9,6 +9,7 @@ import engine.vfx.ParticleSystem;
 import engine.vfx.ParticleSystemConfiguration;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
@@ -70,12 +71,16 @@ public class TombOfTheDamnedScene extends Entity
         config.looping = true;
         config.size = new Vector3f(0.1f);
         config.textureKey = "defaultParticle";
+        config.startWithRandomizedRotation = true;
+        config.color = new Vector4f(0.965f, 0.482f, 0.122f, 1.0f);
+
         config.emissionModule.use = true;
         config.emissionModule.emitsPerSecond = 20.0f;
-        config.startWithRandomizedRotation = true;
-        config.shapeModule.use = true;
-        config.shapeModule.shape = ParticleSystemConfiguration.Shape.Circle;
-        config.shapeModule.radius = 0.5f;
+
+        config.velocityOverLifetimeModule.use = true;
+        config.velocityOverLifetimeModule.useRandomizedLinear = true;
+        config.velocityOverLifetimeModule.linearRandomMin = new Vector3f(-0.1f, 0.1f, 0.0f);
+        config.velocityOverLifetimeModule.linearRandomMax = new Vector3f(0.1f, 0.5f, 0.0f);
         demoSystem = new ParticleSystem("demoParticleSystem", 50, config);
     }
 

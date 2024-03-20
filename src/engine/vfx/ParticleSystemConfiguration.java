@@ -27,7 +27,7 @@ public class ParticleSystemConfiguration
         public boolean use = false;
         public boolean useRandomizedLinear = false;
         public Vector3f linearFixed = new Vector3f(0.0f);
-        public Vector3f linearRandomMin = new Vector3f(0.0f);
+        public Vector3f linearRandomMin = new Vector3f(-1.0f);
         public Vector3f linearRandomMax = new Vector3f(1.0f);
     }
 
