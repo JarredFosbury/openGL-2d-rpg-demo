@@ -26,6 +26,8 @@ public class Listener extends Entity
     {
         if (mainCamera != null)
             position = mainCamera.position;
+        else
+            mainCamera = Scene.mainCamera;
 
         alListener3f(AL_POSITION, position.x, position.y, position.z);
     }

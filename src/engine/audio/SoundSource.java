@@ -79,7 +79,7 @@ public class SoundSource extends Entity
         return isPlaying;
     }
 
-    private float calculateFalloffCoefficient()
+    public float calculateFalloffCoefficient()
     {
         float dist = Vector3f.distance(position.x, position.y, position.z, audioListener.position.x, audioListener.position.y, audioListener.position.z);
         return Math.max(1.0f - (dist / falloffRange), 0.0f);

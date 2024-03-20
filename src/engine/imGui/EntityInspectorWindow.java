@@ -431,6 +431,8 @@ public class EntityInspectorWindow extends ImGuiWindow
             ImFloat falloffRange = new ImFloat(sourceRef.falloffRange);
             ImGui.inputFloat("Fall-off Range", falloffRange);
             sourceRef.falloffRange = falloffRange.get();
+
+            ImGui.labelText("Volume post Fall-off", String.valueOf(sourceRef.calculateFalloffCoefficient()));
         }
     }
 

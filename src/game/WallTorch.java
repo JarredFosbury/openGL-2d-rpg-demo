@@ -60,6 +60,7 @@ public class WallTorch extends Entity
         source.position = new Vector3f(position.x + 0.0f, position.y + 0.25f, position.z + 1.0f);
         flameAnimatedSprite.position = new Vector3f(position.x + 0.0f, position.y + 0.25f, position.z + 1.0f);
         flameAnimatedSprite.animateSprite();
+        audioSource.position = position;
 
         intensityChangeTimer -= Time.deltaTime;
         if (intensityChangeTimer <= 0.0f)
