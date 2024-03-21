@@ -20,10 +20,17 @@ public class AssetPoolWindow extends ImGuiWindow implements Observer
     {
         setTitle("Loaded Asset Pool (" + assetCount + " assets)");
 
-        for (int i = 0; i < assets.length; i++)
+        if (assets != null)
         {
-            String[] halves = assets[i].split(",");
-            ImGui.selectable("(" + halves[0] + ")" + halves[1]);
+            for (String asset : assets)
+            {
+                String[] halves = asset.split(",");
+                ImGui.selectable("(" + halves[0] + ")" + halves[1]);
+            }
+        }
+        else
+        {
+            ImGui.text("No assets loaded");
         }
     }
 
