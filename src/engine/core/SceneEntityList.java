@@ -86,7 +86,7 @@ public class SceneEntityList extends ArrayList<Entity> implements Observable
                 case ADD_INDEXED -> {super.add(entityAction.index, (Entity) entityAction.target); runStartMethodQueue.offer((Entity) entityAction.target);}
                 case REMOVE_INDEXED -> super.remove(entityAction.index);
                 case REMOVE_OBJECT -> super.remove(entityAction.target);
-                case CLEAR_ALL_ENTITIES -> super.clear();
+                case CLEAR_ALL_ENTITIES -> clearAllEntities();
             }
         }
 
@@ -130,5 +130,13 @@ public class SceneEntityList extends ArrayList<Entity> implements Observable
                 return;
             }
         }
+    }
+
+    private void clearAllEntities()
+    {
+        for (int i = 0; i < super.size(); i++)
+            super.get(i).cleanUp();
+
+        super.clear();
     }
 }

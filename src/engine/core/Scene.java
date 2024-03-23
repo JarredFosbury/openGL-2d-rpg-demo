@@ -9,6 +9,7 @@ import org.joml.Vector4f;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F3;
 import static org.lwjgl.opengl.GL15.*;
 
 public class Scene
@@ -65,6 +66,9 @@ public class Scene
     {
         for (Entity entity : entities)
             entity.update();
+
+        if (KeyListener.isKeyPressed(GLFW_KEY_F3))
+            GlobalSettings.renderDebug = !GlobalSettings.renderDebug;
     }
 
     public static void fixedPhysicsUpdate()
@@ -77,6 +81,10 @@ public class Scene
     {
         for (Entity entity : entities)
             entity.render();
+
+        if (GlobalSettings.renderDebug)
+            for (Entity entity : entities)
+                entity.renderDebug();
     }
 
     public static void renderImGui()

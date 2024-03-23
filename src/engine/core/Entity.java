@@ -43,6 +43,12 @@ public class Entity
     public void render()
     {}
 
+    public void renderDebug()
+    {}
+
+    public void cleanUp()
+    {}
+
     public void translate(float x, float y, float z)
     {
         position.add(x, y, z);
@@ -69,7 +75,9 @@ public class Entity
                 rots[i] -= 6.283185f;
         }
 
-        this.rotation = new Vector3f(rots[0], rots[1], rots[2]);
+        rotation.x = rots[0];
+        rotation.y = rots[1];
+        rotation.z = rots[2];
     }
 
     public void rotate(Vector3f v)
@@ -88,7 +96,9 @@ public class Entity
                 rots[i] -= 6.283185f;
         }
 
-        this.rotation = new Vector3f(rots[0], rots[1], rots[2]);
+        rotation.x = rots[0];
+        rotation.y = rots[1];
+        rotation.z = rots[2];
     }
 
     public void scale(float x, float y, float z)

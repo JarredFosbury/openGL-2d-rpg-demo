@@ -20,4 +20,7 @@ public class GlobalSettings
     public static boolean useImGuiDemoWindow    = false;
     public static boolean useImGuiUserGuide     = false;
     public static boolean useImGuiMetricsWindow = false;
+
+    // Engine flags
+    public static boolean renderDebug           = false;
 }
