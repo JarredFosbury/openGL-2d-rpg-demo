@@ -39,4 +39,9 @@ public class MainLightSource extends Entity
         light.getBase().setIntensity(intensity);
         light.setDirection(directionFromRotation());
     }
+
+    public void cleanUp()
+    {
+        Scene.lightSources.removeMainLightSource(light);
+    }
 }

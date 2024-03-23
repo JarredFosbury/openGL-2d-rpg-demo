@@ -68,7 +68,11 @@ public class Scene
             entity.update();
 
         if (KeyListener.isKeyPressed(GLFW_KEY_F3))
+        {
             GlobalSettings.renderDebug = !GlobalSettings.renderDebug;
+            ImGuiWindow statsWindow = (ImGuiWindow) findImGuiComponents("performance_metrics_window")[0];
+            statsWindow.isActive = GlobalSettings.renderDebug;
+        }
     }
 
     public static void fixedPhysicsUpdate()

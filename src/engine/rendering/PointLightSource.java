@@ -46,4 +46,9 @@ public class PointLightSource extends Entity
         source.getAttenuation().setLinear(linear);
         source.getAttenuation().setExponent(exponent);
     }
+
+    public void cleanUp()
+    {
+        Scene.lightSources.remove(source);
+    }
 }
