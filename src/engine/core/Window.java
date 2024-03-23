@@ -28,8 +28,8 @@ public class Window
     private long glfwWindowPtr;
     private boolean windowTerminationQueued;
 
-    private final ImGuiImplGlfw imGuiGlfw   = new ImGuiImplGlfw();
-    private final ImGuiImplGl3 imGuiGl3     = new ImGuiImplGl3();
+    private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
+    private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
 
     private static long audioContext;
     private static long audioDevice;
