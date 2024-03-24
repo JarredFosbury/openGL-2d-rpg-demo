@@ -4,6 +4,7 @@ import engine.audio.Listener;
 import engine.audio.SoundClip;
 import engine.core.*;
 import engine.fontRendering.FontLoader;
+import engine.physics.ColliderAABB;
 import engine.rendering.*;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -60,7 +61,8 @@ public class TombOfTheDamnedScene extends Entity
         wall.scale = new Vector3f(20.0f, 4.0f, 1.0f);
         wall.translate(0.0f, 1.0f, -1.0f);
 
-        ScreenSpaceSprite swatchBg = new ScreenSpaceSprite("background", -1000, "whiteSwatch32px", Color.BLACK, true);
+        ScreenSpaceSprite swatchBg = new ScreenSpaceSprite("background", -1000,
+                "whiteSwatch32px", Color.BLACK, true);
         int[] wSize = Window.get().getWindowSize();
         swatchBg.scale = new Vector3f(wSize[0], wSize[1], 1.0f);
 
@@ -72,5 +74,8 @@ public class TombOfTheDamnedScene extends Entity
 
         WallTorch torch3 = new WallTorch("torch3", -9);
         torch3.position = new Vector3f(-5.0f, 1.0f, -0.9f);
+
+        ColliderAABB demoCollider = new ColliderAABB("demoCollider", 0, Color.DEBUG_DEFAULT_COLOR);
+        demoCollider.scale = new Vector3f(2.0f, 1.0f, 1.0f);
     }
 }

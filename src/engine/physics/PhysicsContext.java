@@ -5,9 +5,9 @@ import java.util.List;
 
 public class PhysicsContext
 {
-    public List<AxisAlignedBoundingBox> worldLayer;
-    public List<AxisAlignedBoundingBox> propsLayer;
-    public List<AxisAlignedBoundingBox> dynamicLayer;
+    public List<ColliderAABB> worldLayer;
+    public List<ColliderAABB> propsLayer;
+    public List<ColliderAABB> dynamicLayer;
 
     public PhysicsContext()
     {

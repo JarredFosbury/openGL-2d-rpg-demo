@@ -14,5 +14,6 @@ public enum EntityType
     ScreenSpaceSprite9Slice,
     PointLightSource,
     AudioListener,
-    ParticleSystem;
+    ParticleSystem,
+    ColliderAABB;
 }

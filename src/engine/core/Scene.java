@@ -15,6 +15,7 @@ import static org.lwjgl.opengl.GL15.*;
 public class Scene
 {
     public static Standard2dShader standard2dShader;
+    public static Debug2dShader debug2dShader;
     public static ScreenSpace2dShader screenSpace2dShader;
     public static NormalMappedLit2DShader normalMappedLit2dShader;
     public static ScreenSpace9SliceShader screenSpace9sliceShader;
@@ -42,6 +43,7 @@ public class Scene
         lightSources = new LightSourceList();
 
         standard2dShader = new Standard2dShader("res/shaders/Standard2D.glsl");
+        debug2dShader = new Debug2dShader("res/shaders/Debug2D.glsl");
         screenSpace2dShader = new ScreenSpace2dShader("res/shaders/ScreenSpace2D.glsl");
         normalMappedLit2dShader = new NormalMappedLit2DShader("res/shaders/NormalMappedLit2D.glsl");
         screenSpace9sliceShader = new ScreenSpace9SliceShader("res/shaders/ScreenSpace9SliceSprite2D.glsl");

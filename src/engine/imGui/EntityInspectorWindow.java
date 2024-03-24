@@ -2,6 +2,7 @@ package engine.imGui;
 
 import engine.audio.SoundSource;
 import engine.core.*;
+import engine.physics.ColliderAABB;
 import engine.rendering.*;
 import imgui.ImGui;
 import imgui.flag.ImGuiTreeNodeFlags;
@@ -267,6 +268,9 @@ public class EntityInspectorWindow extends ImGuiWindow
             case MainLightSource -> renderMainLightSourceInspector();
             case ScreenSpaceSprite9Slice -> renderScreenSpaceSprite9SliceInspector();
             case PointLightSource -> renderPointLightSourceInspector();
+            case AudioListener -> renderAudioListenerInspector();
+            case ParticleSystem -> renderParticleSystemInspector();
+            case ColliderAABB -> renderColliderAABBInspector();
         }
     }
 
@@ -552,6 +556,38 @@ public class EntityInspectorWindow extends ImGuiWindow
             ImFloat exponent = new ImFloat(sourceRef.exponent);
             ImGui.inputFloat("Exponent", exponent);
             sourceRef.exponent = exponent.get();
+        }
+    }
+
+    private void renderAudioListenerInspector()
+    {
+        if (ImGui.collapsingHeader("Audio Listener", ImGuiTreeNodeFlags.DefaultOpen))
+        {
+            ImGui.text("Nothing to display at the moment :3");
+        }
+    }
+
+    private void renderParticleSystemInspector()
+    {
+        if (ImGui.collapsingHeader("Particle System", ImGuiTreeNodeFlags.DefaultOpen))
+        {
+            ImGui.text("Nothing to display at the moment :3");
+        }
+    }
+
+    private void renderColliderAABBInspector()
+    {
+        if (ImGui.collapsingHeader("Collider AABB", ImGuiTreeNodeFlags.DefaultOpen))
+        {
+            ColliderAABB colliderRef = (ColliderAABB) selectedEntity;
+            ImBoolean isTrigger = new ImBoolean(colliderRef.isTrigger);
+            ImGui.checkbox("isTrigger", isTrigger);
+            colliderRef.isTrigger = isTrigger.get();
+
+            Vector4f tint = colliderRef.debugRenderColor;
+            float[] col4 = {tint.x, tint.y, tint.z, tint.w};
+            ImGui.colorEdit4("Debug Color", col4);
+            colliderRef.debugRenderColor = new Vector4f(col4[0], col4[1], col4[2], col4[3]);
         }
     }
 }
