@@ -19,6 +19,7 @@ public class ColliderAABB extends Entity
 {
     public boolean isTrigger;
     public Vector4f debugRenderColor;
+    public int layerMaskIndex;
 
     private final float[] vertexData = {
             // positions
@@ -45,6 +46,8 @@ public class ColliderAABB extends Entity
         this.isTrigger = false;
         this.shader = Scene.debug2dShader;
         this.debugRenderColor = color;
+        this.layerMaskIndex = 0;
+        Scene.physics.alignedColliders.add(this);
         initDebugMeshData();
     }
 

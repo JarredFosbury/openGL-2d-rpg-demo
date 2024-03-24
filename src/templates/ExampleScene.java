@@ -37,6 +37,7 @@ public class ExampleScene extends Entity
     public void unloadScene()
     {
         Scene.assets.releaseAllAssetsFromPool();
+        Scene.physics.resetToDefaultValues();
         Scene.entities.clear();
     }
 }

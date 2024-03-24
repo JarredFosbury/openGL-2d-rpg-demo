@@ -64,14 +64,14 @@ public class MainMenuScene extends Entity
         Scene.mainCamera = new Camera("Main Camera", 0);
         Scene.mainCamera.updateViewport(4.0f, -1.0f, 1.0f);
 
-        musicSource = new SoundSource("music-soundSource", 0, (SoundClip) Scene.assets.getAssetFromPool("mainMenuTheme"), true);
+        musicSource = new SoundSource("music-soundSource", 0, Scene.assets.soundClipPool.get("mainMenuTheme"), true);
         musicSource.volume = 0.2f;
         musicSource.play();
 
-        buttonHoverSfx = new SoundSource("buttonHoverSfx-soundSource", 0, (SoundClip) Scene.assets.getAssetFromPool("interfaceClick01"), false);
+        buttonHoverSfx = new SoundSource("buttonHoverSfx-soundSource", 0, Scene.assets.soundClipPool.get("interfaceClick01"), false);
         buttonHoverSfx.volume = 0.1f;
 
-        buttonClickSfx = new SoundSource("buttonClickSfx-soundSource", 0, (SoundClip) Scene.assets.getAssetFromPool("interfaceClick02"), false);
+        buttonClickSfx = new SoundSource("buttonClickSfx-soundSource", 0, Scene.assets.soundClipPool.get("interfaceClick02"), false);
         buttonClickSfx.volume = 0.3f;
 
         titleText = new TextMesh("title-text", 0, "morrisRoman", true);
@@ -218,10 +218,8 @@ public class MainMenuScene extends Entity
 
     public void unloadScene()
     {
-        musicSource.stop();
-        buttonHoverSfx.stop();
-
         Scene.assets.releaseAllAssetsFromPool();
+        Scene.physics.resetToDefaultValues();
         Scene.entities.clear();
     }
 }

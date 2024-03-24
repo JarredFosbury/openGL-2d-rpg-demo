@@ -1,18 +1,26 @@
 package engine.physics;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PhysicsContext
 {
-    public List<ColliderAABB> worldLayer;
-    public List<ColliderAABB> propsLayer;
-    public List<ColliderAABB> dynamicLayer;
+    public ArrayList<String> layerMasks;
+    public ArrayList<ColliderAABB> alignedColliders;
 
     public PhysicsContext()
     {
-        worldLayer = new ArrayList<>();
-        propsLayer = new ArrayList<>();
-        dynamicLayer = new ArrayList<>();
+        resetToDefaultValues();
+    }
+
+    public boolean compareLayerMaskIndex(int index, int index2)
+    {
+        return layerMasks.get(index).equals(layerMasks.get(index2));
+    }
+
+    public void resetToDefaultValues()
+    {
+        layerMasks = new ArrayList<>();
+        alignedColliders = new ArrayList<>();
+        layerMasks.add("Default");
     }
 }

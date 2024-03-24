@@ -8,12 +8,18 @@ import engine.physics.ColliderAABB;
 import engine.rendering.*;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class TombOfTheDamnedScene extends Entity
 {
     public TombOfTheDamnedScene()
     {
         super("Game Scene Handler", EntityType.ScriptableBehavior, 0);
+        Scene.ambientLight = new Vector4f(0.1f);
+
+        Scene.physics.layerMasks.add("Player");
+        Scene.physics.layerMasks.add("StaticGeometry");
+
         Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/consolas/consolas.png",
                 "res/fonts/consolas/consolas.fnt"), "consolas");
         Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/morris roman/morrisRoman.png",
@@ -75,7 +81,21 @@ public class TombOfTheDamnedScene extends Entity
         WallTorch torch3 = new WallTorch("torch3", -9);
         torch3.position = new Vector3f(-5.0f, 1.0f, -0.9f);
 
-        ColliderAABB demoCollider = new ColliderAABB("demoCollider", 0, Color.DEBUG_DEFAULT_COLOR);
-        demoCollider.scale = new Vector3f(2.0f, 1.0f, 1.0f);
+        ColliderAABB floorCollider = new ColliderAABB("floorCollider", 0, Color.DEBUG_DEFAULT_COLOR);
+        floorCollider.layerMaskIndex = 2;
+        floorCollider.position = new Vector3f(0.0f, -1.25f, 0.0f);
+        floorCollider.scale = new Vector3f(20.0f, 0.5f, 1.0f);
+
+        ColliderAABB wallCollider = new ColliderAABB("wallCollider", 0, Color.DEBUG_DEFAULT_COLOR);
+        wallCollider.layerMaskIndex = 2;
+        wallCollider.position = new Vector3f(-11.0f, 1.0f, 0.0f);
+        wallCollider.scale = new Vector3f(2.0f, 4.0f, 1.0f);
+    }
+
+    public void unloadScene()
+    {
+        Scene.assets.releaseAllAssetsFromPool();
+        Scene.physics.resetToDefaultValues();
+        Scene.entities.clear();
     }
 }

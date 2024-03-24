@@ -1,6 +1,7 @@
 package game;
 
 import engine.core.*;
+import engine.physics.ColliderAABB;
 import engine.rendering.Color;
 import engine.rendering.PointLightSource;
 import org.joml.Vector2f;
@@ -28,42 +29,53 @@ public class PlayerController extends Entity
     private final SpriteLitActor jumpDownSprite;
     private final SpriteLitActor[] sprites;
     private final PointLightSource spiritLight;
+    private final ColliderAABB collider;
     private AnimationState animState;
 
     private float walkSpeed;
     private float runSpeed;
     private float spiritLightAwakeTimer;
+    private Vector3f velocity;
 
     public PlayerController()
     {
         super("PlayerController", EntityType.ScriptableBehavior, 0);
         idleSprite = new SpriteLitActor("playerIdleSpriteSheet", 0, "breathingIdleAlbedo",
                 "breathingIdleNormal", Color.WHITE, new Vector2f(0.0f, 0.93333334f), new Vector2f(0.06666667f));
-        idleSprite.initSpriteSheet("res/textures/litSprites/player/breathingIdle/playerBreathingIdle_SheetData.ssd", true, false);
+        idleSprite.initSpriteSheet("res/textures/litSprites/player/breathingIdle/playerBreathingIdle_SheetData.ssd",
+                true, false);
         idleSprite.isVisible = false;
 
         walkingSprite = new SpriteLitActor("playerWalkingSpriteSheet", 0, "walkingAlbedo",
                 "walkingNormal", Color.WHITE, new Vector2f(0.0f, 0.83333325f), new Vector2f(0.16666667f));
-        walkingSprite.initSpriteSheet("res/textures/litSprites/player/walking/playerWalking_SheetData.ssd", true, false);
+        walkingSprite.initSpriteSheet("res/textures/litSprites/player/walking/playerWalking_SheetData.ssd",
+                true, false);
         walkingSprite.isVisible = false;
 
         runningSprite = new SpriteLitActor("playerRunningSpriteSheet", 0, "runningAlbedo",
                 "runningNormal", Color.WHITE, new Vector2f(0.0f, 0.75f), new Vector2f(0.25f));
-        runningSprite.initSpriteSheet("res/textures/litSprites/player/running/playerRunning_SheetData.ssd", true, false);
+        runningSprite.initSpriteSheet("res/textures/litSprites/player/running/playerRunning_SheetData.ssd",
+                true, false);
         runningSprite.isVisible = false;
 
         jumpUpSprite = new SpriteLitActor("playerJumpUpSpriteSheet", 0, "jumpingUpAlbedo",
                 "jumpingUpNormal", Color.WHITE, new Vector2f(0.0f, 0.8f), new Vector2f(0.2f));
-        jumpUpSprite.initSpriteSheet("res/textures/litSprites/player/jumpingUp/playerJumpingUp_SheetData.ssd", false, true);
+        jumpUpSprite.initSpriteSheet("res/textures/litSprites/player/jumpingUp/playerJumpingUp_SheetData.ssd",
+                false, true);
         jumpUpSprite.isVisible = false;
 
         jumpDownSprite = new SpriteLitActor("playerJumpDownSpriteSheet", 0, "jumpingDownAlbedo",
                 "jumpingDownNormal", Color.WHITE, new Vector2f(0.0f, 0.83333325f), new Vector2f(0.16666667f));
-        jumpDownSprite.initSpriteSheet("res/textures/litSprites/player/jumpingDown/playerJumpingDown_SheetData.ssd", false, true);
+        jumpDownSprite.initSpriteSheet("res/textures/litSprites/player/jumpingDown/playerJumpingDown_SheetData.ssd",
+                false, true);
         jumpDownSprite.isVisible = false;
 
         spiritLight = new PointLightSource("playerSpiritLight", 0, Color.WHITE, 0.0f, 25.0f, 0.0f, 0.0f, 1.5f);
         spiritLight.color = new Vector4f(0.561f, 0.773f, 1.0f, 1.0f);
+
+        collider = new ColliderAABB("playerCollider", 0, Color.DEBUG_DEFAULT_COLOR);
+        collider.scale = new Vector3f(0.5f, 1.5f, 1.0f);
+        collider.layerMaskIndex = 1;
 
         sprites = new SpriteLitActor[] {idleSprite, walkingSprite, runningSprite, jumpUpSprite, jumpDownSprite};
         animState = AnimationState.IDLE;
@@ -72,6 +84,7 @@ public class PlayerController extends Entity
         walkSpeed = 1.5f;
         runSpeed = 4.0f;
         spiritLightAwakeTimer = 2.0f;
+        velocity = new Vector3f(0.0f);
     }
 
     public void start()
@@ -87,7 +100,17 @@ public class PlayerController extends Entity
     }
 
     public void fixedPhysicsUpdate()
-    {}
+    {
+        position.add(0.0f, -9.81f * Time.fixedPhysicsTimeStep, 0.0f);
+        collider.position = new Vector3f(position).add(0.0f, -0.25f, 0.0f);
+
+        for (int i = 0; i < Scene.physics.alignedColliders.size(); i++)
+        {
+            ColliderAABB colliderRef = Scene.physics.alignedColliders.get(i);
+            if (Scene.physics.compareLayerMaskIndex(colliderRef.layerMaskIndex, 2))
+                position.add(collider.collide(colliderRef));
+        }
+    }
 
     public void render()
     {}

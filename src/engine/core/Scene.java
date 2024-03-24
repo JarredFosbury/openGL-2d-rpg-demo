@@ -2,6 +2,7 @@ package engine.core;
 
 import engine.audio.Listener;
 import engine.imGui.*;
+import engine.physics.PhysicsContext;
 import engine.shaders.*;
 import game.*;
 import org.joml.Vector4f;
@@ -29,6 +30,7 @@ public class Scene
     public static SceneEntityList entities;
     public static ImGuiComponentList imGuiComponents;
     public static LightSourceList lightSources;
+    public static PhysicsContext physics;
 
     public static void initialize()
     {
@@ -41,6 +43,7 @@ public class Scene
         entities = new SceneEntityList();
         imGuiComponents = new ImGuiComponentList();
         lightSources = new LightSourceList();
+        physics = new PhysicsContext();
 
         standard2dShader = new Standard2dShader("res/shaders/Standard2D.glsl");
         debug2dShader = new Debug2dShader("res/shaders/Debug2D.glsl");

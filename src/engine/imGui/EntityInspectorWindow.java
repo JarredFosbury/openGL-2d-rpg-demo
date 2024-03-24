@@ -588,6 +588,9 @@ public class EntityInspectorWindow extends ImGuiWindow
             float[] col4 = {tint.x, tint.y, tint.z, tint.w};
             ImGui.colorEdit4("Debug Color", col4);
             colliderRef.debugRenderColor = new Vector4f(col4[0], col4[1], col4[2], col4[3]);
+
+            String maskValue = Scene.physics.layerMasks.get(colliderRef.layerMaskIndex);
+            ImGui.labelText("Layer Mask", colliderRef.layerMaskIndex + ": " + maskValue);
         }
     }
 }
