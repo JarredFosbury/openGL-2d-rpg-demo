@@ -200,6 +200,7 @@ public class EntityInspectorWindow extends ImGuiWindow
         if (selectedEntity == null)
         {
             ImGui.text("Nothing selected");
+            isActive = false;
             return;
         }
 
