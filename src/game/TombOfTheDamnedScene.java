@@ -44,6 +44,10 @@ public class TombOfTheDamnedScene extends Entity
                 true, false), "button");
         Scene.assets.addAssetToPool(new Texture("res/textures/fireSheet_lowRes.png", true,
                 true, false), "fireSheet");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/props/doorReinforced_alb.png",
+                true, true, true), "doorReinforcedAlb");
+        Scene.assets.addAssetToPool(new Texture("res/textures/litSprites/props/doorReinforced_nrm.png",
+                true, true, true), "doorReinforcedNrm");
 
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx01.ogg"), "caveDrip01");
         Scene.assets.addAssetToPool(new SoundClip("res/audio/sfx/waterDripSfx02.ogg"), "caveDrip02");
@@ -80,6 +84,21 @@ public class TombOfTheDamnedScene extends Entity
 
         WallTorch torch3 = new WallTorch("torch3", -9);
         torch3.position = new Vector3f(-5.0f, 1.0f, -0.9f);
+
+        SpriteLit doorProp1 = new SpriteLit("doorProp1", -9, "doorReinforcedAlb",
+                "doorReinforcedNrm", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
+        doorProp1.position = new Vector3f(2.5f, 0.0f, -1.0f);
+        doorProp1.scale = new Vector3f(2.0f, 2.0f, 2.0f);
+
+        SpriteLit doorProp2 = new SpriteLit("doorProp2", -9, "doorReinforcedAlb",
+                "doorReinforcedNrm", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
+        doorProp2.position = new Vector3f(-2.5f, 0.0f, -1.0f);
+        doorProp2.scale = new Vector3f(2.0f, 2.0f, 2.0f);
+
+        SpriteLit doorProp3 = new SpriteLit("doorProp3", -9, "doorReinforcedAlb",
+                "doorReinforcedNrm", Color.WHITE, new Vector2f(0.0f), new Vector2f(1.0f));
+        doorProp3.position = new Vector3f(7.5f, 0.0f, -1.0f);
+        doorProp3.scale = new Vector3f(2.0f, 2.0f, 2.0f);
 
         ColliderAABB floorCollider = new ColliderAABB("floorCollider", 0, Color.DEBUG_DEFAULT_COLOR);
         floorCollider.layerMaskIndex = 2;
