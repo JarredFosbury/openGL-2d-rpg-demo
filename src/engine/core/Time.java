@@ -3,7 +3,7 @@ package engine.core;
 public class Time
 {
     public static final double START_TIME = System.nanoTime();
-    public static float fixedPhysicsTimeStep = 0.0166666666f;
+    public static float fixedPhysicsTimeStep = 0.015f;
     public static float deltaTime;
 
     public static final long SECOND = 1000000000;

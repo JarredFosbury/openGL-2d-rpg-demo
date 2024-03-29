@@ -1,15 +1,14 @@
 package game;
 
 import engine.audio.Listener;
-import engine.core.Camera;
-import engine.core.Entity;
-import engine.core.EntityType;
-import engine.core.Scene;
+import engine.core.*;
 import engine.fontRendering.FontLoader;
 import engine.physics.ColliderAABB;
 import engine.rendering.Color;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 public class PhysicsDemoScene extends Entity
 {
@@ -19,6 +18,9 @@ public class PhysicsDemoScene extends Entity
     private final ColliderAABB staticCollider4;
     private final ColliderAABB dynamicCollider;
     private final ColliderAABB ghostCollider;
+
+    private int axisHorizontal;
+    private float verticalVelocity;
 
     public PhysicsDemoScene()
     {
@@ -38,24 +40,46 @@ public class PhysicsDemoScene extends Entity
         dynamicCollider = new ColliderAABB("dynamicCollider", 0, Color.GREEN);
         ghostCollider = new ColliderAABB("ghostCollider", 0, new Vector4f(0.953f, 1.0f, 0.0f, 1.0f));
 
-        staticCollider1.position = new Vector3f(0.0f, -1.5f, 0.0f);
+        staticCollider1.position = new Vector3f(8.0f, 0.5f, 0.0f);
         staticCollider1.scale = new Vector3f(8.0f, 1.0f, 1.0f);
         staticCollider2.position = new Vector3f(0.0f, 1.5f, 0.0f);
         staticCollider2.scale = new Vector3f(8.0f, 1.0f, 1.0f);
-        staticCollider3.position = new Vector3f(3.5f, 0.0f, 0.0f);
-        staticCollider3.scale = new Vector3f(1.0f, 2.0f, 1.0f);
-        staticCollider4.position = new Vector3f(-1.1f, 0.0f, 0.0f);
-        staticCollider4.scale = new Vector3f(4.0f, 2.0f, 1.0f);
+        staticCollider3.position = new Vector3f(-4.5f, 4.0f, 0.0f);
+        staticCollider3.scale = new Vector3f(1.0f, 4.0f, 1.0f);
+        staticCollider4.position = new Vector3f(12.5f, 3.0f, 0.0f);
+        staticCollider4.scale = new Vector3f(1.0f, 4.0f, 1.0f);
+        dynamicCollider.position = new Vector3f(1.2999961f, 3.6333323f, 0.0f);
     }
 
     public void start()
     {}
 
     public void update()
-    {}
+    {
+        if (KeyListener.isKeyPressed(GLFW_KEY_UP) && Math.abs(verticalVelocity) <= 0.01f)
+            verticalVelocity = 5.0f;
+
+        if (KeyListener.isKeyActive(GLFW_KEY_RIGHT))
+            axisHorizontal = 1;
+        else if (KeyListener.isKeyActive(GLFW_KEY_LEFT))
+            axisHorizontal = -1;
+        else
+            axisHorizontal = 0;
+    }
 
     public void fixedPhysicsUpdate()
     {
+        verticalVelocity -= 9.81f * Time.fixedPhysicsTimeStep;
+        dynamicCollider.translate(axisHorizontal * Time.fixedPhysicsTimeStep * 3.5f, verticalVelocity * Time.fixedPhysicsTimeStep, 0.0f);
+        Vector3f collisionDelta = dynamicCollider.collide(staticCollider1)
+                .add(dynamicCollider.collide(staticCollider2))
+                .add(dynamicCollider.collide(staticCollider3))
+                .add(dynamicCollider.collide(staticCollider4));
+        dynamicCollider.translate(collisionDelta);
+
+        if (collisionDelta.y > 0.0f)
+            verticalVelocity = 0.0f;
+
         ghostCollider.position = new Vector3f(dynamicCollider.position)
                 .add(dynamicCollider.collide(staticCollider1))
                 .add(dynamicCollider.collide(staticCollider2))
