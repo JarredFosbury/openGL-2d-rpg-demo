@@ -62,7 +62,7 @@ public class Scene
         new PerformanceGraphWindow();
 
         // Loads first scene
-        new TombOfTheDamnedScene();
+        new PhysicsDemoScene();
 
         entities.endOfInit();
     }

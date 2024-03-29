@@ -105,10 +105,10 @@ public class TombOfTheDamnedScene extends Entity
         floorCollider.position = new Vector3f(0.0f, -1.25f, 0.0f);
         floorCollider.scale = new Vector3f(20.0f, 0.5f, 1.0f);
 
-        ColliderAABB wallCollider = new ColliderAABB("wallCollider", 0, Color.DEBUG_DEFAULT_COLOR);
-        wallCollider.layerMaskIndex = 2;
-        wallCollider.position = new Vector3f(-11.0f, 1.0f, 0.0f);
-        wallCollider.scale = new Vector3f(2.0f, 4.0f, 1.0f);
+        ColliderAABB wallColliderRight = new ColliderAABB("wallCollider", 0, Color.DEBUG_DEFAULT_COLOR);
+        wallColliderRight.layerMaskIndex = 2;
+        wallColliderRight.position = new Vector3f(11.0f, 1.0f, 0.0f);
+        wallColliderRight.scale = new Vector3f(2.0f, 4.0f, 1.0f);
     }
 
     public void unloadScene()

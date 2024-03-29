@@ -18,7 +18,6 @@ public class FreeCamera extends Entity
     private final TextMesh debugPositionText;
     private final TextMesh debugViewportText;
     private final TextMesh debugStateText;
-    private final ScreenSpace9SliceSprite sprite9Slice;
 
     private float moveSpeed;
     private float shiftSpeedMultiplier;
@@ -48,12 +47,6 @@ public class FreeCamera extends Entity
         debugStateText.position = new Vector3f(25.0f, -140.0f, 0.0f);
         debugStateText.textAlignment = new Vector2i(1, 0);
         debugStateText.text = "Free Camera Mode";
-
-        sprite9Slice = new ScreenSpace9SliceSprite("debugInfoBorder-sprite9Slice", 1000,
-                "9sliceFrameSprite", Color.WHITE, true, new Vector4f(8.0f));
-        sprite9Slice.locationAnchor = new Vector2i(-1, 1);
-        sprite9Slice.position = new Vector3f(266.0f, -74.0f, 0.0f);
-        sprite9Slice.scale = new Vector3f(512.0f, 128.0f, 1.0f);
     }
 
     public void start()

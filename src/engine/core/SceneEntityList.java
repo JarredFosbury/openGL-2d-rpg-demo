@@ -138,5 +138,6 @@ public class SceneEntityList extends ArrayList<Entity> implements Observable
             super.get(i).cleanUp();
 
         super.clear();
+        Runtime.getRuntime().gc();
     }
 }
