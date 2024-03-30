@@ -3,6 +3,7 @@ package engine.core;
 import engine.audio.Listener;
 import engine.imGui.*;
 import engine.physics.PhysicsContext;
+import engine.rendering.Debug;
 import engine.shaders.*;
 import game.*;
 import org.joml.Vector4f;
@@ -92,8 +93,12 @@ public class Scene
             entity.render();
 
         if (GlobalSettings.renderDebug)
+        {
             for (Entity entity : entities)
                 entity.renderDebug();
+
+            Debug.render();
+        }
     }
 
     public static void renderImGui()

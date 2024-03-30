@@ -80,8 +80,6 @@ public class PhysicsDemoScene extends Entity
         dynamicCollider.translate(collisionDelta);
         if (collisionDelta.y > 0.0f)
             verticalVelocity = 0.0f;
-
-        Debug.drawRay(new Ray(dynamicCollider.position, new Vector3f(0.0f, -1.0f, 0.0f)));
     }
 
     public void render()
