@@ -4,9 +4,10 @@ import engine.audio.Listener;
 import engine.core.*;
 import engine.fontRendering.FontLoader;
 import engine.physics.ColliderAABB;
+import engine.physics.Ray;
 import engine.rendering.Color;
+import engine.rendering.Debug;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -17,7 +18,6 @@ public class PhysicsDemoScene extends Entity
     private final ColliderAABB staticCollider3;
     private final ColliderAABB staticCollider4;
     private final ColliderAABB dynamicCollider;
-    private final ColliderAABB ghostCollider;
 
     private int axisHorizontal;
     private float verticalVelocity;
@@ -38,17 +38,22 @@ public class PhysicsDemoScene extends Entity
         staticCollider3 = new ColliderAABB("staticCollider3", 0, Color.DEBUG_DEFAULT_COLOR);
         staticCollider4 = new ColliderAABB("staticCollider4", 0, Color.DEBUG_DEFAULT_COLOR);
         dynamicCollider = new ColliderAABB("dynamicCollider", 0, Color.GREEN);
-        ghostCollider = new ColliderAABB("ghostCollider", 0, new Vector4f(0.953f, 1.0f, 0.0f, 1.0f));
 
+        Scene.physics.layerMasks.add("InteractiveColliders");
         staticCollider1.position = new Vector3f(8.0f, 0.5f, 0.0f);
         staticCollider1.scale = new Vector3f(8.0f, 1.0f, 1.0f);
+        staticCollider1.layerMaskIndex = 1;
         staticCollider2.position = new Vector3f(0.0f, 1.5f, 0.0f);
         staticCollider2.scale = new Vector3f(8.0f, 1.0f, 1.0f);
+        staticCollider2.layerMaskIndex = 1;
         staticCollider3.position = new Vector3f(-4.5f, 4.0f, 0.0f);
         staticCollider3.scale = new Vector3f(1.0f, 4.0f, 1.0f);
+        staticCollider3.layerMaskIndex = 1;
         staticCollider4.position = new Vector3f(12.5f, 3.0f, 0.0f);
         staticCollider4.scale = new Vector3f(1.0f, 4.0f, 1.0f);
+        staticCollider4.layerMaskIndex = 1;
         dynamicCollider.position = new Vector3f(1.2999961f, 3.6333323f, 0.0f);
+        dynamicCollider.layerMaskIndex = 1;
     }
 
     public void start()
@@ -71,20 +76,12 @@ public class PhysicsDemoScene extends Entity
     {
         verticalVelocity -= 9.81f * Time.fixedPhysicsTimeStep;
         dynamicCollider.translate(axisHorizontal * Time.fixedPhysicsTimeStep * 3.5f, verticalVelocity * Time.fixedPhysicsTimeStep, 0.0f);
-        Vector3f collisionDelta = dynamicCollider.collide(staticCollider1)
-                .add(dynamicCollider.collide(staticCollider2))
-                .add(dynamicCollider.collide(staticCollider3))
-                .add(dynamicCollider.collide(staticCollider4));
+        Vector3f collisionDelta = Scene.physics.collideWithLayer(dynamicCollider, 1);
         dynamicCollider.translate(collisionDelta);
-
         if (collisionDelta.y > 0.0f)
             verticalVelocity = 0.0f;
 
-        ghostCollider.position = new Vector3f(dynamicCollider.position)
-                .add(dynamicCollider.collide(staticCollider1))
-                .add(dynamicCollider.collide(staticCollider2))
-                .add(dynamicCollider.collide(staticCollider3))
-                .add(dynamicCollider.collide(staticCollider4));
+        Debug.drawRay(new Ray(dynamicCollider.position, new Vector3f(0.0f, -1.0f, 0.0f)));
     }
 
     public void render()

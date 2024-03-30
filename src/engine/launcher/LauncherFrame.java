@@ -1,6 +1,7 @@
 package engine.launcher;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class LauncherFrame extends JFrame
 {
@@ -28,7 +29,6 @@ public class LauncherFrame extends JFrame
         this.setResizable(false);
 
         SUPPORTED_RESOLUTIONS = new String[] {
-                "800x600",
                 "1176x664",
                 "1280x720",
                 "1360x768",
@@ -40,6 +40,22 @@ public class LauncherFrame extends JFrame
         };
         resolution_COMBO = new JComboBox(SUPPORTED_RESOLUTIONS);
         resolution_COMBO.setBounds(100, 15, 225, 30);
+
+        {   // find default display-mode
+            GraphicsDevice[] graphicsDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+            DisplayMode defaultMode = graphicsDevices[0].getDisplayMode();
+            String[] defaultSliced = defaultMode.toString().split("x");
+
+            for (int i = 0; i < SUPPORTED_RESOLUTIONS.length; i++)
+            {
+                if (SUPPORTED_RESOLUTIONS[i].split("x")[0].equals(defaultSliced[0]))
+                {
+                    resolution_COMBO.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+
         this.add(resolution_COMBO);
 
         resolution_LABEL = new JLabel();
