@@ -110,11 +110,4 @@ public class TombOfTheDamnedScene extends Entity
         wallColliderRight.position = new Vector3f(11.0f, 1.0f, 0.0f);
         wallColliderRight.scale = new Vector3f(2.0f, 4.0f, 1.0f);
     }
-
-    public void unloadScene()
-    {
-        Scene.assets.releaseAllAssetsFromPool();
-        Scene.physics.resetToDefaultValues();
-        Scene.entities.clear();
-    }
 }

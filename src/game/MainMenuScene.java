@@ -198,7 +198,7 @@ public class MainMenuScene extends Entity
     private void startGame()
     {
         buttonClickSfx.play();
-        unloadScene();
+        Scene.unload();
         new TombOfTheDamnedScene();
     }
 
@@ -212,14 +212,7 @@ public class MainMenuScene extends Entity
     private void quitGame()
     {
         buttonClickSfx.play();
-        unloadScene();
+        Scene.unload();
         Window.get().queueWindowTermination();
-    }
-
-    public void unloadScene()
-    {
-        Scene.assets.releaseAllAssetsFromPool();
-        Scene.physics.resetToDefaultValues();
-        Scene.entities.clear();
     }
 }

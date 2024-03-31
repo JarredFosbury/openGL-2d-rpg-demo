@@ -146,4 +146,11 @@ public class Scene
 
         return outComponents;
     }
+
+    public static void unload()
+    {
+        assets.releaseAllAssetsFromPool();
+        physics.resetToDefaultValues();
+        entities.clear();
+    }
 }

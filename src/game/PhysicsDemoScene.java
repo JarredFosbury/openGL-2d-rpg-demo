@@ -4,9 +4,7 @@ import engine.audio.Listener;
 import engine.core.*;
 import engine.fontRendering.FontLoader;
 import engine.physics.ColliderAABB;
-import engine.physics.Ray;
 import engine.rendering.Color;
-import engine.rendering.Debug;
 import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -84,11 +82,4 @@ public class PhysicsDemoScene extends Entity
 
     public void render()
     {}
-
-    public void unloadScene()
-    {
-        Scene.assets.releaseAllAssetsFromPool();
-        Scene.physics.resetToDefaultValues();
-        Scene.entities.clear();
-    }
 }
