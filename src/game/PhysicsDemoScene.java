@@ -4,7 +4,9 @@ import engine.audio.Listener;
 import engine.core.*;
 import engine.fontRendering.FontLoader;
 import engine.physics.ColliderAABB;
+import engine.physics.Ray;
 import engine.rendering.Color;
+import engine.rendering.Debug;
 import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -37,7 +39,7 @@ public class PhysicsDemoScene extends Entity
         staticCollider4 = new ColliderAABB("staticCollider4", 0, Color.DEBUG_DEFAULT_COLOR);
         dynamicCollider = new ColliderAABB("dynamicCollider", 0, Color.GREEN);
 
-        Scene.physics.layerMasks.add("InteractiveColliders");
+        Scene.physics.layerMasks.add("LevelColliders");
         staticCollider1.position = new Vector3f(8.0f, 0.5f, 0.0f);
         staticCollider1.scale = new Vector3f(8.0f, 1.0f, 1.0f);
         staticCollider1.layerMaskIndex = 1;
@@ -50,8 +52,9 @@ public class PhysicsDemoScene extends Entity
         staticCollider4.position = new Vector3f(12.5f, 3.0f, 0.0f);
         staticCollider4.scale = new Vector3f(1.0f, 4.0f, 1.0f);
         staticCollider4.layerMaskIndex = 1;
-        dynamicCollider.position = new Vector3f(1.2999961f, 3.6333323f, 0.0f);
-        dynamicCollider.layerMaskIndex = 1;
+        Scene.physics.layerMasks.add("CharacterCollider");
+        dynamicCollider.position = new Vector3f(1.2999961f, 2.6333323f, 0.0f);
+        dynamicCollider.layerMaskIndex = 2;
     }
 
     public void start()
@@ -59,7 +62,11 @@ public class PhysicsDemoScene extends Entity
 
     public void update()
     {
-        if (KeyListener.isKeyPressed(GLFW_KEY_UP) && Math.abs(verticalVelocity) <= 0.01f)
+        Ray groundTestRay = new Ray(dynamicCollider.position, new Vector3f(0.0f, -0.55f, 0.0f));
+        boolean isGrounded = Scene.physics.rayLayerIntersection(1, groundTestRay);
+        Debug.drawRay(groundTestRay, isGrounded ? Color.GREEN : Color.RED);
+
+        if (KeyListener.isKeyActive(GLFW_KEY_UP) && isGrounded)
             verticalVelocity = 5.0f;
 
         if (KeyListener.isKeyActive(GLFW_KEY_RIGHT))
@@ -79,7 +86,4 @@ public class PhysicsDemoScene extends Entity
         if (collisionDelta.y > 0.0f)
             verticalVelocity = 0.0f;
     }
-
-    public void render()
-    {}
 }

@@ -41,17 +41,31 @@ public class PhysicsContext
         float[] min = {box.position.x - box.scale.x/2.0f, box.position.y - box.scale.y/2.0f};
         float[] max = {box.position.x + box.scale.x/2.0f, box.position.y + box.scale.y/2.0f};
         float[] origin = {ray.position.x, ray.position.y};
-        float[] dir_inv = {ray.direction.x * -1.0f, ray.direction.y * -1.0f};
+        float[] dir_inv = {ray.inverseDirection.x, ray.inverseDirection.y};
         float tmin = Float.MIN_VALUE, tmax = Float.MAX_VALUE;
 
-        for (int i = 0; i < 2; ++i)
-        {
-            float t1 = (min[i] - origin[i])*dir_inv[i];
-            float t2 = (max[i] - origin[i])*dir_inv[i];
-            tmin = Math.max(tmin, Math.min(t1, t2));
-            tmax = Math.min(tmax, Math.max(t1, t2));
-        }
+        // x test
+        float axisMin = (min[0] - origin[0]) * dir_inv[0];
+        float axisMax = (max[0] - origin[0]) * dir_inv[0];
+        tmin = Math.max(tmin, Math.min(axisMin, axisMax));
+        tmax = Math.min(tmax, Math.max(axisMin, axisMax));
 
-        return tmax > Math.max(tmin, 0.0);
+        // y test
+        axisMin = (min[1] - origin[1]) * dir_inv[1];
+        axisMax = (max[1] - origin[1]) * dir_inv[1];
+        tmin = Math.max(tmin, Math.min(axisMin, axisMax));
+        tmax = Math.min(tmax, Math.max(axisMin, axisMax));
+
+        return tmax > Math.max(tmin, 0.0) && new Vector3f(ray.direction).mul(tmin).length() <= ray.direction.length();
+    }
+
+    public boolean rayLayerIntersection(int targetLayerIndex, Ray ray)
+    {
+        for (ColliderAABB alignedCollider : alignedColliders)
+            if (alignedCollider.layerMaskIndex == targetLayerIndex)
+                if (rayAABBIntersection(alignedCollider, ray))
+                    return true;
+
+        return false;
     }
 }
