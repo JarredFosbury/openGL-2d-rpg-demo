@@ -15,10 +15,7 @@ public class TombOfTheDamnedScene extends Entity
     public TombOfTheDamnedScene()
     {
         super("Game Scene Handler", EntityType.ScriptableBehavior, 0);
-        Scene.ambientLight = new Vector4f(0.1f);
-
-        Scene.physics.layerMasks.add("Player");
-        Scene.physics.layerMasks.add("StaticGeometry");
+        Scene.ambientLight = new Vector4f(0.5f);
 
         Scene.assets.addAssetToPool(FontLoader.loadFont("res/fonts/consolas/consolas.png",
                 "res/fonts/consolas/consolas.fnt"), "consolas");
@@ -62,6 +59,7 @@ public class TombOfTheDamnedScene extends Entity
         MainLightSource source = new MainLightSource("mainLightSource", 0, Color.WHITE, 0.0f);
         source.rotate(-55.0f, 0.0f, -45.0f);
 
+        Scene.physics.layerMasks.add("Player");
         new PlayerStartingAnimationController();
         new DrippingWaterSfxHandler();
         new PlayerGameHUD(1000);
@@ -100,6 +98,7 @@ public class TombOfTheDamnedScene extends Entity
         doorProp3.position = new Vector3f(7.5f, 0.0f, -1.0f);
         doorProp3.scale = new Vector3f(2.0f, 2.0f, 2.0f);
 
+        Scene.physics.layerMasks.add("StaticGeometry");
         ColliderAABB floorCollider = new ColliderAABB("floorCollider", 0, Color.DEBUG_DEFAULT_COLOR);
         floorCollider.layerMaskIndex = 2;
         floorCollider.position = new Vector3f(0.0f, -1.25f, 0.0f);

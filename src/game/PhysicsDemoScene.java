@@ -21,6 +21,8 @@ public class PhysicsDemoScene extends Entity
 
     private int axisHorizontal;
     private float verticalVelocity;
+    private long computationTime_NANOSECONDS;
+    private long computations;
 
     public PhysicsDemoScene()
     {
@@ -52,9 +54,13 @@ public class PhysicsDemoScene extends Entity
         staticCollider4.position = new Vector3f(12.5f, 3.0f, 0.0f);
         staticCollider4.scale = new Vector3f(1.0f, 4.0f, 1.0f);
         staticCollider4.layerMaskIndex = 1;
+
         Scene.physics.layerMasks.add("CharacterCollider");
         dynamicCollider.position = new Vector3f(1.2999961f, 2.6333323f, 0.0f);
         dynamicCollider.layerMaskIndex = 2;
+
+        computationTime_NANOSECONDS = 0;
+        computations = 0;
     }
 
     public void start()
@@ -75,6 +81,9 @@ public class PhysicsDemoScene extends Entity
             axisHorizontal = -1;
         else
             axisHorizontal = 0;
+
+        if (KeyListener.isKeyPressed(GLFW_KEY_P))
+            System.out.println("Ray-intersections computed: " + computations + ", Total computation time: " + computationTime_NANOSECONDS / 1000000.0 + " ms");
     }
 
     public void fixedPhysicsUpdate()

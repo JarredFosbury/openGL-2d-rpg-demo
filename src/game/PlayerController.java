@@ -2,7 +2,9 @@ package game;
 
 import engine.core.*;
 import engine.physics.ColliderAABB;
+import engine.physics.Ray;
 import engine.rendering.Color;
+import engine.rendering.Debug;
 import engine.rendering.PointLightSource;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -35,7 +37,13 @@ public class PlayerController extends Entity
     private float walkSpeed;
     private float runSpeed;
     private float spiritLightAwakeTimer;
-    private Vector3f velocity;
+    private float verticalVelocity;
+    private int inputAxisHorizontal;
+    private boolean inputJumpQueued;
+    private boolean isRunning;
+    private float jumpSpeed;
+    private boolean isGrounded;
+    private float timeSinceLastAnimationStateChange;
 
     public PlayerController()
     {
@@ -84,7 +92,13 @@ public class PlayerController extends Entity
         walkSpeed = 1.5f;
         runSpeed = 4.0f;
         spiritLightAwakeTimer = 2.0f;
-        velocity = new Vector3f(0.0f);
+        verticalVelocity = 0.0f;
+        inputAxisHorizontal = 0;
+        inputJumpQueued = false;
+        isRunning = false;
+        jumpSpeed = 5.0f;
+        isGrounded = false;
+        timeSinceLastAnimationStateChange = 0.0f;
     }
 
     public void start()
@@ -94,6 +108,9 @@ public class PlayerController extends Entity
 
     public void update()
     {
+        if (!inputJumpQueued && KeyListener.isKeyPressed(GLFW_KEY_SPACE))
+            inputJumpQueued = true;
+
         syncTransforms();
         manageAnimationState();
         updateSpiritLightTimer();
@@ -101,22 +118,41 @@ public class PlayerController extends Entity
 
     public void fixedPhysicsUpdate()
     {
-        position.add(0.0f, -9.81f * Time.fixedPhysicsTimeStep, 0.0f);
-        collider.position = new Vector3f(position).add(0.0f, -0.25f, 0.0f);
+        Ray leftGroundTestRay = new Ray(new Vector3f(collider.position).add(-0.24f, 0.0f, 0.0f), new Vector3f(0.0f, -0.75f, 0.0f));
+        Ray rightGroundTestRay = new Ray(new Vector3f(collider.position).add(0.24f, 0.0f, 0.0f), new Vector3f(0.0f, -0.75f, 0.0f));
+        isGrounded = Scene.physics.rayLayerIntersection(2, leftGroundTestRay)
+                || Scene.physics.rayLayerIntersection(2, rightGroundTestRay);
+        Debug.drawRay(leftGroundTestRay, isGrounded ? Color.GREEN : Color.RED);
+        Debug.drawRay(rightGroundTestRay, isGrounded ? Color.GREEN : Color.RED);
 
-        for (int i = 0; i < Scene.physics.alignedColliders.size(); i++)
+        if (isGrounded)
         {
-            ColliderAABB colliderRef = Scene.physics.alignedColliders.get(i);
-            if (Scene.physics.compareLayerMaskIndex(colliderRef.layerMaskIndex, 2))
-                position.add(collider.collide(colliderRef));
+            if (inputJumpQueued)
+            {
+                verticalVelocity = jumpSpeed;
+                inputJumpQueued = false;
+            }
+            else
+            {
+                verticalVelocity = 0.0f;
+            }
         }
-    }
+        else
+        {
+            verticalVelocity -= 9.81f * Time.fixedPhysicsTimeStep;
+        }
 
-    public void render()
-    {}
+        collider.translate(
+                inputAxisHorizontal * (isRunning ? runSpeed : walkSpeed) * Time.fixedPhysicsTimeStep,
+                verticalVelocity * Time.fixedPhysicsTimeStep,
+                0.0f);
+
+        collider.translate(Scene.physics.collideWithLayer(collider, 2));
+    }
 
     private void syncTransforms()
     {
+        position = new Vector3f(collider.position).add(0.0f, 0.25f, 0.0f);
         for (SpriteLitActor sprite : sprites)
         {
             sprite.position = position;
@@ -157,12 +193,17 @@ public class PlayerController extends Entity
             case IDLE -> animationState_IDLE();
             case WALKING -> animationState_WALKING();
             case RUNNING -> animationState_RUNNING();
+            case JUMP_UP -> animationState_JUMP_UP();
+            case JUMP_DOWN -> animationState_JUMP_DOWN();
         }
+
+        timeSinceLastAnimationStateChange += Time.deltaTime;
     }
 
     private void setAnimationState(AnimationState state)
     {
         this.animState = state;
+        timeSinceLastAnimationStateChange = 0.0f;
         idleSprite.isVisible = animState == AnimationState.IDLE;
         walkingSprite.isVisible = animState == AnimationState.WALKING;
         runningSprite.isVisible = animState == AnimationState.RUNNING;
@@ -175,14 +216,19 @@ public class PlayerController extends Entity
         if (!idleSprite.getPlayingState())
             idleSprite.playAnimation();
 
+        inputAxisHorizontal = 0;
+        isRunning = false;
+
         if (KeyListener.isKeyActive(GLFW_KEY_D))
-        {
             setAnimationState(AnimationState.WALKING);
-        }
 
         if (KeyListener.isKeyActive(GLFW_KEY_A))
-        {
             setAnimationState(AnimationState.WALKING);
+
+        if (!isGrounded)
+        {
+            setAnimationState(AnimationState.JUMP_UP);
+            jumpUpSprite.playAnimation();
         }
     }
 
@@ -193,13 +239,15 @@ public class PlayerController extends Entity
 
        if (KeyListener.isKeyActive(GLFW_KEY_D) && !KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
        {
-           translate(walkSpeed * Time.deltaTime, 0.0f, 0.0f);
            setHorizontalDirection(1.0f);
+           inputAxisHorizontal = 1;
+           isRunning = false;
        }
        else if (KeyListener.isKeyActive(GLFW_KEY_A) && !KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
        {
-           translate(-walkSpeed * Time.deltaTime, 0.0f, 0.0f);
            setHorizontalDirection(-1.0f);
+           inputAxisHorizontal = -1;
+           isRunning = false;
        }
        else if ((KeyListener.isKeyActive(GLFW_KEY_A) || KeyListener.isKeyActive(GLFW_KEY_D)) && KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
        {
@@ -209,6 +257,12 @@ public class PlayerController extends Entity
        {
            setAnimationState(AnimationState.IDLE);
        }
+
+        if (!isGrounded)
+        {
+            setAnimationState(AnimationState.JUMP_UP);
+            jumpUpSprite.playAnimation();
+        }
     }
 
     private void animationState_RUNNING()
@@ -218,13 +272,15 @@ public class PlayerController extends Entity
 
         if (KeyListener.isKeyActive(GLFW_KEY_D) && KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
         {
-            translate(runSpeed * Time.deltaTime, 0.0f, 0.0f);
             setHorizontalDirection(1.0f);
+            inputAxisHorizontal = 1;
+            isRunning = true;
         }
         else if (KeyListener.isKeyActive(GLFW_KEY_A) && KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
         {
-            translate(-runSpeed * Time.deltaTime, 0.0f, 0.0f);
             setHorizontalDirection(-1.0f);
+            inputAxisHorizontal = -1;
+            isRunning = true;
         }
         else if ((KeyListener.isKeyActive(GLFW_KEY_A) || KeyListener.isKeyActive(GLFW_KEY_D)) && !KeyListener.isKeyActive(GLFW_KEY_LEFT_SHIFT))
         {
@@ -234,5 +290,26 @@ public class PlayerController extends Entity
         {
             setAnimationState(AnimationState.IDLE);
         }
+
+        if (!isGrounded)
+        {
+            setAnimationState(AnimationState.JUMP_UP);
+            jumpUpSprite.playAnimation();
+        }
+    }
+
+    private void animationState_JUMP_UP()
+    {
+        if (isGrounded)
+        {
+            jumpDownSprite.playAnimation();
+            setAnimationState(AnimationState.JUMP_DOWN);
+        }
+    }
+
+    private void animationState_JUMP_DOWN()
+    {
+        if (timeSinceLastAnimationStateChange > 0.8f)
+            setAnimationState(AnimationState.IDLE);
     }
 }

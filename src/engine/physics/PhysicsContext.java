@@ -38,8 +38,8 @@ public class PhysicsContext
 
     public boolean rayAABBIntersection(ColliderAABB box, Ray ray)
     {
-        float[] min = {box.position.x - box.scale.x/2.0f, box.position.y - box.scale.y/2.0f};
-        float[] max = {box.position.x + box.scale.x/2.0f, box.position.y + box.scale.y/2.0f};
+        float[] min = {box.position.x - box.scale.x * 0.5f, box.position.y - box.scale.y * 0.5f};
+        float[] max = {box.position.x + box.scale.x * 0.5f, box.position.y + box.scale.y * 0.5f};
         float[] origin = {ray.position.x, ray.position.y};
         float[] dir_inv = {ray.inverseDirection.x, ray.inverseDirection.y};
         float tmin = Float.MIN_VALUE, tmax = Float.MAX_VALUE;
